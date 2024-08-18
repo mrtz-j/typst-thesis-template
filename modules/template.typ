@@ -45,6 +45,7 @@
     width: 210mm,
     height: 297mm,
     margin: (top: 12mm, right: 12mm, left: 12mm, bottom: 12mm),
+    numbering: "1", number-align: right,
   )
 
   set text(font: body-font, size: 12pt, lang: "en")

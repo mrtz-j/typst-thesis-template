@@ -1,9 +1,7 @@
 #let abstract_page(content) = {
-  pagebreak(weak: true, to: "even")
-  align(
-    center,
-    heading(numbering: none, outlined: true, bookmarked: true, level: 1)[Abstract],
-  )
+  set heading(numbering: none)
+  pagebreak(weak: true)
+  heading(bookmarked: true)[Abstract]
   v(2em)
   content
 }
