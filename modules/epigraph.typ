@@ -1,3 +1,5 @@
-#let epigraph_page(content) = {
-  align(right + horizon, content)
-}
+#align(right + horizon)[
+  Wings are a contraint that makes\
+  it possible to fly.\
+  --- Robert Bringhurst
+]

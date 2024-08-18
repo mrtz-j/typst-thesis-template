@@ -1,7 +1,4 @@
-#let abstract_page(content) = {
-  set heading(numbering: none)
-  pagebreak(weak: true)
-  heading(bookmarked: true)[Abstract]
-  v(2em)
-  content
-}
+= Abstract
+This is your abstract. It should be a short summary of your work.
+#v(2em)
+#lorem(200)

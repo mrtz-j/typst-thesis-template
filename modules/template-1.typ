@@ -1,8 +1,6 @@
 #import "metadata.typ": *
 #import "titlepage.typ": titlepage
 #import "backpage.typ": backpage
-#import "abstract.typ": abstract_page
-#import "epigraph.typ": epigraph_page
 
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
 
@@ -15,7 +13,7 @@ long } }
 
 // ---
 
-#let front-matter(body) = {
+#let front_content(body) = {
   set page(numbering: "i")
   counter(page).update(1)
   set heading(numbering: none)
@@ -26,7 +24,7 @@ long } }
   body
 }
 
-#let main-matter(body) = {
+#let main_content(body) = {
   set page(numbering: "1")
   counter(page).update(1)
   counter(heading).update(0)
@@ -38,7 +36,7 @@ long } }
   body
 }
 
-#let back-matter(body) = {
+#let back_content(body) = {
   set heading(numbering: "A", supplement: [Appendix])
   // Without this, the header says "Chapter F"
   counter(heading.where(level: 1)).update(0)
@@ -47,35 +45,22 @@ long } }
   body
 }
 
-// ---
-#let default_args = arguments(
-  title: none,
-  author: author,
-  subtitle: none,
-  lang: "en",
-  degree: "Master",
-  faculty: faculty,
-  department: department,
-  program: program,
-  advisor: advisor,
-  date: none,
-  abstract: none,
-  acknowledgements: none,
-  epigraph: none,
-  dedication: none,
-  bibliography-file: none,
-)
-
 // This function gets your whole document as its `body` and formats it
-#let uit_template(
-  ..passed_args, body
+#let uit_thesis(
+  author: "Author",
+  title: "Your Title",
+  subtitle: none,
+  degree: "INF-3983 Capstone",
+  faculty: "Faculty of Science and Technology",
+  department: "Department of Computer Science",
+  program: "Computer Science",
+  advisor: "John Doe",
+  body,
 ) = {
-  // Merge default arguments with passed arguments
-  let args = default_args.named() + passed_args.named()
 
   // Set the document's metadata.
   set document(
-    title: args.title, author: args.author, //date: if args.date != none { args.date } else { auto },
+    title: title, author: author, //date: if args.date != none { args.date } else { auto },
   )
 
   // Set the body font.
@@ -109,7 +94,7 @@ long } }
     set heading(supplement: [Chapter])
 
     let heading_number = if heading.numbering == none { [] } else {
-      text(counter(heading.where(level: 1)).display(), size: 48pt) }
+      text(counter(heading.where(level: 1)).display(), size: 32pt) }
 
     pagebreak()
 
@@ -118,16 +103,19 @@ long } }
       stack(
         dir: ltr,
         move(
-        dy: 40pt,
+        dy: 22pt,
           polygon(fill: rgb("#0095b6"), stroke: rgb("#0095b6"),
-            (0pt, 0pt), (6pt, 0pt), (36pt, -80pt), (30pt, -80pt),
+            (0pt, 0pt), (6pt, 0pt), (36pt, -60pt), (30pt, -60pt),
           )
         ),
         heading_number
       )
       v(1.0em)
       it.body
-    } else { it.body }
+      v(0.5em)
+    } else {
+    it.body
+  }
   }
 
   // Configure heading numbering.
@@ -174,25 +162,6 @@ long } }
     },
   )
 
-  titlepage(
-    title: args.title,
-    subtitle: args.subtitle,
-    degree: args.degree,
-    faculty: args.faculty,
-    department: args.department,
-    program: args.program,
-    advisor: args.advisor,
-    author: args.author,
-    submissionDate: args.date,
-  )
-
-  // Show the abstract
-  if args.abstract != none { abstract_page(args.abstract) }
-
-  pagebreak()
-
-  // Show the epigraph
-  if args.epigraph != none { epigraph_page(args.epigraph) }
 
   // The `in-outline` is for showing a short caption in the list of figures
   // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
@@ -221,11 +190,6 @@ long } }
     }
   }
 
-  // Show outlines
-  outline(title: "Contents")
-  outline(title: "List of Figures", target: figure.where(kind: image))
-  outline(title: "List of Tables", target: figure.where(kind: table))
-  outline(title: "List of Listings", target: figure.where(kind: raw))
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
@@ -240,7 +204,7 @@ long } }
   }
 
   // FIXME: Has no effect?
-  set place(clearance: 2em)
+  // set place(clearance: 2em)
 
   set figure(numbering: n => {
     let h1 = counter(heading).get().first()
@@ -285,11 +249,68 @@ long } }
     )
   }
 
-  body
+  page(
+    paper: "a4",
+    margin: (left: 3mm, right: 3mm, top: 12mm, bottom: 27mm),
+    header: none,
+    footer: none,
+    numbering: none,
+    number-align: center,
+  )[
+    #set text(font: "Open Sans", size: 12pt, lang: "en")
+    #set par(leading: 1em)
 
-  // Display the bibliography
-  if args.bibliography-file != none {
-    show bibliography: set text(12pt)
-    bibliography("../" + args.bibliography-file, title: "Bibliography", style: "ieee")
-  }
+    #place(top + left, image("../figures/logo.svg", width: 100%, height: 100%))
+    #place(
+      top + left,
+      dy: 37mm,
+      dx: 27mm,
+      text(12pt, weight: "light", department),
+    )
+
+    // Title
+    #place(top + left, dy: 45mm, dx: 27mm, text(14pt, weight: "semibold", title))
+
+    // Subtitle (optional)
+    #if (subtitle != "") {
+      place(top + left, dy: 55mm, dx: 27mm, text(12pt, weight: "light", subtitle))
+    }
+
+    #place(
+      top + left,
+      dy: 63mm,
+      dx: 27mm,
+      text(12pt, weight: "light", "Advisor: " + advisor),
+    )
+    // Author
+    // place(top + left, dy: 57mm, dx: 27mm, text(10pt, weight: "light", author))
+
+    // Description, Degree and Program
+    // place(top + left, dy: 63mm, dx: 27mm, text(
+    //   10pt,
+    //   weight: "light",
+    //   degree + " thesis in " + program + " -- " + submissionDate,
+    // ))
+
+    // Image
+    #place(
+      bottom + center,
+      dy: 27mm,
+      image("../figures/frontpage_full.svg", width: 216mm, height: 303mm),
+    )
+  ]
+
+  // // Display frontpage
+  // show: titlepage(
+  //   author: author,
+  //   title: title,
+  //   degree: degree,
+  //   faculty: faculty,
+  //   department: department,
+  //   program: program,
+  //   advisor: advisor,
+  //   submissionDate: submissionDate,
+  // )
+
+  body
 }
