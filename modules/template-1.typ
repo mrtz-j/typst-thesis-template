@@ -8,8 +8,15 @@
 // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
 #let in-outline = state("in-outline", false)
 
-#let flex-caption(long, short) = context { if in-outline.get() { short } else {
-long } }
+#let flex-caption(long, short) = (
+  context {
+    if in-outline.get() {
+      short
+    } else {
+      long
+    }
+  }
+)
 
 // ---
 
@@ -68,10 +75,15 @@ long } }
 
   // Configure page size and margins.
   set page(
-    paper: "a4", margin: (
-      bottom: 5cm, top: 4cm,
-      inside: 26.2mm, outside: 37mm,
-    ), numbering: "1", number-align: right,
+    paper: "a4",
+    margin: (
+      bottom: 5cm,
+      top: 4cm,
+      inside: 26.2mm,
+      outside: 37mm,
+    ),
+    numbering: "1",
+    number-align: right,
   )
 
   // Configure paragraph properties.
@@ -88,45 +100,58 @@ long } }
 
   // Style chapter headings.
   show heading.where(level: 1): it => {
-    set text(size: 22pt)
+    set text(font: "Noto Sans", weight: "bold", size: 24pt)
 
     // Has no effect, still shows "Section"
     set heading(supplement: [Chapter])
 
-    let heading_number = if heading.numbering == none { [] } else {
-      text(counter(heading.where(level: 1)).display(), size: 32pt) }
+    let heading_number = if heading.numbering == none {
+      []
+    } else {
+      text(counter(heading.where(level: 1)).display(), size: 32pt)
+    }
 
-    pagebreak()
+    pagebreak(weak: true)
 
     v(16%)
     if heading.numbering != none {
       stack(
         dir: ltr,
         move(
-        dy: 22pt,
-          polygon(fill: rgb("#0095b6"), stroke: rgb("#0095b6"),
-            (0pt, 0pt), (6pt, 0pt), (36pt, -60pt), (30pt, -60pt),
-          )
+          dy: 32pt,
+          polygon(
+            fill: rgb("#0095b6"),
+            stroke: rgb("#0095b6"),
+            (0pt, 0pt),
+            (5pt, 0pt),
+            (25pt, -60pt),
+            (20pt, -60pt),
+          ),
         ),
-        heading_number
+        heading_number,
       )
       v(1.0em)
       it.body
       v(0.5em)
     } else {
-    it.body
-  }
+      it.body
+    }
   }
 
   // Configure heading numbering.
   set heading(numbering: "1.1")
 
   // Do not hyphenate headings.
-  show heading: set text(hyphenate: false)
+  show heading: set text(
+    font: "Noto Sans",
+    features: ("sc", "si", "scit"),
+    hyphenate: false,
+  )
 
   // Set page header
   set page(
-    header-ascent: 30%, header: context{
+    header-ascent: 30%,
+    header: context {
       // Get current page number.
       let page-number = here().page()
 
@@ -134,7 +159,7 @@ long } }
       // If the current page is the start of a chapter, don't show a header
       let target = heading.where(level: 1)
       if query(target).any(it => it.location().page() == page-number) {
-        // return [New chapter! page #here().page(), #i]
+        // return [New chapter! page #here().page()]
         return []
       }
 
@@ -143,20 +168,47 @@ long } }
       if before.len() > 0 {
         let current = before.last()
 
-        let chapter-title = current.body
+        let chapter-title = upper(current.body)
         let chapter-number = counter(heading.where(level: 1)).display()
         // let chapter-number-text = [#current.supplement Chapter #chapter-number]
-        let chapter-number-text = [Chapter #chapter-number]
+        let chapter-number-text = [#chapter-number]
+
+        // Get next subsection name and number for header
+        let subsection = query(heading.where(level: 2)).first()
+        // let next-subsection = subsection.
+
+        let colored-slash = text(fill: rgb("#0095b6"), "/")
 
         if current.numbering != none {
           let (left-text, right-text) = if calc.odd(page-number) {
-            (chapter-number-text, chapter-title)
+            ([#counter(page).display()], chapter-title)
           } else {
-            (chapter-title, chapter-number-text)
+            let spacing = h(7pt)
+            (
+              stack(
+                dir: ltr,
+                "CHAPTER",
+                spacing,
+                chapter-number,
+                spacing,
+                colored-slash,
+                spacing,
+                chapter-title,
+              ),
+              [#counter(page).display()],
+            )
           }
-          text(weight: "bold", fill-line(left-text, right-text))
-          v(-1em)
-          line(length: 100%, stroke: 0.5pt)
+          text(
+            weight: "thin",
+            font: "Noto Sans",
+            size: 9pt,
+            tracking: 0.1em,
+            fill: rgb("#2B3333"),
+            features: ("sc", "si", "scit"),
+            fill-line(left-text, right-text),
+          )
+          // v(-1em)
+          // line(length: 100%, stroke: 0.5pt)
         }
       }
     },
@@ -206,13 +258,16 @@ long } }
   // FIXME: Has no effect?
   // set place(clearance: 2em)
 
-  set figure(numbering: n => {
-    let h1 = counter(heading).get().first()
-    numbering("1.1", h1, n)
-  }, gap: 1.5em)
+  set figure(
+    numbering: n => {
+      let h1 = counter(heading).get().first()
+      numbering("1.1", h1, n)
+    },
+    gap: 1.5em,
+  )
   set figure.caption(separator: [ -- ])
 
-  show figure.caption: it =>{
+  show figure.caption: it => {
     if it.kind == table {
       align(center, it)
     } else {
@@ -241,7 +296,9 @@ long } }
   // Show a small maroon circle next to external links.
   show link: it => {
     // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label { return it }
+    if type(it.dest) == label {
+      return it
+    }
     it
     h(1.6pt)
     super(
@@ -269,11 +326,21 @@ long } }
     )
 
     // Title
-    #place(top + left, dy: 45mm, dx: 27mm, text(14pt, weight: "semibold", title))
+    #place(
+      top + left,
+      dy: 45mm,
+      dx: 27mm,
+      text(14pt, weight: "semibold", title),
+    )
 
     // Subtitle (optional)
     #if (subtitle != "") {
-      place(top + left, dy: 55mm, dx: 27mm, text(12pt, weight: "light", subtitle))
+      place(
+        top + left,
+        dy: 55mm,
+        dx: 27mm,
+        text(12pt, weight: "light", subtitle),
+      )
     }
 
     #place(

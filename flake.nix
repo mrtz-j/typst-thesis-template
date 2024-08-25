@@ -20,7 +20,13 @@
       in
       with pkgs;
       {
-        devShells.default = mkShell { nativeBuildInputs = [ typst ]; };
+        devShells.default = mkShell {
+          nativeBuildInputs = [
+            typst
+            typstyle
+          ];
+          TYPST_FONT_PATHS = "fonts/";
+        };
       }
     );
 }
