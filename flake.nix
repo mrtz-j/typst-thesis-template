@@ -25,7 +25,13 @@
             typst
             typstyle
           ];
-          TYPST_FONT_PATHS = "fonts/";
+          TYPST_FONT_PATHS = pkgs.symlinkJoin {
+            name = "typst-fonts";
+            paths = with pkgs; [
+              noto-fonts
+              open-sans
+            ];
+          };
         };
       }
     );

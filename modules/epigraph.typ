@@ -1,5 +1,6 @@
 #align(right + horizon)[
-  Wings are a contraint that makes\
-  it possible to fly.\
-  --- Robert Bringhurst
+  "The problem with object-oriented languages is they’ve got all this implicit \
+  environment that they carry around with them. You wanted a banana but \
+  what you got was a gorilla holding the banana and the entire jungle." \
+  --- Joe Armstrong
 ]

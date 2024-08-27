@@ -1,4 +1,4 @@
-#import "../modules/template-1.typ": flex-caption
+#import "../modules/template.typ": flex-caption
 
 = Tables and Figures
 

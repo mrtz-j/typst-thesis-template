@@ -4,8 +4,8 @@
 
 - [ ] Content and pages
   - [x] Complete front page
-  - [ ] Back page
-  - [ ] Supervisors page
+  - [x] Back page
+  - [x] Supervisors page
   - [ ] List of Definitions
   - [ ] List of Abbreviations
 - [ ] Styling
@@ -22,5 +22,7 @@
   - [ ] Abbreviations
   - [ ] Lists (unordered, ordered)
 - [ ] CI/CD
+  - [ ] Formatting
   - [ ] Build pdf
   - [ ] Release as lib
+- [ ] License

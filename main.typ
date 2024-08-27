@@ -1,4 +1,4 @@
-#import "modules/template-1.typ": *
+#import "modules/template.typ": *
 
 #show: uit_thesis.with(
   author: "Moritz Jörg",
@@ -13,6 +13,7 @@
 
 #show: front_content
 
+#include "modules/supervisors.typ"
 #include "modules/epigraph.typ"
 #include "modules/abstract.typ"
 #include "modules/acknowledgements.typ"
