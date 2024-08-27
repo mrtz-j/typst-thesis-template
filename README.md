@@ -3,7 +3,7 @@
 ### Roadmap
 
 - [ ] Content and pages
-  - [ ] Complete front page
+  - [x] Complete front page
   - [ ] Back page
   - [ ] Supervisors page
   - [ ] List of Definitions

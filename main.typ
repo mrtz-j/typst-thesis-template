@@ -1,24 +1,12 @@
 #import "modules/template-1.typ": *
 
-// #show: titlepage(
-//   title: "Running Distributed Declarative Programs",
-//   subtitle: none,
-//   author: "Moritz Jörg",
-//   degree: "INF-3983 Capstone",
-//   faculty: "Faculty of Science and Technology",
-//   department: "Department of Computer Science",
-//   program: "Computer Science",
-//   advisor: "Weihai Yu",
-//   submissionDate: none,
-// )
-
 #show: uit_thesis.with(
   author: "Moritz Jörg",
   title: "Running Distributed Declarative Programs",
-  degree: "INF-3983 Capstone",
+  degree: "Capstone",
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
-  program: "Computer Science",
+  program: "Computer Science INF-3983 ",
   advisor: "Weihai Yu",
   // submissionDate: none,
 )

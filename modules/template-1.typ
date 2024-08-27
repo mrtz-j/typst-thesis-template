@@ -306,6 +306,7 @@
     )
   }
 
+  // Display front page
   page(
     paper: "a4",
     margin: (left: 3mm, right: 3mm, top: 12mm, bottom: 27mm),
@@ -318,9 +319,19 @@
     #set par(leading: 1em)
 
     #place(top + left, image("../figures/logo.svg", width: 100%, height: 100%))
+
+    // Faculty
     #place(
       top + left,
-      dy: 37mm,
+      dy: 30mm,
+      dx: 27mm,
+      text(12pt, weight: "light", faculty),
+    )
+
+    // Department
+    #place(
+      top + left,
+      dy: 35mm,
       dx: 27mm,
       text(12pt, weight: "light", department),
     )
@@ -328,7 +339,7 @@
     // Title
     #place(
       top + left,
-      dy: 45mm,
+      dy: 43mm,
       dx: 27mm,
       text(14pt, weight: "semibold", title),
     )
@@ -337,27 +348,26 @@
     #if (subtitle != "") {
       place(
         top + left,
-        dy: 55mm,
+        dy: 53mm,
         dx: 27mm,
         text(12pt, weight: "light", subtitle),
       )
     }
 
+    // Author
     #place(
       top + left,
-      dy: 63mm,
+      dy: 56mm,
       dx: 27mm,
-      text(12pt, weight: "light", "Advisor: " + advisor),
+      text(10pt, weight: "light", author),
     )
-    // Author
-    // place(top + left, dy: 57mm, dx: 27mm, text(10pt, weight: "light", author))
 
     // Description, Degree and Program
-    // place(top + left, dy: 63mm, dx: 27mm, text(
-    //   10pt,
-    //   weight: "light",
-    //   degree + " thesis in " + program + " -- " + submissionDate,
-    // ))
+    #place(top + left, dy: 62mm, dx: 27mm, text(
+      10pt,
+      weight: "light",
+      degree + " thesis in " + program + "  — " + submissionDate,
+    ))
 
     // Image
     #place(
@@ -366,18 +376,6 @@
       image("../figures/frontpage_full.svg", width: 216mm, height: 303mm),
     )
   ]
-
-  // // Display frontpage
-  // show: titlepage(
-  //   author: author,
-  //   title: title,
-  //   degree: degree,
-  //   faculty: faculty,
-  //   department: department,
-  //   program: program,
-  //   advisor: advisor,
-  //   submissionDate: submissionDate,
-  // )
 
   body
 }
