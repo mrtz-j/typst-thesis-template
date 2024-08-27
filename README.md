@@ -21,3 +21,6 @@
   - [ ] Citations
   - [ ] Abbreviations
   - [ ] Lists (unordered, ordered)
+- [ ] CI/CD
+  - [ ] Build pdf
+  - [ ] Release as lib
