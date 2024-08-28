@@ -4,7 +4,8 @@ on:
   pull_request:
 
 permissions:
-  contents: read
+  contents: write
+  
 jobs:
   build_release_thesis:
     runs-on: ubuntu-latest
@@ -18,3 +19,20 @@ jobs:
       - uses: typst-community/setup-typst@v3
       - run: typst compile thesis.typ thesis.pdf
       - run: typst compile proposal.typ proposal.pdf
+      
+      - name: Upload Release Asset - Assignment
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./thesis.pdf
+          asset_name: thesis.pdf
+          asset_content_type: application/pdf
+
+      - name: Comment PR Link
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Thank you for your contribution. Review ready at: ${{ steps.create_release.outputs.upload_url }}         
+          comment_includes: "Thank you"
