@@ -21,8 +21,8 @@
   - [ ] Citations
   - [ ] Abbreviations
   - [ ] Lists (unordered, ordered)
-- [ ] CI/CD
-  - [ ] Formatting
-  - [ ] Build pdf
+- [x] CI/CD
+  - [x] Formatting
+  - [x] Build and Release pdf
   - [ ] Release as lib
 - [ ] License
