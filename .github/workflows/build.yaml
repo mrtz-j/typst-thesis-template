@@ -22,6 +22,7 @@ jobs:
       - run: typst compile proposal.typ proposal.pdf
       
       - name: Upload Release Asset - Assignment
+        id: upload
         uses: actions/upload-artifact@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,4 +36,4 @@ jobs:
         with:
           reactions: eyes, rocket
           message: |
-            Thank you for your contribution. Review ready at: ${{ steps.upload-artifact.outputs.artifact-url }}
+            Thank you for your contribution. Review ready at: ${{ steps.upload.outputs.artifact-url }}
