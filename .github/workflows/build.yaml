@@ -5,7 +5,8 @@ on:
 
 permissions:
   contents: write
-  
+  pull-requests: write
+
 jobs:
   build_release_thesis:
     runs-on: ubuntu-latest
