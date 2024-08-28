@@ -25,11 +25,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./thesis.pdf
-          asset_name: thesis.pdf
-          asset_content_type: application/pdf
-
+          path: ./thesis.pdf
+          name: thesis.pdf
+          
       - name: Comment PR Link
         uses: thollander/actions-comment-pull-request@v2
         env:
@@ -38,5 +36,5 @@ jobs:
           comment_tag: to_delete
           mode: delete
           message: |
-            Thank you for your contribution. Review ready at: ${{ steps.create_release.outputs.upload_url }}         
+            Thank you for your contribution. Review ready at: ${{ steps.upload-artifacts.outputs.artifact-url }}      
           comment_includes: "Thank you"
