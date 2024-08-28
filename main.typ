@@ -1,22 +1,37 @@
 #import "modules/template.typ": *
 
-#let abstract = [
-  This is your abstract. It should be a short summary your work.
-  #lorem(100)
-]
-
-#show: uit.with(
-  title: "Running Distribyted Declarative Programs",
+#show: uit_thesis.with(
   author: "Moritz Jörg",
-  degree: "INF-3983 Capstone",
+  title: "Running Distributed Declarative Programs",
+  degree: "Capstone",
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
-  program: "Computer Science",
-  date: "December 2023",
-  abstract: abstract,
-  bibliography-file: "bibliography.bib",
+  program: "Computer Science INF-3983 ",
+  advisor: "Weihai Yu",
+  // submissionDate: none,
 )
+
+#show: front_content
+
+#include "modules/supervisors.typ"
+#include "modules/epigraph.typ"
+#include "modules/abstract.typ"
+#include "modules/acknowledgements.typ"
+
+#outline(title: "Contents")
+#outline(title: "List of Figures", target: figure.where(kind: image))
+#outline(title: "List of Tables", target: figure.where(kind: table))
+#outline(title: "List of Listings", target: figure.where(kind: raw))
+
+#show: main_content
 
 = Introduction <introduction>
 #include "chapters/introduction.typ"
 #pagebreak()
+#include "chapters/tables_and_figures.typ"
+
+#show: back_content
+
+#show bibliography: set text(12pt)
+#bibliography("bibliography.bib", title: "Bibliography", style: "ieee")
+
