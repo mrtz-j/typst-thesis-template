@@ -28,12 +28,11 @@ jobs:
         with:
           path: ./thesis.pdf
           name: thesis.pdf
+          retention-days: 5
           
       - name: Comment PR Link
         uses: thollander/actions-comment-pull-request@v2
         with:
-          comment_tag: to_delete
-          mode: delete
           reactions: eyes, rocket
           message: |
             Thank you for your contribution. Review ready at: ${{ steps.upload-artifacts.outputs.artifact-url }}
