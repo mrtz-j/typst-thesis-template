@@ -33,4 +33,6 @@ jobs:
       - name: Comment PR Link
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: ./thesis.pdf
+          reactions: eyes, rocket
+          message: |
+            Thank you for your contribution. Review ready at: ${{ steps.upload-artifact.outputs.artifact-url }}
