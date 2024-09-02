@@ -1,4 +1,4 @@
-#import "modules/template.typ": *
+#import "../modules/template.typ": *
 
 #show: uit_thesis.with(
   author: "Moritz Jörg",
@@ -13,10 +13,10 @@
 
 #show: front_content
 
-#include "modules/supervisors.typ"
-#include "modules/epigraph.typ"
-#include "modules/abstract.typ"
-#include "modules/acknowledgements.typ"
+#include "../modules/supervisors.typ"
+#include "../modules/epigraph.typ"
+#include "../modules/abstract.typ"
+#include "../modules/acknowledgements.typ"
 
 #outline(title: "Contents")
 #outline(title: "List of Figures", target: figure.where(kind: image))
@@ -26,9 +26,9 @@
 #show: main_content
 
 = Introduction <introduction>
-#include "chapters/introduction.typ"
+#include "../chapters/introduction.typ"
 #pagebreak()
-#include "chapters/tables_and_figures.typ"
+#include "../chapters/tables_and_figures.typ"
 
 #show: back_content
 

@@ -1,8 +1,27 @@
-#import "metadata.typ": *
-#import "titlepage.typ": titlepage
-#import "backpage.typ": backpage
+#import "@preview/subpar:0.1.1"
+#import "@preview/physica:0.9.3": *
+
+#import "modules/metadata.typ": *
+#import "modules/frontpage.typ": frontpage
+#import "modules/backpage.typ": backpage
+#import "utils/print_pagebreak.typ": *
+
+// Workaround for the lack of an `std` scope.
+#let std-bibliography = bibliography
+#let std-smallcaps = smallcaps
+#let std-upper = upper
+
+// Overwrite the default `smallcaps` and `upper` functions with increased spacing between
+// characters. Default tracking is 0pt.
+#let smallcaps(body) = std-smallcaps(text(tracking: 0.6pt, body))
+#let upper(body) = std-upper(text(tracking: 0.6pt, body))
+
+// Colors used across the template.
+#let stroke-color = luma(200)
+#let fill-color = luma(250)
 
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
+#let isappendix = state("isappendix", false)
 
 // The `in-outline` mechanism is for showing a short caption in the list of figures
 // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
@@ -20,7 +39,7 @@
 
 // ---
 
-#let front_content(body) = {
+#let front_matter(body) = {
   set page(numbering: "i")
   counter(page).update(1)
   set heading(numbering: none)
@@ -31,7 +50,7 @@
   body
 }
 
-#let main_content(body) = {
+#let main_matter(body) = {
   set page(numbering: "1")
   counter(page).update(1)
   counter(heading).update(0)
@@ -43,7 +62,7 @@
   body
 }
 
-#let back_content(body) = {
+#let back_matte(body) = {
   set heading(numbering: "A", supplement: [Appendix])
   // Without this, the header says "Chapter F"
   counter(heading.where(level: 1)).update(0)
@@ -52,26 +71,128 @@
   body
 }
 
+#let subfigure = {
+  subpar.grid.with(
+    numbering: n => if isappendix.get() {
+      numbering("A.1", counter(heading).get().first(), n)
+    } else {
+      numbering("1.1", counter(heading).get().first(), n)
+    },
+    numbering-sub-ref: (m, n) => if isappendix.get() {
+      numbering("A.1a", counter(heading).get().first(), m, n)
+    } else {
+      numbering("a", m, n)
+    },
+  )
+}
+
 // This function gets your whole document as its `body` and formats it
-#let uit_thesis(
-  author: "Author",
-  title: "Your Title",
+#let thesis(
+  // The title for your work.
+  title: [Your Title],
+
+  // Subtitle for your work.
   subtitle: none,
+
+  // Author.
+  author: "Author",
+
+  // The name of the advisor(s) for your work.
+  advisor: ("John Doe"),
+
+  // The paper size to use.
+  paper-size: "a4",
+
+  // The degree you are working towards
   degree: "INF-3983 Capstone",
+
+  // What you are majoring in
+  major: "Computer Science",
+
+  // The faculty and department at which you are workings
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
-  program: "Computer Science",
-  advisor: "John Doe",
+
+  // Date that will be displayed on cover page.
+  // The value needs to be of the 'datetime' type.
+  // More info: https://typst.app/docs/reference/foundations/datetime/
+  // Example: datetime(year: 2024, month: 03, day: 17)
+  date: datetime.today(),
+
+  // The date that you are submitting your work.
+  submission-date: datetime.today(),
+
+  // Format in which the date will be displayed on cover page.
+  // More info: https://typst.app/docs/reference/foundations/datetime/#format
+  date-format: "[month repr:long] [day padding:zero], [year repr:full]",
+
+  // An abstract for your work. Can be omitted if you don't have one.
+  abstract: none,
+
+  // The contents for the acknowledgements page. This will be displayed after the
+  // abstract. Can be omitted if you don't have one.
+  acknowledgements: none,
+
+  // The contents for the preface page. This will be displayed after the cover page. Can
+  // be omitted if you don't have one.
+  preface: none,
+
+  // The result of a call to the `outline` function or `none`.
+  // Set this to `none`, if you want to disable the table of contents.
+  // More info: https://typst.app/docs/reference/model/outline/
+  table-of-contents: outline(),
+
+  // The result of a call to the `bibliography` function or `none`.
+  // Example: bibliography("refs.bib")
+  // More info: https://typst.app/docs/reference/model/bibliography/
+  bibliography: none,
+
+  // Whether to start a chapter on a new page.
+  chapter-pagebreak: true,
+
+  // Whether the document is a print document.
+  is-print: false,
+
+  // Display an index of figures (images).
+  figure-index: (
+    enabled: true,
+    title: "Figures",
+  ),
+
+  // Display an index of tables
+  table-index: (
+    enabled: true,
+    title: "Tables",
+  ),
+
+  // Display an index of listings (code blocks).
+  listing-index: (
+    enabled: true,
+    title: "Listings",
+  ),
+
+  // The content of your work.
   body,
 ) = {
-
   // Set the document's metadata.
   set document(
-    title: title, author: author, //date: if args.date != none { args.date } else { auto },
+    title: title,
+    author: author,
+    date: if args.date != none {
+      args.date
+    } else {
+      auto
+    },
   )
 
   // Set the body font.
-  set text(font: ("Utopia LaTeX"), size: 11pt)
+  // Default is Linux Libertine at 11pt
+  set text(font: ("Libertinus Serif", "Linux Libertine"), size: 12pt)
+  // set text(font: ("Utopia LaTeX"), size: 11pt)
+
+  // Set raw text font.
+  // Default is Iosevka at 9pt
+  show raw: set text(font: ("Iosevka"), size: 9pt)
 
   // Configure page size and margins.
   set page(
@@ -215,7 +336,6 @@
     },
   )
 
-
   // The `in-outline` is for showing a short caption in the list of figures
   // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
   show outline: it => {
@@ -242,7 +362,6 @@
       it
     }
   }
-
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
@@ -308,93 +427,21 @@
   }
 
   // Display front page
-  page(
-    paper: "a4",
-    margin: (left: 3mm, right: 3mm, top: 12mm, bottom: 27mm),
-    header: none,
-    footer: none,
-    numbering: none,
-    number-align: center,
-  )[
-    #set text(font: "Open Sans", size: 12pt, lang: "en")
-    #set par(leading: 1em)
-
-    #place(top + left, image("../figures/logo.svg", width: 100%, height: 100%))
-
-    // Faculty
-    #place(
-      top + left,
-      dy: 30mm,
-      dx: 27mm,
-      text(12pt, weight: "light", faculty),
-    )
-
-    // Department
-    #place(
-      top + left,
-      dy: 35mm,
-      dx: 27mm,
-      text(12pt, weight: "light", department),
-    )
-
-    // Title
-    #place(
-      top + left,
-      dy: 43mm,
-      dx: 27mm,
-      text(14pt, weight: "semibold", title),
-    )
-
-    // Subtitle (optional)
-    #if (subtitle != "") {
-      place(
-        top + left,
-        dy: 53mm,
-        dx: 27mm,
-        text(12pt, weight: "light", subtitle),
-      )
-    }
-
-    // Author
-    #place(
-      top + left,
-      dy: 56mm,
-      dx: 27mm,
-      text(10pt, weight: "light", author),
-    )
-
-    // Description, Degree and Program
-    #place(top + left, dy: 62mm, dx: 27mm, text(
-      10pt,
-      weight: "light",
-      degree + " thesis in " + program + "  — " + submissionDate,
-    ))
-
-    // Image
-    #place(
-      bottom + center,
-      dy: 27mm,
-      image("../figures/frontpage_full.svg", width: 216mm, height: 303mm),
-    )
-  ]
+  frontpage(
+    title,
+    subtitle,
+    author,
+    advisor,
+    degree,
+    faculty,
+    department,
+    major,
+    submission-date,
+  )
 
   // Thesis content
   body
 
   // Display back page
-  page(
-    paper: "a4",
-    margin: (left: 3mm, right: 3mm, top: 12mm, bottom: 27mm),
-    header: none,
-    footer: none,
-    numbering: none,
-    number-align: center,
-  )[
-    // Only display image
-    #place(
-      bottom + center,
-      dy: 27mm,
-      image("../figures/frontpage_full.svg", width: 216mm, height: 303mm),
-    )
-  ]
+  backpage()
 }

@@ -1,0 +1,15 @@
+[package]
+name = "uit-thesis-typst"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Moritz Jörg"]
+license = "EUPL-1.2-or-later"
+description = "An UiT Thesis template in Typst."
+repository = "https://github.com/mrtz-j/typst-thesis-template"
+categories = ["thesis"]
+keywords = ["thesis", "master", "uit", "bachelor", "university"]
+
+[template]
+path = "template"
+entrypoint = "thesis.typ"
+thumbnail = "thumbnail.png"
