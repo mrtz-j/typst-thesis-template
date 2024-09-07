@@ -1,5 +1,5 @@
 #let frontpage(
-  title: "",
+  title: [],
   subtitle: "",
   author: "",
   advisor: "",
@@ -79,7 +79,7 @@
     text(
       10pt,
       weight: "light",
-      degree + " thesis in " + program + "  — " + submissionDate,
+      degree + " thesis in " + major + "  — " + submission-date.display(),
     ),
   )
 

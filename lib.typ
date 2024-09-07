@@ -428,15 +428,15 @@
 
   // Display front page
   frontpage(
-    title,
-    subtitle,
-    author,
-    advisor,
-    degree,
-    faculty,
-    department,
-    major,
-    submission-date,
+    title: title,
+    subtitle: subtitle,
+    author: author,
+    advisor: advisor,
+    degree: degree,
+    faculty: faculty,
+    department: department,
+    major: major,
+    submission-date: submission-date,
   )
 
   // Thesis content
