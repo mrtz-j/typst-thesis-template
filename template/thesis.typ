@@ -7,7 +7,7 @@
   degree: "Capstone",
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
-  program: "Computer Science INF-3983 ",
+  major: "Computer Science INF-3983 ",
   advisor: "Weihai Yu",
   // submissionDate: none,
 )
@@ -29,10 +29,10 @@
 = Introduction <introduction>
 #include "./chapters/introduction.typ"
 #pagebreak()
-#include "./chapters/tables_and_figures.typ"
+// #include "./chapters/tables_and_figures.typ"
 
 #show: back_matter
 
 #show bibliography: set text(12pt)
-#bibliography("bibliography.bib", title: "Bibliography", style: "ieee")
+#bibliography("refs.bib", title: "Bibliography", style: "ieee")
 
