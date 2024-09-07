@@ -1,6 +1,7 @@
-#align(right + horizon)[
-  "The problem with object-oriented languages is they’ve got all this implicit \
-  environment that they carry around with them. You wanted a banana but \
-  what you got was a gorilla holding the banana and the entire jungle." \
-  --- Joe Armstrong
-]
+#let epigraph_page(body) = {
+  pagebreak(weak: true, to: "even")
+
+  // --- Epigraph ---
+  align(right + horizon)[]
+  body
+}

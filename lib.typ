@@ -4,6 +4,10 @@
 #import "modules/metadata.typ": *
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
+#import "modules/acknowledgements.typ": acknowledgements_page
+#import "modules/abstract.typ": abstract_page
+#import "modules/epigraph.typ": epigraph_page
+// #import "modules/supervisors.typ": supervisors
 #import "utils/print_pagebreak.typ": *
 
 // Workaround for the lack of an `std` scope.
@@ -133,6 +137,9 @@
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
 
+  // The contents for the epigraph page. This will be displayed after the acknowledgements.
+  epigraph: none,
+
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
@@ -143,7 +150,7 @@
   table-of-contents: outline(),
 
   // The result of a call to the `bibliography` function or `none`.
-  // Example: bibliography("refs.bib")
+  // Example: bibliography("refs.bib", title: "Bibliography", style: "ieee")
   // More info: https://typst.app/docs/reference/model/bibliography/
   bibliography: none,
 
@@ -295,8 +302,8 @@
         // let chapter-number-text = [#current.supplement Chapter #chapter-number]
         let chapter-number-text = [#chapter-number]
 
-        // Get next subsection name and number for header
-        let subsection = query(heading.where(level: 2)).first()
+        // FIXME: Get next subsection name and number for header
+        // let subsection = query(heading.where(level: 2)).first()
         // let next-subsection = subsection.
 
         let colored-slash = text(fill: rgb("#0095b6"), "/")
@@ -406,6 +413,12 @@
   show raw: set text(font: ("Iosevka", "JetBrains Mono"), size: 9pt)
 
   // Display inline code in a small box that retains the correct baseline.
+  show raw.where(block: false): box.with(
+    fill: fill-color.darken(2%),
+    inset: (x: 3pt, y: 0pt),
+    outset: (y: 3pt),
+    radius: 2pt,
+  )
   // show raw.where(block: false): box.with(
   //   fill: luma(250).darken(2%), inset: (x: 3pt, y: 0pt), outset: (y: 3pt), radius: 2pt,
   // )
@@ -439,8 +452,63 @@
     submission-date: submission-date,
   )
 
+  show: front_matter
+
+  // List of Supervisors
+  // NOTE: Should we use the variables in the struct for this?
+  // isupervisors()
+  include "modules/supervisors.typ"
+
+  // Epigraph
+  epigraph_page()[#epigraph]
+
+  // Abstract
+  abstract_page()[#abstract]
+
+  // Acknowledgements
+  acknowledgements_page()[#acknowledgements]
+
+  // Display indices of figures, tables, and listings.
+  let fig-t(kind) = figure.where(kind: kind)
+  if figure-index.enabled or table-index.enabled or listing-index.enabled {
+    context {
+      pagebreak()
+      let imgs = figure-index.enabled
+      let tbls = table-index.enabled
+      let lsts = listing-index.enabled
+
+      outline(title: "Contents")
+      if imgs {
+        outline(title: "List of Figures", target: fig-t(image))
+      }
+      if tbls {
+        outline(title: "List of Tables", target: fig-t(table))
+      }
+      if lsts {
+        outline(title: "List of Listings", target: fig-t(raw))
+      }
+    }
+  }
+
   // Thesis content
+  show: main_matter
   body
+
+  show: back_matter
+
+  //Style bibliography
+  if bibliography != none {
+    pagebreak()
+    // show std-bibliography: set text(0.95em)
+    show std-bibliography: set text(12pt)
+    // Use default paragraph properties for bibliography.
+    show std-bibliography: set par(
+      leading: 0.65em,
+      justify: false,
+      linebreaks: auto,
+    )
+    bibliography
+  }
 
   // Display back page
   backpage()
