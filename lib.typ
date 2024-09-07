@@ -7,7 +7,6 @@
 #import "modules/acknowledgements.typ": acknowledgements_page
 #import "modules/abstract.typ": abstract_page
 #import "modules/epigraph.typ": epigraph_page
-// #import "modules/supervisors.typ": supervisors
 #import "utils/print_pagebreak.typ": *
 
 // Workaround for the lack of an `std` scope.
@@ -302,7 +301,8 @@
         // let chapter-number-text = [#current.supplement Chapter #chapter-number]
         let chapter-number-text = [#chapter-number]
 
-        // FIXME: Get next subsection name and number for header
+        // FIXME: Breaks when show: x_matter in lib
+        // Get next subsection name and number for header
         // let subsection = query(heading.where(level: 2)).first()
         // let next-subsection = subsection.
 
@@ -409,9 +409,6 @@
   }
   set table(stroke: none)
 
-  // Set raw text font.
-  show raw: set text(font: ("Iosevka", "JetBrains Mono"), size: 9pt)
-
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
     fill: fill-color.darken(2%),
@@ -419,9 +416,6 @@
     outset: (y: 3pt),
     radius: 2pt,
   )
-  // show raw.where(block: false): box.with(
-  //   fill: luma(250).darken(2%), inset: (x: 3pt, y: 0pt), outset: (y: 3pt), radius: 2pt,
-  // )
 
   // Display block code with padding.
   show raw.where(block: true): block.with(inset: (x: 5pt))

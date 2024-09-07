@@ -30,4 +30,4 @@
 = Introduction <introduction>
 #include "./chapters/introduction.typ"
 #pagebreak()
-// #include "./chapters/tables_and_figures.typ"
+#include "./chapters/tables_and_figures.typ"
