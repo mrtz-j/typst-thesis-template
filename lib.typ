@@ -178,8 +178,8 @@
   set document(
     title: title,
     author: author,
-    date: if args.date != none {
-      args.date
+    date: if date != none {
+      date
     } else {
       auto
     },
