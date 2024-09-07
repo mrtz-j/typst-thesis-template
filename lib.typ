@@ -62,7 +62,7 @@
   body
 }
 
-#let back_matte(body) = {
+#let back_matter(body) = {
   set heading(numbering: "A", supplement: [Appendix])
   // Without this, the header says "Chapter F"
   counter(heading.where(level: 1)).update(0)

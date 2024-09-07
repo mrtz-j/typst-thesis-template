@@ -9,7 +9,7 @@
       outlined: true,
       bookmarked: true,
       level: 1,
-    )[Abstract],
+    )[Acknowledgements],
   )
   v(2em)
   body

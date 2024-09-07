@@ -18,8 +18,9 @@ jobs:
           lfs: true
 
       - uses: typst-community/setup-typst@v3
-      - run: typst compile thesis.typ thesis.pdf
-      - run: typst compile proposal.typ proposal.pdf
+      - run: typst compile ./template/thesis.typ thesis.pdf
+      # NOTE: Update proposal.typ and comment out the following line if you want to build the proposal.
+      # - run: typst compile proposal.typ proposal.pdf
       
       - name: Upload Release Asset - Assignment
         id: upload
