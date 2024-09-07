@@ -1,13 +1,14 @@
 [package]
 name = "nixy-thesis-typst"
 version = "0.1.0"
+compiler = "0.11.1"
 entrypoint = "lib.typ"
-authors = ["Moritz Jörg", "Ole Tytlandsvik"]
+authors = ["Moritz Jörg <@mrtz-j>", "Ole Tytlandsvik <@otytlandsvik>"]
 license = "EUPL-1.2-or-later"
 description = "A Nixy thesis template in Typst."
 repository = "https://github.com/mrtz-j/typst-thesis-template"
-categories = ["thesis"]
 keywords = ["thesis", "master", "uit", "bachelor", "university"]
+categories = ["thesis"]
 
 [template]
 path = "template"

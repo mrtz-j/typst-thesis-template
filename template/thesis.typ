@@ -1,6 +1,7 @@
-#import "../modules/template.typ": *
+// #import "@preview/nixy-thesis-typst:0.1.0": *
+#import "../lib.typ": *
 
-#show: uit_thesis.with(
+#show: thesis.with(
   author: "Moritz Jörg",
   title: "Running Distributed Declarative Programs",
   degree: "Capstone",
@@ -11,7 +12,7 @@
   // submissionDate: none,
 )
 
-#show: front_content
+#show: front_matter
 
 #include "../modules/supervisors.typ"
 #include "../modules/epigraph.typ"
@@ -23,14 +24,14 @@
 #outline(title: "List of Tables", target: figure.where(kind: table))
 #outline(title: "List of Listings", target: figure.where(kind: raw))
 
-#show: main_content
+#show: main_matter
 
 = Introduction <introduction>
-#include "../chapters/introduction.typ"
+#include "./chapters/introduction.typ"
 #pagebreak()
-#include "../chapters/tables_and_figures.typ"
+#include "./chapters/tables_and_figures.typ"
 
-#show: back_content
+#show: back_matter
 
 #show bibliography: set text(12pt)
 #bibliography("bibliography.bib", title: "Bibliography", style: "ieee")
