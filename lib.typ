@@ -227,8 +227,8 @@
   set text(font: ("Charter"), size: 11pt)
 
   // Set raw text font.
-  // Default is Iosevka at 9pt with JetBrains Mono fallback.
-  show raw: set text(font: ("Iosevka", "JetBrains Mono"), size: 9pt)
+  // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
+  show raw: set text(font: ("JetBrains Mono", "DejaVu Sans Mono"), size: 9pt)
 
   // Configure page size and margins.
   set page(

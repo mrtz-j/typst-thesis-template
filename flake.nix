@@ -52,7 +52,7 @@
             extraFonts = with pkgs; [
               noto-fonts
               open-sans
-              iosevka
+              jetbrains-mono
             ];
             extraCompileFlags = [ "--root" "./" ];
             mainFile = "template/thesis.typ";
@@ -77,7 +77,7 @@
             paths = with pkgs; [
               noto-fonts
               open-sans
-              iosevka
+              jetbrains-mono
             ];
           };
         };
