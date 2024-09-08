@@ -114,7 +114,9 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "pre-commit-hooks": "pre-commit-hooks"
+        "pre-commit-hooks": "pre-commit-hooks",
+        "typst-nix": "typst-nix",
+        "typst-packages": "typst-packages"
       }
     },
     "systems": {
@@ -129,6 +131,61 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "typst-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_2",
+        "typst-packages": [
+          "typst-packages"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722893259,
+        "narHash": "sha256-SC+ydSiOZOan6GM6QN7VfytfzpB7kkfrBhj3hdq5Q1I=",
+        "owner": "misterio77",
+        "repo": "typst-nix",
+        "rev": "90334eeb5e918d37608e69393dd8a7c7e5b683b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misterio77",
+        "repo": "typst-nix",
+        "type": "github"
+      }
+    },
+    "typst-packages": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725384407,
+        "narHash": "sha256-5vBt3AZnuaieoIKhqbhSbkYgnLjX2kaQ1uchaoFKIpI=",
+        "owner": "typst",
+        "repo": "packages",
+        "rev": "e247246ba19e2277d8493ce65ec4b0c09f90aa54",
+        "type": "github"
+      },
+      "original": {
+        "owner": "typst",
+        "repo": "packages",
         "type": "github"
       }
     }

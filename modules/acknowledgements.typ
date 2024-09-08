@@ -1,4 +1,16 @@
-= Acknowledgements
-Here you should acknowledge people who were of help to you and your thesis.
-#v(2em)
-#lorem(100)
+#let acknowledgements_page(body) = {
+  pagebreak(weak: true, to: "even")
+
+  // --- Acknowledgements ---
+  align(
+    left,
+    heading(
+      numbering: none,
+      outlined: true,
+      bookmarked: true,
+      level: 1,
+    )[Acknowledgements],
+  )
+  v(2em)
+  body
+}

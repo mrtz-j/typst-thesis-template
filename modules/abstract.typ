@@ -1,4 +1,10 @@
-= Abstract
-This is your abstract. It should be a short summary of your work.
-#v(2em)
-#lorem(200)
+#let abstract_page(body) = {
+  pagebreak(weak: true, to: "even")
+  set page(header: none, footer: none, numbering: none)
+  // --- Abstract ---
+  align(left)[
+    = *Abstract*
+    #v(1em)
+    #body
+  ]
+}

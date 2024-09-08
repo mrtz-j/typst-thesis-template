@@ -7,7 +7,7 @@
   - [x] Back page
   - [x] Supervisors page
   - [ ] List of Definitions
-  - [ ] List of Abbreviations
+  - [x] List of Abbreviations
 - [ ] Styling
   - [ ] Headings (chapter on odd, subsection on even)
   - [ ] Font features
@@ -24,5 +24,5 @@
 - [x] CI/CD
   - [x] Formatting
   - [x] Build and Release pdf
-  - [ ] Release as lib
+  - [/] Release as lib
 - [ ] License

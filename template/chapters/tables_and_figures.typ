@@ -1,4 +1,5 @@
-#import "../modules/template.typ": flex-caption
+#import "../../lib.typ": flex-caption
+#import "global.typ": *
 
 = Tables and Figures
 
@@ -52,9 +53,11 @@ printing.], [A floating figure]),
 #eval(my-figure) <fig:galleria>
 
 #figure(
-  image("../figures/galleria_stampe.jpg", width: 50%), caption: flex-caption(
+  image("../figures/galleria_stampe.jpg", width: 50%),
+  caption: flex-caption(
     [A floating figure (the lithograph _Galleria di stampe_, of M.~Escher, obtained
-      from http://www.mcescher.com/).], [A floating figure],
+      from http://www.mcescher.com/).],
+    [A floating figure],
   ),
 )
 
@@ -77,20 +80,40 @@ printing.], [A floating figure]),
 // One potential candidate might be `subpar`, but it's still a WIP
 // https://github.com/tingerrr/subpar
 
-#show figure.where(kind: "fig1"): set figure(numbering: "(a)", supplement: [], gap: 5pt)
+#show figure.where(kind: "fig1"): set figure(
+  numbering: "(a)",
+  supplement: [],
+  gap: 5pt,
+)
 
 #figure(
   grid(
-    columns: 2, gutter: 10pt, row-gutter: 1.5em, figure(
-      image("../figures/lorem.jpg", width: 100%), caption: [Asia personas duo], kind: "fig1",
-    ), figure(
-      image("../figures/ipsum.jpg", width: 100%), caption: [Pan ma si], kind: "fig1",
-    ), figure(
-      image("../figures/dolor.jpg", width: 100%), caption: [Methodicamente o uno], kind: "fig1",
-    ), figure(
-      image("../figures/sit.jpg", width: 100%), caption: [Titulo debitas], kind: "fig1",
+    columns: 2,
+    gutter: 10pt,
+    row-gutter: 1.5em,
+    figure(
+      image("../figures/lorem.jpg", width: 100%),
+      caption: [Asia personas duo],
+      kind: "fig1",
     ),
-  ), caption: [Tu duo titulo debitas latente],
+    figure(
+      image("../figures/ipsum.jpg", width: 100%),
+      caption: [Pan ma si],
+      kind: "fig1",
+    ),
+
+    figure(
+      image("../figures/dolor.jpg", width: 100%),
+      caption: [Methodicamente o uno],
+      kind: "fig1",
+    ),
+    figure(
+      image("../figures/sit.jpg", width: 100%),
+      caption: [Titulo debitas],
+      kind: "fig1",
+    ),
+  ),
+  caption: [Tu duo titulo debitas latente],
 )
 
 #lorem(100)
