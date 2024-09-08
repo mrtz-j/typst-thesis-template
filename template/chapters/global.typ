@@ -28,3 +28,4 @@
 
 // See https://github.com/typst/packages/tree/main/packages/preview/glossarium
 #import "@preview/glossarium:0.4.1": make-glossary, print-glossary, gls, glspl
+#import "@preview/codly:1.0.0": *

@@ -1,5 +1,6 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
+#import "@preview/codly:1.0.0": *
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
@@ -247,7 +248,7 @@
   set par(leading: 0.7em, justify: true, linebreaks: "optimized")
 
   // Default spacing is 1.2em.
-  show par: set block(spacing: 0.55em)
+  show par: set block(spacing: 1.35em)
 
   show heading: it => {
     v(2.5em, weak: true)

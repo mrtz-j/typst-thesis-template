@@ -12,9 +12,9 @@
   - [ ] Headings (chapter on odd, subsection on even)
   - [ ] Font features
   - [ ] Figures (captions etc)
-  - [ ] Code blocks (syntax highlights)
+  - [x] Code blocks (syntax highlights)
   - [ ] Tables
-  - [ ] Footnotes (?)
+  - [x] Footnotes (?)
 - [ ] Good examples
   - [ ] Use of figures, tables, code blocks
     - [ ] Side by side
@@ -24,5 +24,5 @@
 - [x] CI/CD
   - [x] Formatting
   - [x] Build and Release pdf
-  - [/] Release as lib
+  - [ ] Release as lib (TODO: Add to local index)
 - [ ] License

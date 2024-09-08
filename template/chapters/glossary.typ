@@ -2,9 +2,14 @@
 
 // Not listed in table of contents (the outline)
 // Not numbered
-// #heading(outlined: false, numbering: none)[
-//   Glossary
-// ]
+// #heading(numbering: none, outlined: false)[List of Abbreviations]
+// #set page(numbering: "i")
+// #counter(page).update(1)
+// #set heading(numbering: none)
+// #show heading.where(level: 1): it => {
+//   it
+//   v(6%, weak: true)
+// }
 
 // Add list of terms
 // Usage within text will then be #gls(<key>) or plurals #glspl(<key>)

@@ -34,6 +34,18 @@
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
 )
 
+// Code blocks
+#codly(languages: (
+  rust: (
+    name: "Rust",
+    color: rgb("#CE412B"),
+  ),
+  fs: (
+    name: "F#",
+    color: rgb("#6a0dad"),
+  ),
+))
+
 #include "./chapters/glossary.typ"
 #pagebreak()
 
