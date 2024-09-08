@@ -1,8 +1,11 @@
 #let epigraph_page(body) = {
-  // pagebreak(weak: true, to: "even")
-
   // --- Epigraphs ---
-  align(right + horizon)[
-  ]
-  body
+  page(
+    header: none,
+    footer: none,
+    numbering: none,
+    align(right + bottom)[
+      #body
+    ],
+  )
 }

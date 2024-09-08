@@ -1,16 +1,10 @@
 #let abstract_page(body) = {
   pagebreak(weak: true, to: "even")
-
+  set page(header: none, footer: none, numbering: none)
   // --- Abstract ---
-  align(
-    center,
-    heading(
-      numbering: none,
-      outlined: true,
-      bookmarked: true,
-      level: 1,
-    )[Abstract],
-  )
-  v(2em)
-  body
+  align(left)[
+    = *Abstract*
+    #v(1em)
+    #body
+  ]
 }

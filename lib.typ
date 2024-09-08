@@ -191,10 +191,39 @@
     },
   )
 
+  // Optimise numbers with superscript
+  // espcecially for nice bibliography entries
+  show regex("\d?\dth"): w => {
+    // 26th, 1st, ...
+    let b = w.text.split(regex("th")).join()
+    [#b#super([th])]
+  }
+  show regex("\d?\d[nr]d"): w => {
+    // 2dn, 3rd
+    let s = w.text.split(regex("\d")).last()
+    let b = w.text.split(regex("[nr]d")).join()
+    [#b#super(s)]
+  }
+  // if we find in bibentries some ISBN, we add link to it
+  show "https://doi.org/": w => {
+    // handle DOIs
+    [DOI:] + str.from-unicode(160) // 160 A0 nbsp
+  }
+  show regex("ISBN \d+"): w => {
+    let s = w.text.split().last()
+    link(
+      "https://isbnsearch.org/isbn/" + s,
+      w,
+    ) // https://isbnsearch.org/isbn/1-891562-35-5
+  }
+
+  show footnote.entry: set par(hanging-indent: 1.5em)
+
   // Set the body font.
   // Default is Linux Libertine at 11pt
-  set text(font: ("Libertinus Serif", "Linux Libertine"), size: 12pt)
+  // set text(font: ("Libertinus Serif", "Linux Libertine"), size: 11pt)
   // set text(font: ("Utopia LaTeX"), size: 11pt)
+  set text(font: ("Charter"), size: 11pt)
 
   // Set raw text font.
   // Default is Iosevka at 9pt with JetBrains Mono fallback.
@@ -216,8 +245,9 @@
   // Configure paragraph properties.
   // Default leading is 0.65em.
   set par(leading: 0.7em, justify: true, linebreaks: "optimized")
+
   // Default spacing is 1.2em.
-  show par: set block(spacing: 1.35em)
+  show par: set block(spacing: 0.55em)
 
   show heading: it => {
     v(2.5em, weak: true)

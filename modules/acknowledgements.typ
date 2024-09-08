@@ -3,7 +3,7 @@
 
   // --- Acknowledgements ---
   align(
-    center,
+    left,
     heading(
       numbering: none,
       outlined: true,

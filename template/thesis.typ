@@ -10,7 +10,9 @@
   --- Joe Armstrong
 ]
 
-#let abstract = [#lorem(30)]
+#let abstract = [
+  In our increasingly interconnected digital landscape, the constant generation and consumption of data on various computing devices present challenges for ensuring constant accessibility, particularly in intermittent network scenarios. The emerging focus on distributed systems is aimed at not only managing sub- stantial data volumes but also guaranteeing storage on devices for low latency and high availability. A paradigm known as _local-first software_ prioritize the storage of data on end-user devices as opposed to relying solely on centralized cloud services.
+]
 
 #let acknowledgements = [#lorem(30)]
 
