@@ -1,12 +1,12 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
 
-#import "modules/metadata.typ": *
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
 #import "modules/acknowledgements.typ": acknowledgements_page
 #import "modules/abstract.typ": abstract_page
 #import "modules/epigraph.typ": epigraph_page
+#import "modules/metadata.typ": *
 #import "utils/print_pagebreak.typ": *
 
 // Workaround for the lack of an `std` scope.
@@ -100,8 +100,8 @@
   // Author.
   author: "Author",
 
-  // The name of the advisor(s) for your work.
-  advisor: ("John Doe"),
+  // The name of the supervisor(s) for your work.
+  supervisor: ("John Doe"),
 
   // The paper size to use.
   paper-size: "a4",
@@ -197,8 +197,8 @@
   // set text(font: ("Utopia LaTeX"), size: 11pt)
 
   // Set raw text font.
-  // Default is Iosevka at 9pt
-  show raw: set text(font: ("Iosevka"), size: 9pt)
+  // Default is Iosevka at 9pt with JetBrains Mono fallback.
+  show raw: set text(font: ("Iosevka", "JetBrains Mono"), size: 9pt)
 
   // Configure page size and margins.
   set page(
@@ -438,7 +438,6 @@
     title: title,
     subtitle: subtitle,
     author: author,
-    advisor: advisor,
     degree: degree,
     faculty: faculty,
     department: department,

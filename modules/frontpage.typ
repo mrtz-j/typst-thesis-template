@@ -2,7 +2,6 @@
   title: [],
   subtitle: "",
   author: "",
-  advisor: "",
   degree: "",
   faculty: "",
   department: "",

@@ -1,5 +1,7 @@
-// #import "@preview/nixy-thesis-typst:0.1.0": *
-#import "../lib.typ": *
+// central place where libraries are imported
+// (or macros are defined)
+// which are used within all the chapters:
+#import "chapters/global.typ": *
 
 #let epigraph = [
   "The problem with object-oriented languages is they’ve got all this implicit \
@@ -8,24 +10,30 @@
   --- Joe Armstrong
 ]
 
-#let abstract = [This is the abstract.]
+#let abstract = [#lorem(30)]
 
-#let acknowledgements = [This is the acknowledgements.]
+#let acknowledgements = [#lorem(30)]
 
 #show: thesis.with(
-  author: "Moritz Jörg",
-  title: "Running Distributed Declarative Programs",
-  degree: "Capstone",
-  faculty: "Faculty of Science and Technology",
-  department: "Department of Computer Science",
-  major: "Computer Science INF-3983 ",
-  advisor: "Weihai Yu",
+  author: "<author>",
+  title: "<title>",
+  degree: "<degree>",
+  faculty: "<faculty>",
+  department: "<department>",
+  major: "<major>",
+  supervisor: "<supervisor>",
   abstract: abstract,
   epigraph: epigraph,
   acknowledgements: acknowledgements,
+  figure-index: (enabled: true),
+  table-index: (enabled: true),
+  listing-index: (enabled: true),
+  submission-date: datetime.today(),
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
-  // submission-date: none,
 )
+
+#include "./chapters/glossary.typ"
+#pagebreak()
 
 = Introduction <introduction>
 #include "./chapters/introduction.typ"

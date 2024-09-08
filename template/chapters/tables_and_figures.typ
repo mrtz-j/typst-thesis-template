@@ -1,4 +1,5 @@
 #import "../../lib.typ": flex-caption
+#import "global.typ": *
 
 = Tables and Figures
 
