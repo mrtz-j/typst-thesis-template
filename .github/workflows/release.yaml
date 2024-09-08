@@ -33,7 +33,7 @@ jobs:
           DEFAULT_BUMP: 'patch'
 
       - uses: typst-community/setup-typst@v3
-      - run: typst compile ./template/thesis.typ thesis.pdf
+      - run: typst compile ./template/thesis.typ thesis.pdf --root "./"
       # NOTE: Add back proposal.typ when ready
       # - run: typst compile proposal.typ proposal.pdf
 
