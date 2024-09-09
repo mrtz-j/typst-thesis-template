@@ -122,10 +122,3 @@ printing.], [A floating figure]),
 
 == Another subsection
 #lorem(100)
-
-#context {
-  let chapter-headings = query(heading.where(level: 1))
-  chapter-headings.map(it => it.location().page())
-}
-
-#lorem(100)

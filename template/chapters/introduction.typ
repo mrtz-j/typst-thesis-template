@@ -16,6 +16,20 @@ let y = 20
 let z = x + y
 ```
 
+```c
+int main() {
+  printf("Hello, world!");
+  return(0);
+}
+```
+
+```python
+if __name__ == "__main__":
+  print("Hello, world!")
+```
+
 For more information take a look at the repo #footnote[see #link("https://github.com/mrtz-j/typst-thesis-template")]
+
+1st, 2nd, 3rd, 4th
 
 #lorem(100)

@@ -40,7 +40,8 @@
     name: "Rust",
     color: rgb("#CE412B"),
   ),
-  fs: (
+  // NOTE: Hacky, but fs doesn't syntax highlight
+  fsi: (
     name: "F#",
     color: rgb("#6a0dad"),
   ),

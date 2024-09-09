@@ -23,9 +23,11 @@
 // Colors used across the template.
 #let stroke-color = luma(200)
 #let fill-color = luma(250)
+#let uit-teal-color = rgb("#0095b6")
+#let uit-gray-color = rgb("#48545e")
 
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
-#let isappendix = state("isappendix", false)
+#let in-appendix = state("in-appendix", false)
 
 // The `in-outline` mechanism is for showing a short caption in the list of figures
 // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
@@ -77,12 +79,12 @@
 
 #let subfigure = {
   subpar.grid.with(
-    numbering: n => if isappendix.get() {
+    numbering: n => if in-appendix.get() {
       numbering("A.1", counter(heading).get().first(), n)
     } else {
       numbering("1.1", counter(heading).get().first(), n)
     },
-    numbering-sub-ref: (m, n) => if isappendix.get() {
+    numbering-sub-ref: (m, n) => if in-appendix.get() {
       numbering("A.1a", counter(heading).get().first(), m, n)
     } else {
       numbering("a", m, n)
@@ -192,19 +194,25 @@
     },
   )
 
-  // Optimise numbers with superscript
-  // espcecially for nice bibliography entries
+  // Optimize numbers with superscript
+  // especially nice for bibliography entries
   show regex("\d?\dth"): w => {
-    // 26th, 1st, ...
+    // 26th, ...
     let b = w.text.split(regex("th")).join()
     [#b#super([th])]
   }
+  show regex("\d?\dst"): w => {
+    // 1st, ...
+    let b = w.text.split(regex("st")).join()
+    [#b#super([st])]
+  }
   show regex("\d?\d[nr]d"): w => {
-    // 2dn, 3rd
+    // 2nd, 3rd, ...
     let s = w.text.split(regex("\d")).last()
     let b = w.text.split(regex("[nr]d")).join()
     [#b#super(s)]
   }
+
   // if we find in bibentries some ISBN, we add link to it
   show "https://doi.org/": w => {
     // handle DOIs
@@ -221,9 +229,7 @@
   show footnote.entry: set par(hanging-indent: 1.5em)
 
   // Set the body font.
-  // Default is Linux Libertine at 11pt
-  // set text(font: ("Libertinus Serif", "Linux Libertine"), size: 11pt)
-  // set text(font: ("Utopia LaTeX"), size: 11pt)
+  // Default is Charter at 11pt
   set text(font: ("Charter"), size: 11pt)
 
   // Set raw text font.
@@ -240,7 +246,7 @@
       outside: 37mm,
     ),
     numbering: "1",
-    number-align: right,
+    number-align: center,
   )
 
   // Configure paragraph properties.
@@ -250,17 +256,18 @@
   // Default spacing is 1.2em.
   show par: set block(spacing: 1.35em)
 
+  // Add some vertical spacing for all headings
   show heading: it => {
     v(2.5em, weak: true)
     it
     v(1.5em, weak: true)
   }
 
-  // Style chapter headings.
+  // Style chapter headings
   show heading.where(level: 1): it => {
-    set text(font: "Noto Sans", weight: "bold", size: 24pt)
+    set text(font: "Open Sans", weight: "bold", size: 24pt)
 
-    // Has no effect, still shows "Section"
+    // FIXME: Has no effect, still shows "Section"
     set heading(supplement: [Chapter])
 
     let heading_number = if heading.numbering == none {
@@ -279,8 +286,8 @@
         move(
           dy: 32pt,
           polygon(
-            fill: rgb("#0095b6"),
-            stroke: rgb("#0095b6"),
+            fill: uit-teal-color,
+            stroke: uit-teal-color,
             (0pt, 0pt),
             (5pt, 0pt),
             (25pt, -60pt),
@@ -307,71 +314,100 @@
     hyphenate: false,
   )
 
-  // Set page header
   set page(
+    // Set page header
     header-ascent: 30%,
     header: context {
-      // Get current page number.
+      // Get current page number
       let page-number = here().page()
 
-      // [ #repr(query(<disable_header>).map(el => el.location().page()).slice(0, 5)) ]
       // If the current page is the start of a chapter, don't show a header
-      let target = heading.where(level: 1)
-      if query(target).any(it => it.location().page() == page-number) {
-        // return [New chapter! page #here().page()]
+      let chapters = heading.where(level: 1)
+      if query(chapters).any(it => it.location().page() == page-number) {
         return []
       }
 
-      // Find the chapter of the section we are currently in.
-      let before = query(target.before(here()))
-      if before.len() > 0 {
-        let current = before.last()
+      // Find the chapter of the section we are currently in
+      let chapters-before = query(chapters.before(here()))
+      if chapters-before.len() > 0 {
+        let current-chapter = chapters-before.last()
 
-        let chapter-title = upper(current.body)
-        let chapter-number = counter(heading.where(level: 1)).display()
-        // let chapter-number-text = [#current.supplement Chapter #chapter-number]
-        let chapter-number-text = [#chapter-number]
 
-        // FIXME: Breaks when show: x_matter in lib
-        // Get next subsection name and number for header
-        // let subsection = query(heading.where(level: 2)).first()
-        // let next-subsection = subsection.
+        // If a new subsecion starts on this page, display that subsection.
+        // Otherwise, display the last subsection
+        let current-subsection = {
+          let subsections = heading.where(level: 2)
 
-        let colored-slash = text(fill: rgb("#0095b6"), "/")
+          let subsections-after = query(subsections.after(here()))
+          if subsections-after.len() > 0 {
+            let next-subsection = subsections-after.first()
+            if next-subsection.location().page() == page-number {
+              (next-subsection)
+            } else {
+              let subsections-before = query(subsections.before(here()))
+              if subsections-before.len() > 0 {
+                (subsections-before.last())
+              } else {
+                // No subsections in this chapter, display nothing
+                (none)
+              }
+            }
+          }
+        }
 
-        if current.numbering != none {
+        let colored-slash = text(fill: uit-teal-color, "/")
+        let spacing = h(3pt)
+
+        // Display subsection count and heading
+        let subsection-text = if current-subsection != none {
+          let subsection-numbering = current-subsection.numbering
+          let location = current-subsection.location()
+          let subsection-count = numbering(subsection-numbering,..counter(heading).at(location))
+
+          [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
+        } else {
+          []
+        }
+
+        // Display chapter count and heading
+        let chapter-text = {
+          let chapter-title = current-chapter.body
+          let chapter-number = counter(heading.where(level: 1)).display()
+
+          [CHAPTER #chapter-number #spacing #colored-slash #spacing #chapter-title]
+        }
+
+        if current-chapter.numbering != none {
+          // Show current chapter on odd pages, current subsection on even
           let (left-text, right-text) = if calc.odd(page-number) {
-            ([#counter(page).display()], chapter-title)
+            (counter(page).display(), chapter-text)
           } else {
-            let spacing = h(7pt)
             (
-              stack(
-                dir: ltr,
-                "CHAPTER",
-                spacing,
-                chapter-number,
-                spacing,
-                colored-slash,
-                spacing,
-                chapter-title,
-              ),
-              [#counter(page).display()],
+              subsection-text,
+              counter(page).display(),
             )
           }
           text(
             weight: "thin",
-            font: "Noto Sans",
-            size: 9pt,
-            tracking: 0.1em,
-            fill: rgb("#2B3333"),
-            features: ("sc", "si", "scit"),
-            fill-line(left-text, right-text),
+            font: "Open Sans",
+            size: 8pt,
+            fill: uit-gray-color,
+            // FIXME: Seems to have no effect
+            // features: ("sc", "si", "scit"),
+            fill-line(upper(left-text), upper(right-text)),
           )
-          // v(-1em)
-          // line(length: 100%, stroke: 0.5pt)
         }
       }
     },
+    // // Only show page numbering when not shown in header
+    // numbering: context {
+    //   let chapters = heading.where(level: 1)
+    //   if query(chapters).any(it => it.location().page() == here().page()) {
+    //     [1].text.text
+    //   } else {
+    //     none
+    //   }
+    // },
   )
 
   // The `in-outline` is for showing a short caption in the list of figures
@@ -392,7 +428,11 @@
     if it.element.func() == heading {
       if it.level == 1 {
         v(1.5em, weak: true)
+        //TODO: There seems to be no way currently to set outline entry props conditionally...
+        // https://github.com/typst/typst/issues/4859
+        // set it.fill(none)
         strong(it)
+        // stack(dir: ltr)[#it.body #h(1fr) #it.page]
       } else {
         it
       }
