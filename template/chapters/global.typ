@@ -27,5 +27,6 @@
 //
 
 // See https://github.com/typst/packages/tree/main/packages/preview/glossarium
-#import "@preview/glossarium:0.4.1": make-glossary, print-glossary, gls, glspl
+// TODO: Update when 0.4.2 is published
+// #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
 #import "@preview/codly:1.0.0": *

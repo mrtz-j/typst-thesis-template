@@ -1,7 +1,9 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
 #import "@preview/outrageous:0.1.0"
-#import "@preview/glossarium:0.4.1": make-glossary, print-glossary, gls, glspl
+// TODO: Update when 0.4.2 is published
+// #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
+#import "modules/glossarium.typ": make-glossary, print-glossary, gls, glspl
 #import "@preview/codly:1.0.0": *
 
 #import "modules/frontpage.typ": frontpage
@@ -556,8 +558,8 @@
         font: ("Carter", "Carter"),
         vspace: (1.5em, 0.5em),
         // FIXME: This should work...
-        // fill-right-pad: .4cm,
-        // fill-align: true,
+        fill-right-pad: .4cm,
+        fill-align: true,
 
         // Manually add indent and spacing
         body-transform: (lvl, body) => {

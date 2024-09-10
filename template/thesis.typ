@@ -26,7 +26,11 @@
     short: "GC",
     long: "Garbage Collection",
   ),
-  (key: "uit", short: "UiT", long: "The Arctic University of Tromsø"),
+  (
+    key: "uit",
+    short: "UiT",
+    long: "University of Tromsø – The Arctic University of Norway",
+  ),
   (
     key: "cow",
     short: "COW",
