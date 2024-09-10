@@ -3,7 +3,7 @@
   set page(header: none, footer: none, numbering: none)
   // --- Abstract ---
   align(left)[
-    = *Abstract*
+    = Abstract
     #v(1em)
     #body
   ]

@@ -1,19 +1,22 @@
 #import "global.typ": *
-#show: make-glossary
-#show: codly-init
 
 This is a test for bibilography @QayyumY-sac2022. The introduction should be more in-depth than the abstract. The first time it's the long one @uit, but the second time it's the short one @uit.
 
-```rust
-pub fn main() {
-  println!("Hello, world!");
-}
-```
+#figure(caption: [Hello world! in rust])[
+  ```rust
+  pub fn main() {
+    println!("Hello, world!");
+  }
+  ```
+] <raw:rust>
+
+@raw:rust is a simple rust code snippet.
 
 ```fsi
-let x = 10
-let y = 20
-let z = x + y
+[<EntryPoint>]
+let main () =
+  "Hello, world!"
+  |> printfn
 ```
 
 ```c

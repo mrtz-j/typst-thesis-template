@@ -1,5 +1,5 @@
 [package]
-name = "nixy-thesis-typst"
+name = "unofficial-uit-thesis-typst"
 version = "0.1.0"
 compiler = "0.11.1"
 entrypoint = "lib.typ"

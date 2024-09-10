@@ -1,5 +1,7 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
+#import "@preview/outrageous:0.1.0"
+#import "@preview/glossarium:0.4.1": make-glossary, print-glossary, gls, glspl
 #import "@preview/codly:1.0.0": *
 
 #import "modules/frontpage.typ": frontpage
@@ -7,6 +9,7 @@
 #import "modules/acknowledgements.typ": acknowledgements_page
 #import "modules/abstract.typ": abstract_page
 #import "modules/epigraph.typ": epigraph_page
+#import "modules/abbreviations.typ": abbreviations-page
 #import "modules/metadata.typ": *
 #import "utils/print_pagebreak.typ": *
 
@@ -26,13 +29,16 @@
 #let uit-teal-color = rgb("#0095b6")
 #let uit-gray-color = rgb("#48545e")
 
+// Helper to display two pieces of content with space between
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
+
 #let in-appendix = state("in-appendix", false)
 
 // The `in-outline` mechanism is for showing a short caption in the list of figures
 // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
 #let in-outline = state("in-outline", false)
 
+// TODO: Remove if remains unused
 #let flex-caption(long, short) = (
   context {
     if in-outline.get() {
@@ -180,6 +186,9 @@
     title: "Listings",
   ),
 
+  // List of abbreviations
+  abbreviations: none,
+
   // The content of your work.
   body,
 ) = {
@@ -194,6 +203,10 @@
     },
   )
 
+  // Required init for packages
+  show: make-glossary
+  show: codly-init
+
   // Optimize numbers with superscript
   // especially nice for bibliography entries
   show regex("\d?\dth"): w => {
@@ -202,7 +215,7 @@
     [#b#super([th])]
   }
   show regex("\d?\dst"): w => {
-    // 1st, ...
+    // 1st
     let b = w.text.split(regex("st")).join()
     [#b#super([st])]
   }
@@ -258,8 +271,14 @@
 
   // Add some vertical spacing for all headings
   show heading: it => {
+    let body = if it.level > 1 {
+      box(width: 35pt, counter(heading).display())
+      it.body
+    } else {
+      it
+    }
     v(2.5em, weak: true)
-    it
+    body
     v(1.5em, weak: true)
   }
 
@@ -309,7 +328,8 @@
 
   // Do not hyphenate headings.
   show heading: set text(
-    font: "Noto Sans",
+    font: "Open Sans",
+    weight: "bold",
     features: ("sc", "si", "scit"),
     hyphenate: false,
   )
@@ -410,36 +430,6 @@
     // },
   )
 
-  // The `in-outline` is for showing a short caption in the list of figures
-  // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
-  show outline: it => {
-    in-outline.update(true)
-    // Show table of contents, list of figures, list of tables, etc. in the table of contents
-    set heading(outlined: true)
-    it
-    in-outline.update(false)
-  }
-
-  // Indent nested entries in the outline.
-  set outline(indent: auto, fill: repeat([#h(2.5pt) . #h(2.5pt)]))
-
-  show outline.entry: it => {
-    // Only apply styling if we're in the table of contents (not list of figures or list of tables, etc.)
-    if it.element.func() == heading {
-      if it.level == 1 {
-        v(1.5em, weak: true)
-        //TODO: There seems to be no way currently to set outline entry props conditionally...
-        // https://github.com/typst/typst/issues/4859
-        // set it.fill(none)
-        strong(it)
-        // stack(dir: ltr)[#it.body #h(1fr) #it.page]
-      } else {
-        it
-      }
-    } else {
-      it
-    }
-  }
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
@@ -456,29 +446,28 @@
   // FIXME: Has no effect?
   // set place(clearance: 2em)
 
-  set figure(
-    numbering: n => {
-      let h1 = counter(heading).get().first()
-      numbering("1.1", h1, n)
-    },
-    gap: 1.5em,
-  )
+  // Set figure numbering to follow chapter
+  set figure(numbering: n => {
+    let h1 = counter(heading).get().first()
+    numbering("1.1", h1, n)
+  })
   set figure.caption(separator: [ -- ])
 
-  show figure.caption: it => {
-    if it.kind == table {
-      align(center, it)
-    } else {
-      align(left, it)
-    }
-  }
+  // Place table captions above table
   show figure.where(kind: table): it => {
     set figure.caption(position: top)
     // Break large tables across pages.
     set block(breakable: true)
     it
   }
-  set table(stroke: none)
+
+  // Use lighter gray color for table stroke
+  set table(
+    inset: 7pt,
+    stroke: (0.5pt + stroke-color),
+  )
+  // Show table header in small caps
+  show table.cell.where(y: 0): smallcaps
 
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
@@ -516,6 +505,7 @@
     submission-date: submission-date,
   )
 
+  // Use front matter stylings
   show: front_matter
 
   // List of Supervisors
@@ -532,32 +522,111 @@
   // Acknowledgements
   acknowledgements_page()[#acknowledgements]
 
-  // Display indices of figures, tables, and listings.
-  let fig-t(kind) = figure.where(kind: kind)
-  if figure-index.enabled or table-index.enabled or listing-index.enabled {
-    context {
-      pagebreak()
-      let imgs = figure-index.enabled
-      let tbls = table-index.enabled
-      let lsts = listing-index.enabled
+  // Display outlines (table of content, table of figures, etc...)
+  context {
+    // Helper to target figure kinds
+    let fig-t(kind) = figure.where(kind: kind)
 
-      outline(title: "Contents")
-      if imgs {
-        outline(title: "List of Figures", target: fig-t(image))
+    // The `in-outline` is for showing a short caption in the list of figures
+    // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
+    show outline: it => {
+      in-outline.update(true)
+      // Show table of contents, list of figures, list of tables, etc. in the table of contents
+      set heading(outlined: true)
+      it
+      in-outline.update(false)
+    }
+
+    // Increase distance between dots on all outline fill
+    set outline(fill: box(width: 1fr, repeat([#h(2.5pt) . #h(2.5pt)])))
+
+    pagebreak()
+
+    // Common padding to use on outline entries
+    let entry-padding = 0.5em
+
+    // Styling for ToC
+    // NOTE: When/if setting fill dependent on the depth becomes easily possible
+    // in typst itself, we can remove the 'outrageous' package
+    [
+      #show outline.entry: outrageous.show-entry.with(
+        ..outrageous.presets.typst,
+        font-weight: ("bold", auto),
+        fill: (none, auto),
+        font: ("Carter", "Carter"),
+        vspace: (1.5em, 0.5em),
+        // FIXME: This should work...
+        // fill-right-pad: .4cm,
+        // fill-align: true,
+
+        // Manually add indent and spacing
+        body-transform: (lvl, body) => {
+          let indent = (lvl - 1) * 1.5em
+          // Entries with (number, text, page) should have more spacing between number and text
+          let spaced-entry = if "children" in body.fields() {
+            let (number, space, ..text) = body.children
+            [#number #h(entry-padding) #text.join()]
+          } else {
+            body
+          }
+          [#h(indent) #spaced-entry]
+        },
+        // Manually add spacing between fill and page number
+        page-transform: (lvl, page) => {
+          if lvl > 1 {
+            [#h(entry-padding) #page]
+          } else {
+            page
+          }
+        }
+      )
+      #outline(title: "Contents")
+    ]
+
+    // Styling for remaining outlines
+    show outline.entry: outrageous
+      .show-entry
+      .with(
+      ..outrageous.presets.typst,
+      // Don't display 'figure' or 'table' before each entry
+      body-transform: (lvl, body) => {
+        if "children" in body.fields() {
+          let (fig-type, space, number, colon, ..text) = body.children
+          [#number #h(entry-padding) #text.join()]
+        } else {
+          body
+        }
+      },
+      // Manually add spacing between fill and page number
+      page-transform: (lvl, page) => {
+        [#h(entry-padding) #page]
       }
-      if tbls {
-        outline(title: "List of Tables", target: fig-t(table))
-      }
-      if lsts {
-        outline(title: "List of Listings", target: fig-t(raw))
-      }
+    )
+
+    // ToF, ToT and ToL are optional
+    if figure-index.enabled {
+      outline(title: "List of Figures", target: fig-t(image))
+    }
+    if table-index.enabled {
+      outline(title: "List of Tables", target: fig-t(table))
+    }
+    if listing-index.enabled {
+      outline(title: "List of Listings", target: fig-t(raw))
     }
   }
 
-  // Thesis content
+  // Table of abbreviations
+  if abbreviations != none {
+    abbreviations-page(abbreviations)
+  }
+
+  // Use main matter stylings
   show: main_matter
+
+  // Thesis content
   body
 
+  // Use back matter stylings
   show: back_matter
 
   //Style bibliography

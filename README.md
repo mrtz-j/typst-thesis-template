@@ -9,11 +9,11 @@
   - [ ] List of Definitions
   - [x] List of Abbreviations
 - [ ] Styling
-  - [ ] Headings (chapter on odd, subsection on even)
+  - [x] Headings (chapter on odd, subsection on even)
   - [ ] Font features
   - [ ] Figures (captions etc)
   - [x] Code blocks (syntax highlights)
-  - [ ] Tables
+  - [x] Tables
   - [x] Footnotes (?)
 - [ ] Good examples
   - [ ] Use of figures, tables, code blocks
