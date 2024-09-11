@@ -53,6 +53,7 @@
 
 // ---
 
+// Common styles for front matter
 #let front_matter(body) = {
   set page(numbering: "i")
   counter(page).update(1)
@@ -64,6 +65,7 @@
   body
 }
 
+// Common styles for main matter
 #let main_matter(body) = {
   set page(numbering: "1")
   counter(page).update(1)
@@ -76,11 +78,12 @@
   body
 }
 
+// Common styles for back matter
 #let back_matter(body) = {
-  set heading(numbering: "A", supplement: [Appendix])
+  // NOTE: Should not outline bibliography, but maybe appendix?
+  set heading(numbering: "A", supplement: [Appendix], outlined: false)
   // Without this, the header says "Chapter F"
   counter(heading.where(level: 1)).update(0)
-  // Without this, the table of contents line says "Chapter F"
   counter(heading).update(0)
   body
 }
@@ -617,7 +620,7 @@
     }
   }
 
-  // Table of abbreviations
+  // List of Abbreviations
   if abbreviations != none {
     abbreviations-page(abbreviations)
   }
