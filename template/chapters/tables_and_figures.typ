@@ -7,15 +7,17 @@ In this chapter we will see some examples of tables and figures.
 
 == Tables
 
-Let's see how to make a well designed table.
+Let's see how to make a simple table.
 
-#let my-table = "figure(
+#figure(
   table(
     columns: 3,
     align: center,
     table.hline(),
     table.header(
-      [name], [weight], [food],
+      [name],
+      [weight],
+      [food],
     ),
     table.hline(stroke: 0.5pt),
     [mouse], [10 g], [cheese],
@@ -24,16 +26,12 @@ Let's see how to make a well designed table.
     [t-rex], [10 Mg], [dogs],
     table.hline(),
   ),
-  caption: [A floating table.]
-)"
-
-#eval(my-table) <tab:esempio>
+  caption: [A floating table.],
+) <tab:horizontal-only>
 
 #lorem(20)
 
-@tab:esempio is a floating table and was obtained with the following code:
-
-#raw(block: true, lang: "typst", my-table)
+@tab:horizontal-only is a floating table with horizontal headerlines.
 
 #lorem(40)
 
@@ -45,12 +43,8 @@ provided in the template-folder for typesetting figures with greek characters.
 The text has been "outlined" for best compatibility with the repro during the
 printing.], [A floating figure]),
 
-#let my-figure = "figure(
-  image(\"../figures/galleria_stampe.jpg\", width: 50%),
-  caption: [A floating figure (the lithograph _Galleria di stampe_, of M.~Escher, obtained from http://www.mcescher.com/).]
-)"
+// @cow is neat.
 
-#eval(my-figure) <fig:galleria>
 
 #figure(
   image("../figures/galleria_stampe.jpg", width: 50%),
@@ -59,10 +53,9 @@ printing.], [A floating figure]),
       from http://www.mcescher.com/).],
     [A floating figure],
   ),
-)
+) <fig:galleria>
 
-@fig:galleria is a floating figure and was obtained with the following code:
-#raw(block: true, lang: "typst", my-figure)
+@fig:galleria is a floating figure.
 
 #lorem(200)
 
@@ -121,11 +114,4 @@ printing.], [A floating figure]),
 #lorem(100)
 
 == Another subsection
-#lorem(100)
-
-#context {
-  let chapter-headings = query(heading.where(level: 1))
-  chapter-headings.map(it => it.location().page())
-}
-
 #lorem(100)

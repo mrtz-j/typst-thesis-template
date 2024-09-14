@@ -34,7 +34,8 @@
       let
         pkgs = import nixpkgs { inherit system; };
       in
-      with pkgs; {
+      with pkgs;
+      {
         checks = {
           pre-commit-check = pre-commit-hooks.lib.${system}.run {
             src = ./.;
@@ -54,8 +55,12 @@
               open-sans
               jetbrains-mono
             ];
-            extraCompileFlags = [ "--root" "./" ];
+            extraCompileFlags = [
+              "--root"
+              "./"
+            ];
             mainFile = "template/thesis.typ";
+            outputFile = "thesis.pdf";
             typstPackages = {
               preview = "${typst-packages}/packages/preview";
             };

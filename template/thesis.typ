@@ -16,6 +16,28 @@
 
 #let acknowledgements = [#lorem(30)]
 
+// Put your abbreviations/acronyms here.
+// 'key' is what you will reference in the typst code
+// 'short' is the abbreviation (what will be shown in the pdf on all references except the first)
+// 'long' is the full acronym expansion (what will be shown in the first reference of the document)
+#let abbreviations = (
+  (
+    key: "gc",
+    short: "GC",
+    long: "Garbage Collection",
+  ),
+  (
+    key: "uit",
+    short: "UiT",
+    long: "University of Tromsø – The Arctic University of Norway",
+  ),
+  (
+    key: "cow",
+    short: "COW",
+    long: "Copy on Write",
+  ),
+)
+
 #show: thesis.with(
   author: "<author>",
   title: "<title>",
@@ -30,6 +52,7 @@
   figure-index: (enabled: true),
   table-index: (enabled: true),
   listing-index: (enabled: true),
+  abbreviations: abbreviations,
   submission-date: datetime.today(),
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
 )
@@ -40,13 +63,13 @@
     name: "Rust",
     color: rgb("#CE412B"),
   ),
-  fs: (
+  // NOTE: Hacky, but fs doesn't syntax highlight
+  fsi: (
     name: "F#",
     color: rgb("#6a0dad"),
   ),
 ))
 
-#include "./chapters/glossary.typ"
 #pagebreak()
 
 = Introduction <introduction>
