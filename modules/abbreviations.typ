@@ -18,9 +18,9 @@
     #print-glossary(
       abbreviations,
       user-print-title: custom-print-title,
-      // Show all terms even if they are not referenced, default to true
+      // Show all terms even if they are not referenced
       show-all: true,
-      // Disable back references in abbreviations list, default to false
+      // Disable back references in abbreviations list
       disable-back-references: true
     )
   ]

@@ -67,7 +67,17 @@
 
 // Common styles for main matter
 #let main_matter(body) = {
-  set page(numbering: "1")
+  set page(numbering: "1",
+    // Only show numbering in footer when no header is peresent
+    footer: context {
+      let chapters = heading.where(level: 1)
+      if query(chapters).any(it => it.location().page() == here().page()) {
+        align(center, counter(page).display())
+      } else {
+        none
+      }
+    }
+  )
   counter(page).update(1)
   counter(heading).update(0)
   set heading(numbering: "1.1")
@@ -80,7 +90,7 @@
 
 // Common styles for back matter
 #let back_matter(body) = {
-  // NOTE: Should not outline bibliography, but maybe appendix?
+  // TODO: Should not outline bibliography, but maybe appendix?
   set heading(numbering: "A", supplement: [Appendix], outlined: false)
   // Without this, the header says "Chapter F"
   counter(heading.where(level: 1)).update(0)
@@ -358,22 +368,24 @@
         let current-chapter = chapters-before.last()
 
 
-        // If a new subsecion starts on this page, display that subsection.
-        // Otherwise, display the last subsection
+        // If a new subsecion starts on this page, select that subsection.
+        // Otherwise, select the last subsection
         let current-subsection = {
           let subsections = heading.where(level: 2)
-
           let subsections-after = query(subsections.after(here()))
+
           if subsections-after.len() > 0 {
             let next-subsection = subsections-after.first()
+
             if next-subsection.location().page() == page-number {
               (next-subsection)
             } else {
               let subsections-before = query(subsections.before(here()))
+
               if subsections-before.len() > 0 {
                 (subsections-before.last())
               } else {
-                // No subsections in this chapter, display nothing
+                // No subsections in this chapter
                 (none)
               }
             }
@@ -383,7 +395,7 @@
         let colored-slash = text(fill: uit-teal-color, "/")
         let spacing = h(3pt)
 
-        // Display subsection count and heading
+        // Content to display subsection count and heading
         let subsection-text = if current-subsection != none {
           let subsection-numbering = current-subsection.numbering
           let location = current-subsection.location()
@@ -391,10 +403,11 @@
 
           [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
         } else {
+          // No subsections in chapter, display nothing
           []
         }
 
-        // Display chapter count and heading
+        // Content to display chapter count and heading
         let chapter-text = {
           let chapter-title = current-chapter.body
           let chapter-number = counter(heading.where(level: 1)).display()
@@ -424,17 +437,7 @@
         }
       }
     },
-    // // Only show page numbering when not shown in header
-    // numbering: context {
-    //   let chapters = heading.where(level: 1)
-    //   if query(chapters).any(it => it.location().page() == here().page()) {
-    //     [1].text.text
-    //   } else {
-    //     none
-    //   }
-    // },
   )
-
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
@@ -561,8 +564,8 @@
         font: ("Carter", "Carter"),
         vspace: (1.5em, 0.5em),
         // FIXME: This should work...
-        fill-right-pad: .4cm,
-        fill-align: true,
+        // fill-right-pad: .4cm,
+        // fill-align: true,
 
         // Manually add indent and spacing
         body-transform: (lvl, body) => {
@@ -594,7 +597,7 @@
       .with(
       ..outrageous.presets.typst,
       // Don't display 'figure' or 'table' before each entry
-      body-transform: (lvl, body) => {
+      body-transform: (_lvl, body) => {
         if "children" in body.fields() {
           let (fig-type, space, number, colon, ..text) = body.children
           [#number #h(entry-padding) #text.join()]
@@ -603,7 +606,7 @@
         }
       },
       // Manually add spacing between fill and page number
-      page-transform: (lvl, page) => {
+      page-transform: (_lvl, page) => {
         [#h(entry-padding) #page]
       }
     )
