@@ -15,6 +15,7 @@
   - [x] Code blocks (syntax highlights)
   - [x] Tables
   - [x] Footnotes (?)
+  - [ ] Style for print (pagebreak to even)
 - [ ] Good examples
   - [ ] Use of figures, tables, code blocks
     - [ ] Side by side

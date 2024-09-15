@@ -8,6 +8,7 @@
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
+#import "modules/supervisors.typ": supervisors-page
 #import "modules/acknowledgements.typ": acknowledgements_page
 #import "modules/abstract.typ": abstract_page
 #import "modules/epigraph.typ": epigraph_page
@@ -68,7 +69,7 @@
 // Common styles for main matter
 #let main_matter(body) = {
   set page(numbering: "1",
-    // Only show numbering in footer when no header is peresent
+    // Only show numbering in footer when no chapter header is peresent
     footer: context {
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
@@ -92,7 +93,7 @@
 #let back_matter(body) = {
   // TODO: Should not outline bibliography, but maybe appendix?
   set heading(numbering: "A", supplement: [Appendix], outlined: false)
-  // Without this, the header says "Chapter F"
+  // Make sure headings start with 'A'
   counter(heading.where(level: 1)).update(0)
   counter(heading).update(0)
   body
@@ -124,8 +125,14 @@
   // Author.
   author: "Author",
 
-  // The name of the supervisor(s) for your work.
-  supervisor: ("John Doe"),
+  // The supervisor(s) for your work. Takes an array of "Title", "Name", [Affiliation]
+  supervisors: (
+    (title: "Your Supervisor",
+    name: "Supervisor Name",
+    affiliation: [UiT The Arctic University of Norway, \
+      Faculty of Science and Techonology, \
+      Department of Computer Science])
+  ),
 
   // The paper size to use.
   paper-size: "a4",
@@ -133,10 +140,10 @@
   // The degree you are working towards
   degree: "INF-3983 Capstone",
 
-  // What you are majoring in
+  // What field you are majoring in
   major: "Computer Science",
 
-  // The faculty and department at which you are workings
+  // The faculty and department at which you are working
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
 
@@ -161,6 +168,7 @@
   acknowledgements: none,
 
   // The contents for the epigraph page. This will be displayed after the acknowledgements.
+  // Can be omitted if you don't have one
   epigraph: none,
 
   // The contents for the preface page. This will be displayed after the cover page. Can
@@ -170,6 +178,7 @@
   // The result of a call to the `outline` function or `none`.
   // Set this to `none`, if you want to disable the table of contents.
   // More info: https://typst.app/docs/reference/model/outline/
+  // TODO: This is unused at the moment
   table-of-contents: outline(),
 
   // The result of a call to the `bibliography` function or `none`.
@@ -181,25 +190,17 @@
   chapter-pagebreak: true,
 
   // Whether the document is a print document.
+  // TODO: This is unused at the moment
   is-print: false,
 
   // Display an index of figures (images).
-  figure-index: (
-    enabled: true,
-    title: "Figures",
-  ),
+  figure-index: true,
 
   // Display an index of tables
-  table-index: (
-    enabled: true,
-    title: "Tables",
-  ),
+  table-index: true,
 
   // Display an index of listings (code blocks).
-  listing-index: (
-    enabled: true,
-    title: "Listings",
-  ),
+  listing-index: true,
 
   // List of abbreviations
   abbreviations: none,
@@ -517,9 +518,7 @@
   show: front_matter
 
   // List of Supervisors
-  // NOTE: Should we use the variables in the struct for this?
-  // isupervisors()
-  include "modules/supervisors.typ"
+  supervisors-page(supervisors)
 
   // Epigraph
   epigraph_page()[#epigraph]
@@ -612,13 +611,13 @@
     )
 
     // ToF, ToT and ToL are optional
-    if figure-index.enabled {
+    if figure-index {
       outline(title: "List of Figures", target: fig-t(image))
     }
-    if table-index.enabled {
+    if table-index {
       outline(title: "List of Tables", target: fig-t(table))
     }
-    if listing-index.enabled {
+    if listing-index {
       outline(title: "List of Listings", target: fig-t(raw))
     }
   }
