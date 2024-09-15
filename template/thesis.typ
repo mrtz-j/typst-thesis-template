@@ -87,4 +87,7 @@
 = Introduction <introduction>
 #include "./chapters/introduction.typ"
 #pagebreak()
+= Basic Usage <basic_usage>
+#include "./chapters/basic_usage.typ"
+#pagebreak()
 #include "./chapters/tables_and_figures.typ"
