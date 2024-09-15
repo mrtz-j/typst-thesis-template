@@ -13,29 +13,32 @@ As opposed to lightweight and uncomplicated report templates you may be familiar
 
 Another important file to note is `refs.bib`. This is where you put your #BibTeX entries that will produce your bibliography, just like you are used to when working with #LaTeX.
 
-#codly(zebra-fill: none, number-format: none)
-#figure(caption: [File structure tree view])[
-  ```
-  ├── figures
-  │   ├── frontpage_full.svg
-  │   └── ...
-  ├── template
-  │   ├── chapters
-  │   │   ├── basic_usage.typ
-  │   │   ├── global.typ
-  │   │   └── ...
-  │   ├── figures
-  │   │   ├── some_vector_graphics.svg
-  │   │   └── ...
-  │   ├── refs.bib
-  │   ├── thesis.pdf
-  │   └── thesis.typ
-  └── utils
-      ├── symbols.typ
-      ├── todo.typ
-      └── ...
-  ```
-] <fig:file_structure>
+#[
+  #figure(caption: [File structure tree view])[
+    #local(zebra-fill: none, number-format: none)[
+      ```
+      ├── figures
+      │   ├── frontpage_full.svg
+      │   └── ...
+      ├── template
+      │   ├── chapters
+      │   │   ├── basic_usage.typ
+      │   │   ├── global.typ
+      │   │   └── ...
+      │   ├── figures
+      │   │   ├── some_vector_graphics.svg
+      │   │   └── ...
+      │   ├── refs.bib
+      │   ├── thesis.pdf
+      │   └── thesis.typ
+      └── utils
+          ├── symbols.typ
+          ├── todo.typ
+          └── ...
+      ```
+    ]
+  ] <fig:file_structure>
+]
 
 == Getting Started <subsec:getting_started>
 In order to get started using this template document class for your thesis, you can start off with the template you are reading right now and upload it to the typst webapp #footnote[see #link("https://typst.app")]. Very similar to Overleaf, it is an online editor which conveniently compiles and displays your document as you write, and allows for easy online access for your supervisor. You can also edit the document simultaneously with your co-author if you have one.

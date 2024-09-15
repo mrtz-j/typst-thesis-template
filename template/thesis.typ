@@ -84,10 +84,12 @@
 
 #pagebreak()
 
-= Introduction <introduction>
+= Introduction <chp:introduction>
 #include "./chapters/introduction.typ"
 #pagebreak()
-= Basic Usage <basic_usage>
+= Basic Usage <chp:basic_usage>
 #include "./chapters/basic_usage.typ"
 #pagebreak()
+= Figures <chp:figures>
+#include "./chapters/figures.typ"
 #include "./chapters/tables_and_figures.typ"
