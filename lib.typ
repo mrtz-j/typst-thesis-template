@@ -307,7 +307,7 @@
     let heading_number = if heading.numbering == none {
       []
     } else {
-      text(counter(heading.where(level: 1)).display(), size: 32pt)
+      text(counter(heading.where(level: 1)).display(), size: 48pt)
     }
 
     // Start chapter headings on a new page
@@ -318,21 +318,21 @@
       stack(
         dir: ltr,
         move(
-          dy: 32pt,
+          dy: 48pt,
           polygon(
             fill: uit-teal-color,
             stroke: uit-teal-color,
             (0pt, 0pt),
             (5pt, 0pt),
-            (25pt, -60pt),
-            (20pt, -60pt),
+            (35pt, -80pt),
+            (30pt, -80pt),
           ),
         ),
         heading_number,
       )
       v(1.0em)
       it.body
-      v(0.5em)
+      v(-1.5em)
     } else {
       it.body
     }
