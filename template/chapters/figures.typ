@@ -146,11 +146,12 @@ For code listings, this template uses a third party package called *codly* #foot
   ```
 ] <raw:rust>
 
-By default, code listings are configured with zebra lines, line numbering and a label displaying the programming language, like the rust snippet in @raw:rust. If we want to, we can disable or customize these features locally using the codly `#local()` function, demonstrated with @raw:fsharp.
+By default, code listings are configured with zebra lines, line numbering and a label displaying the programming language, like the rust snippet in @raw:rust. If we want to, we can disable or customize these features locally using the codly `#local()` function, demonstrated with @raw:fsharp. Note that too many calls to `#local()` may cause issues, so always use `#codly()` where possible.
 
 // FIXME: Empty label is still shown as a tiny circle
 // NOTE: As the code snippet is within the #local call here, we need to specify the figure kind to get 'Listing' instead of 'Figure'
 #figure(caption: [F\# snippet with no zebras and label], kind: raw)[
+  // FIXME: This causes a 'did not converge in 5 attempts' warning, but none of the other codly overrides do...
   #local(zebra-fill: none, display-name: false)[
     ```fsi
     [<EntryPoint>]
@@ -164,26 +165,49 @@ By default, code listings are configured with zebra lines, line numbering and a 
 We can also skip lines in the code snippet. Note that it doesn't actually skip lines in your snippet, but rather changes the line numbers to represent skipped code. This is demonstrated in @raw:c below.
 
 #figure(caption: [C snippet with skipped lines], kind: raw)[
-  #local(skips: ((2, 15),))[
-    ```c
-    int main() {
-      printf("Hello, world!");
-      return(0);
-    }
-    ```
-  ]
+  #codly(skips: ((2, 15),))
+  ```c
+  int main() {
+    printf("Hello, world!");
+    return(0);
+  }
+  ```
+
 ] <raw:c>
 
 Codly also allows us to highlight code using line and column positions. @raw:python demonstrates highlighting a line and giving it a tag "assignment".
 
 #figure(caption: [Python snippet with highlights], kind: raw)[
-  #local(highlights: (
+  #codly(highlights: (
     (line: 1, start: 3, end: none, fill: blue, tag: "assignment"),
-  ))[
-    ```python
-    if __name__ == "__main__":
-      d = {'a': 1}
-      print("Hello, world!")
-    ```
-  ]
+  ))
+  ```python
+  if __name__ == "__main__":
+    d = {'a': 1}
+    print("Hello, world!")
+  ```
+
 ] <raw:python>
+
+// TODO: Make subfigures without subpar or figure out how to fix numbering
+== Subfigures <subsec:subfigures>
+A lot of times we want to display figures side by side and be able to reference them seperately as well as together. To make this process easy, this thesis template includes the *subpar* #footnote[see #link("https://typst.app/universe/package/subpar")] package. It lets us easily lay out figures in a _grid_ while making all labels available for reference.
+
+#subpar.grid(
+  figure(
+    image("../figures/philosophers.png"),
+    caption: [Subfigure with philosophers],
+  ),
+  <fig:philosophers>,
+  figure(
+    image("../figures/dining_philosophers.png"),
+    caption: [Dining philosophers],
+  ),
+  <fig:dining_philosophers>,
+  columns: (1fr, 1fr),
+  numbering: "1.1",
+  caption: [A figure composed of two subfigures],
+  label: <fig:with_subfigures>,
+)
+
+Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @fig:with_subfigures separately.

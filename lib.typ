@@ -460,6 +460,10 @@
     let h1 = counter(heading).get().first()
     numbering("1.1", h1, n)
   })
+  // set subpar.grid(numbering: n => {
+  //   let h1 = counter(heading).get().first()
+  //   numbering("1.1", h1, n)
+  // })
   set figure.caption(separator: [ -- ])
 
   // Place table captions above table
