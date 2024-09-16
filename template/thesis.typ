@@ -58,9 +58,10 @@
       affiliation: [External Company A/S],
     ),
   ),
-  abstract: abstract,
   epigraph: epigraph,
+  abstract: abstract,
   acknowledgements: acknowledgements,
+  preface: none,
   figure-index: true,
   table-index: true,
   listing-index: true,
@@ -82,14 +83,20 @@
   ),
 ))
 
-#pagebreak()
 
 = Introduction <chp:introduction>
 #include "./chapters/introduction.typ"
+// NOTE:
+// It's important to have explicit pagebreaks between each chapter,
+// otherwise header stylings from the template might break
 #pagebreak()
+
 = Basic Usage <chp:basic_usage>
 #include "./chapters/basic_usage.typ"
 #pagebreak()
+
 = Figures <chp:figures>
 #include "./chapters/figures.typ"
+#pagebreak()
+
 #include "./chapters/tables_and_figures.typ"

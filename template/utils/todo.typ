@@ -1,3 +1,4 @@
+// Utility to highlight TODOs to easily find them in the PDF
 #let TODO(body, color: yellow) = {
   rect(
     width: 100%,
@@ -5,6 +6,6 @@
     stroke: 0.5pt,
     fill: color,
   )[
-    #body
+    TODO: #body
   ]
 }

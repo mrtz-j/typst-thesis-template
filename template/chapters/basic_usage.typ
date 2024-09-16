@@ -1,6 +1,6 @@
 #import "global.typ": *
-#import "../../utils/symbols.typ": *
-#import "../../utils/todo.typ": *
+#import "../utils/symbols.typ": *
+#import "../utils/todo.typ": *
 
 This chapter will go over the template structure and its basic usage. Users should note that the file structure discussed here is merely a recommended starting point and not required for using the template package.
 

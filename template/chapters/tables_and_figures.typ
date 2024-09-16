@@ -1,4 +1,4 @@
-#import "../../lib.typ": flex-caption
+#import "../utils/caption.typ": dynamic-caption
 #import "global.typ": *
 
 = Tables and Figures
@@ -48,7 +48,7 @@ printing.], [A floating figure]),
 
 #figure(
   image("../figures/galleria_stampe.jpg", width: 50%),
-  caption: flex-caption(
+  caption: dynamic-caption(
     [A floating figure (the lithograph _Galleria di stampe_, of M.~Escher, obtained
       from http://www.mcescher.com/).],
     [A floating figure],
@@ -62,7 +62,7 @@ printing.], [A floating figure]),
 #figure(
   // Typst doesn't yet support including PDFs, but you can convert PDF files to SVG with pdf2svg.
   // https://github.com/typst/typst/issues/145
-  image("../figures/some_vector_graphics.svg"), caption: flex-caption(
+  image("../figures/some_vector_graphics.svg"), caption: dynamic-caption(
     [A floating figure with text typeset in "Utopia Latex", a font provided in the
       template-folder for typesetting figures with greek characters. The text has been "outlined"
       for best compatibility with the repro during the printing.], [A floating figure],

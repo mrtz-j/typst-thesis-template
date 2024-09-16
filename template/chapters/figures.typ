@@ -1,5 +1,9 @@
 #import "global.typ": *
-#import "../../utils/symbols.typ": *
+#import "../utils/caption.typ": dynamic-caption
+#import "../utils/symbols.typ": *
+#import "../utils/subfigure.typ": subfigure
+#import "../utils/todo.typ": TODO
+
 This chapter will demonstrate how to insert, manipulate and reference figures of various types. The functionality offered by typst to work with figures is powerful and relatively intuitive, especially if you're coming from #LaTeX. However, this template also features a few additional lightweight packages to further simplify working with figures.
 
 == Images <subsec:images>
@@ -15,7 +19,7 @@ Inserting a figure in typst is very simple, and we can now easily refer to @fig:
   #image("../figures/plot_serial.svg", width: 30%)
 ] <fig:blur_plot_small>
 
-#pagebreak()
+#pagebreak(weak: true)
 == Tables <subsec:tables>
 Creating a basic table with typst is quite simple, yet we can also customize them a great deal if we would like to. This thesis template also has some custom default styling for tables, to make the stroke gray and headers distinct.
 
@@ -135,6 +139,7 @@ We can also override the default styling to customize tables. @tab:break sets a 
 
 There is a lot more customization to be done with tables. Read the official table guide #footnote[see #link("https://typst.app/docs/guides/table-guide/")] to discover how to create a table by reading a `csv` file with typst, achieving zebra highlighting and much more.
 
+#pagebreak(weak: true)
 == Listings <subsec:listings>
 For code listings, this template uses a third party package called *codly* #footnote[see #link("https://typst.app/universe/package/codly")] in order to provide some out of the box styling and proper syntax highlighting. Unless you want to customize the appearance you don't need to touch codly at all, simply create a normal code block like you would in markdown.
 
@@ -151,7 +156,6 @@ By default, code listings are configured with zebra lines, line numbering and a 
 // FIXME: Empty label is still shown as a tiny circle
 // NOTE: As the code snippet is within the #local call here, we need to specify the figure kind to get 'Listing' instead of 'Figure'
 #figure(caption: [F\# snippet with no zebras and label], kind: raw)[
-  // FIXME: This causes a 'did not converge in 5 attempts' warning, but none of the other codly overrides do...
   #local(zebra-fill: none, display-name: false)[
     ```fsi
     [<EntryPoint>]
@@ -193,21 +197,78 @@ Codly also allows us to highlight code using line and column positions. @raw:pyt
 == Subfigures <subsec:subfigures>
 A lot of times we want to display figures side by side and be able to reference them seperately as well as together. To make this process easy, this thesis template includes the *subpar* #footnote[see #link("https://typst.app/universe/package/subpar")] package. It lets us easily lay out figures in a _grid_ while making all labels available for reference.
 
-#subpar.grid(
+#subfigure(
   figure(
     image("../figures/philosophers.png"),
-    caption: [Subfigure with philosophers],
+    caption: [Subfigure with dining philosophers],
   ),
   <fig:philosophers>,
   figure(
     image("../figures/dining_philosophers.png"),
-    caption: [Dining philosophers],
+    caption: [Subfigure with a deadlock],
   ),
   <fig:dining_philosophers>,
   columns: (1fr, 1fr),
-  numbering: "1.1",
   caption: [A figure composed of two subfigures],
   label: <fig:with_subfigures>,
 )
 
-Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @fig:with_subfigures separately.
+Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @fig:with_subfigures separately. To access subpar, we use a custom function `#subfigure()` which is included in this template. It's a simple wrapper that sets up the numbering for us to match the rules of the template.
+
+
+#subfigure(
+  figure(caption: [F\# snippet in a subfigure], kind: raw)[
+    ```fsi
+    [<EntryPoint>]
+    let main () =
+      "Hello, world!"
+      |> printfn
+    ```
+  ],
+  <subfig:subfig_fsharp>,
+  figure(
+    table(
+      columns: 3,
+      table.header(
+        [name],
+        [weight],
+        [food],
+      ),
+
+      [mouse], [10 g], [cheese],
+      [cat], [1 kg], [mice],
+      [dog], [10 kg], [cats],
+      [t-rex], [10 Mg], [dogs],
+    ),
+    caption: [Table in a subfigure],
+  ),
+  <subfig:subfig_table>,
+  figure(
+    image("../figures/philosophers.png"),
+    caption: [Subfigure with philosophers],
+  ),
+  <subfig:philosophers2>,
+  figure(
+    image("../figures/dining_philosophers.png"),
+    caption: [Subfigure with dining philosophers],
+  ),
+  <subfig:dining_philosophers2>,
+  columns: (150pt, 1fr),
+  caption: [A figure with multiple subfigure kinds],
+  label: <fig:mixed_kinds>,
+)
+
+We can include as many figures as we want in the grid, and even mix and match figure types. @fig:mixed_kinds also has the first column set to a width of `150pt` while the second column is set to take up the remaining space. Note that by default, subfigures do not appear in the List of Figures, and the supplement of referring to for instance @subfig:subfig_fsharp is _not_ "Listing" like we might expect.
+
+#figure(
+  caption: dynamic-caption(
+    [A nice picture of UiT, the Arctic University of Norway, under the northern lights. The picture is taken from #link("https://www.wur.nl/en/").],
+    [UiT under aurora borealis],
+  ),
+  image("../figures/uit_aurora.jpg"),
+) <fig:uit_aurora>
+
+Another handy function available in this template is the `#dynamic-caption()`, which takes two arguments: a short and a long version of a caption. The long version is displayed under the figure, like in @fig:uit_aurora, however the short version is used in the List of Figures at the start of the thesis.
+
+== Equations <subsec:equations>
+#TODO()[Demonstrate some math equations here.]

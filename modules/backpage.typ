@@ -12,6 +12,6 @@
   place(
     bottom + center,
     dy: 27mm,
-    image("../figures/backpage.svg", width: 216mm, height: 303mm),
+    image("../assets/backpage.svg", width: 216mm, height: 303mm),
   )
 }
