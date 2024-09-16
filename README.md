@@ -8,6 +8,7 @@
   - [x] Supervisors page
   - [ ] List of Definitions
   - [x] List of Abbreviations
+  - [ ] Appendix
 - [ ] Styling
   - [x] Headings (chapter on odd, subsection on even)
   - [ ] Font features
@@ -20,8 +21,10 @@
   - [x] Use of figures, tables, code blocks
     - [x] Side by side
   - [ ] Citations
-  - [ ] Abbreviations
   - [ ] Lists (unordered, ordered)
+  - [ ] Utilities
+    - [ ] Abbreviations
+    - [ ] TODOs, feedback, form, etc
 - [x] CI/CD
   - [x] Formatting
   - [x] Build and Release pdf
