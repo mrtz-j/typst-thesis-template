@@ -1,5 +1,4 @@
-// central place where libraries are imported
-// (or macros are defined)
+// A central place where libraries are imported (or macros are defined)
 // which are used within all the chapters:
 #import "chapters/global.typ": *
 
