@@ -4,6 +4,14 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 
 `thesis.typ` contains a full usage example, see `thesis.pdf` for a rendered pdf.
 
+## Usage
+
+Using the Typst Universe package/template, you can import it at the beginning of your document: 
+
+```typ
+#import "@preview/modern-uit-thesis:0.1.0": *
+```
+
 ## Roadmap
 
 - [ ] Content and pages
