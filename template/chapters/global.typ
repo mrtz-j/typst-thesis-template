@@ -19,7 +19,6 @@
 //         https://github.com/typst/packages/tree/main/packages/preview/fh-joanneum-iit-thesis)
 //    Copy the lib.typ to a (sub)folder of this project and
 //    set the path accordingly.
-// #import "../../lib.typ": *
 #import "@preview/modern-uit-thesis:0.1.0": *
 
 //
