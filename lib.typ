@@ -8,17 +8,17 @@
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
+#import "modules/supervisors.typ": supervisors-page
 #import "modules/acknowledgements.typ": acknowledgements_page
 #import "modules/abstract.typ": abstract_page
 #import "modules/epigraph.typ": epigraph_page
 #import "modules/abbreviations.typ": abbreviations-page
-#import "modules/metadata.typ": *
-#import "utils/print_pagebreak.typ": *
 
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 #let std-smallcaps = smallcaps
 #let std-upper = upper
+#let std-pagebreak = pagebreak
 
 // Overwrite the default `smallcaps` and `upper` functions with increased spacing between
 // characters. Default tracking is 0pt.
@@ -34,24 +34,14 @@
 // Helper to display two pieces of content with space between
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
 
+// `in-appendix` is for custom styling in the appendix section
 #let in-appendix = state("in-appendix", false)
 
 // The `in-outline` mechanism is for showing a short caption in the list of figures
 // See https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html#long-and-short-captions-for-the-outline
 #let in-outline = state("in-outline", false)
 
-// TODO: Remove if remains unused
-#let flex-caption(long, short) = (
-  context {
-    if in-outline.get() {
-      short
-    } else {
-      long
-    }
-  }
-)
-
-// ---
+// -- Styling rules for Front-Main-Back matter --
 
 // Common styles for front matter
 #let front_matter(body) = {
@@ -68,7 +58,7 @@
 // Common styles for main matter
 #let main_matter(body) = {
   set page(numbering: "1",
-    // Only show numbering in footer when no header is peresent
+    // Only show numbering in footer when no chapter header is peresent
     footer: context {
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
@@ -92,26 +82,13 @@
 #let back_matter(body) = {
   // TODO: Should not outline bibliography, but maybe appendix?
   set heading(numbering: "A", supplement: [Appendix], outlined: false)
-  // Without this, the header says "Chapter F"
+  // Make sure headings start with 'A'
   counter(heading.where(level: 1)).update(0)
   counter(heading).update(0)
   body
 }
 
-#let subfigure = {
-  subpar.grid.with(
-    numbering: n => if in-appendix.get() {
-      numbering("A.1", counter(heading).get().first(), n)
-    } else {
-      numbering("1.1", counter(heading).get().first(), n)
-    },
-    numbering-sub-ref: (m, n) => if in-appendix.get() {
-      numbering("A.1a", counter(heading).get().first(), m, n)
-    } else {
-      numbering("a", m, n)
-    },
-  )
-}
+// -- Template entrypoint --
 
 // This function gets your whole document as its `body` and formats it
 #let thesis(
@@ -124,8 +101,14 @@
   // Author.
   author: "Author",
 
-  // The name of the supervisor(s) for your work.
-  supervisor: ("John Doe"),
+  // The supervisor(s) for your work. Takes an array of "Title", "Name", [Affiliation]
+  supervisors: (
+    (title: "Your Supervisor",
+    name: "Supervisor Name",
+    affiliation: [UiT The Arctic University of Norway, \
+      Faculty of Science and Techonology, \
+      Department of Computer Science])
+  ),
 
   // The paper size to use.
   paper-size: "a4",
@@ -133,10 +116,10 @@
   // The degree you are working towards
   degree: "INF-3983 Capstone",
 
-  // What you are majoring in
+  // What field you are majoring in
   major: "Computer Science",
 
-  // The faculty and department at which you are workings
+  // The faculty and department at which you are working
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
 
@@ -153,6 +136,10 @@
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",
 
+  // The contents for the epigraph page. This will be displayed after the acknowledgements.
+  // Can be omitted if you don't have one
+  epigraph: none,
+
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
 
@@ -160,46 +147,23 @@
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
 
-  // The contents for the epigraph page. This will be displayed after the acknowledgements.
-  epigraph: none,
-
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
-
-  // The result of a call to the `outline` function or `none`.
-  // Set this to `none`, if you want to disable the table of contents.
-  // More info: https://typst.app/docs/reference/model/outline/
-  table-of-contents: outline(),
 
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib", title: "Bibliography", style: "ieee")
   // More info: https://typst.app/docs/reference/model/bibliography/
   bibliography: none,
 
-  // Whether to start a chapter on a new page.
-  chapter-pagebreak: true,
-
-  // Whether the document is a print document.
-  is-print: false,
-
   // Display an index of figures (images).
-  figure-index: (
-    enabled: true,
-    title: "Figures",
-  ),
+  figure-index: true,
 
   // Display an index of tables
-  table-index: (
-    enabled: true,
-    title: "Tables",
-  ),
+  table-index: true,
 
   // Display an index of listings (code blocks).
-  listing-index: (
-    enabled: true,
-    title: "Listings",
-  ),
+  listing-index: true,
 
   // List of abbreviations
   abbreviations: none,
@@ -307,7 +271,12 @@
     let heading_number = if heading.numbering == none {
       []
     } else {
-      text(counter(heading.where(level: 1)).display(), size: 32pt)
+      text(counter(heading.where(level: 1)).display(), size: 62pt)
+    }
+
+    // Reset figure numbering on every chapter start
+    for kind in (image, table, raw) {
+      counter(figure.where(kind: kind)).update(0)
     }
 
     // Start chapter headings on a new page
@@ -318,21 +287,21 @@
       stack(
         dir: ltr,
         move(
-          dy: 32pt,
+          dy: 54pt,
           polygon(
             fill: uit-teal-color,
             stroke: uit-teal-color,
             (0pt, 0pt),
             (5pt, 0pt),
-            (25pt, -60pt),
-            (20pt, -60pt),
+            (40pt, -90pt),
+            (35pt, -90pt),
           ),
         ),
         heading_number,
       )
       v(1.0em)
       it.body
-      v(0.5em)
+      v(-1.5em)
     } else {
       it.body
     }
@@ -439,6 +408,8 @@
     },
   )
 
+  // -- Equations --
+
   // Configure equation numbering.
   set math.equation(numbering: n => {
     let h1 = counter(heading).get().first()
@@ -451,8 +422,7 @@
     pad(left: 2em, it)
   }
 
-  // FIXME: Has no effect?
-  // set place(clearance: 2em)
+  // -- Figures --
 
   // Set figure numbering to follow chapter
   set figure(numbering: n => {
@@ -468,6 +438,8 @@
     set block(breakable: true)
     it
   }
+
+  // -- Tables --
 
   // Use lighter gray color for table stroke
   set table(
@@ -485,8 +457,7 @@
     radius: 2pt,
   )
 
-  // Display block code with padding.
-  show raw.where(block: true): block.with(inset: (x: 5pt))
+  // -- Links --
 
   // Show a small maroon circle next to external links.
   show link: it => {
@@ -500,6 +471,8 @@
       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
     )
   }
+
+  // -- Front matter --
 
   // Display front page
   frontpage(
@@ -517,9 +490,7 @@
   show: front_matter
 
   // List of Supervisors
-  // NOTE: Should we use the variables in the struct for this?
-  // isupervisors()
-  include "modules/supervisors.typ"
+  supervisors-page(supervisors)
 
   // Epigraph
   epigraph_page()[#epigraph]
@@ -529,6 +500,8 @@
 
   // Acknowledgements
   acknowledgements_page()[#acknowledgements]
+
+  // -- Outlines --
 
   // Display outlines (table of content, table of figures, etc...)
   context {
@@ -563,9 +536,6 @@
         fill: (none, auto),
         font: ("Carter", "Carter"),
         vspace: (1.5em, 0.5em),
-        // FIXME: This should work...
-        // fill-right-pad: .4cm,
-        // fill-align: true,
 
         // Manually add indent and spacing
         body-transform: (lvl, body) => {
@@ -611,14 +581,14 @@
       }
     )
 
-    // ToF, ToT and ToL are optional
-    if figure-index.enabled {
+    // Remaining outlines are all optional
+    if figure-index {
       outline(title: "List of Figures", target: fig-t(image))
     }
-    if table-index.enabled {
+    if table-index {
       outline(title: "List of Tables", target: fig-t(table))
     }
-    if listing-index.enabled {
+    if listing-index {
       outline(title: "List of Listings", target: fig-t(raw))
     }
   }
@@ -628,16 +598,20 @@
     abbreviations-page(abbreviations)
   }
 
+  // -- Main matter --
+
   // Use main matter stylings
   show: main_matter
 
   // Thesis content
   body
 
+  // -- Back matter --
+
   // Use back matter stylings
   show: back_matter
 
-  //Style bibliography
+  // Style bibliography
   if bibliography != none {
     pagebreak()
     // show std-bibliography: set text(0.95em)

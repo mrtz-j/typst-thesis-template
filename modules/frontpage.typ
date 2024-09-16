@@ -26,7 +26,7 @@
   set par(leading: 1em)
 
   // --- Title Page ---
-  place(top + left, image("../figures/logo.svg", width: 100%, height: 100%))
+  place(top + left, image("../assets/logo.svg", width: 100%, height: 100%))
 
   // Faculty
   place(
@@ -86,6 +86,6 @@
   place(
     bottom + center,
     dy: 27mm,
-    image("../figures/frontpage_full.svg", width: 216mm, height: 303mm),
+    image("../assets/frontpage_full.svg", width: 216mm, height: 303mm),
   )
 }
