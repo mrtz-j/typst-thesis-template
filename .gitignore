@@ -1,4 +1,5 @@
 .direnv/*
+out/
 .pre-commit-config.yaml
 *.pdf
 result

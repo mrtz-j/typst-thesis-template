@@ -9,6 +9,11 @@ description = "A Modern Thesis Template in Typst."
 repository = "https://github.com/mrtz-j/typst-thesis-template"
 keywords = ["thesis", "master", "uit", "bachelor", "university"]
 categories = ["thesis"]
+exclude = [
+	".github",
+	"scripts",
+	"Justfile",
+]
 
 [template]
 path = "template"
