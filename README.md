@@ -6,10 +6,10 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 
 ## Usage
 
-Using the Typst Universe package/template, you can import it at the beginning of your document: 
+Using the Typst Universe package/template:
 
-```typ
-#import "@preview/modern-uit-thesis:0.1.0": *
+```console
+typst init @preview/modern-uit-thesis
 ```
 
 ## Roadmap
