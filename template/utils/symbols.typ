@@ -1,4 +1,3 @@
-
 // TeX and LaTeX logos
 #let TeX = {
   set text(font: "New Computer Modern", weight: "regular")

@@ -31,8 +31,40 @@
 #let uit-teal-color = rgb("#0095b6")
 #let uit-gray-color = rgb("#48545e")
 
-// Helper to display two pieces of content with space between
+// Helper to display two pieces of content with space between.
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
+
+// Helper to display external codeblocks.
+//·Based·on·https://github.com/typst/typst/issues/1494
+#let code-block(filename) = raw(
+  read(filename),
+  block: true,
+  lang: filename.split(".").at(-1),
+)
+
+// Helper to display CSV tables.
+#let csv-table(
+  tabledata: "",
+  columns: 1,
+  header-row: rgb(255, 231, 230),
+  even-row: rgb(255, 255, 255),
+  odd-row: rgb(228, 234, 250),
+) = {
+  let tableheadings = tabledata.first()
+  let data = tabledata.slice(1).flatten()
+  table(
+    columns: columns, fill: (_, row) =>
+    if row == 0 {
+      header-row // color for header row
+    } else if calc.odd(row) {
+      odd-row // each other row colored
+    } else {
+      even-row
+    }, align: (col, row) =>
+    if row == 0 { center } else { left }, ..tableheadings.map(x => [*#x*]), // bold headings
+    ..data,
+  )
+}
 
 // `in-appendix` is for custom styling in the appendix section
 #let in-appendix = state("in-appendix", false)
@@ -205,7 +237,7 @@
     [#b#super(s)]
   }
 
-  // if we find in bibentries some ISBN, we add link to it
+  // If we find in bibentries some ISBN, we add link to it
   show "https://doi.org/": w => {
     // handle DOIs
     [DOI:] + str.from-unicode(160) // 160 A0 nbsp
@@ -218,6 +250,7 @@
     ) // https://isbnsearch.org/isbn/1-891562-35-5
   }
 
+  // Hanging indent for footnote
   show footnote.entry: set par(hanging-indent: 1.5em)
 
   // Set the body font.
