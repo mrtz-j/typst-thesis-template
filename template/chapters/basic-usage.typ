@@ -45,5 +45,5 @@ In order to get started using this template document class for your thesis, you 
 
 To initialize your local copy of the template, make sure you have `typst` installed and run `typst init @preview/unofficial-uit-thesis-template:0.1.0 my-thesis` and it will be downloaded into `my-thesis`. Now you're ready to either upload your thesis to `typst.app` or compile it locally using `typst watch` if you prefer.
 
-Starting in `thesis.typ`, we can see a function call to a function `thesis`. This is how the thesis template style is applied to the document. There are a number of parameters that can be sent into this invokation both to provide special content like title, abstract or list of abbreviations as well as additional customization details. The default call demonstrated in `thesis.typ` should give you an idea of the usage.
+Starting in `thesis.typ`, we can see a function call to a function `thesis`. This is how the thesis template style is applied to the document. There are a number of parameters that can be sent into this invocation both to provide special content like title, abstract or list of abbreviations as well as additional customization details. The default call demonstrated in `thesis.typ` should give you an idea of the usage.
 

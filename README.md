@@ -1,6 +1,10 @@
-# typst-thesis-template
+# Modern UiT Thesis Template
 
-### Roadmap
+Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to Typst. 
+
+`thesis.typ` contains a full usage example, see `thesis.pdf` for a rendered pdf.
+
+## Roadmap
 
 - [ ] Content and pages
   - [x] Complete front page
@@ -32,3 +36,7 @@
   - [x] Build and Release pdf
   - [ ] Release as lib (TODO: Add to local index)
 - [x] License
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

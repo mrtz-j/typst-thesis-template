@@ -195,7 +195,7 @@ Codly also allows us to highlight code using line and column positions. @raw:pyt
 
 // TODO: Make subfigures without subpar or figure out how to fix numbering
 == Subfigures <subsec:subfigures>
-A lot of times we want to display figures side by side and be able to reference them seperately as well as together. To make this process easy, this thesis template includes the *subpar* #footnote[see #link("https://typst.app/universe/package/subpar")] package. It lets us easily lay out figures in a _grid_ while making all labels available for reference.
+A lot of times we want to display figures side by side and be able to reference them separately as well as together. To make this process easy, this thesis template includes the *subpar* #footnote[see #link("https://typst.app/universe/package/subpar")] package. It lets us easily lay out figures in a _grid_ while making all labels available for reference.
 
 #subfigure(
   figure(

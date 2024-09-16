@@ -97,7 +97,7 @@
 #pagebreak()
 
 = Basic Usage <chp:basic_usage>
-#include "./chapters/basic_usage.typ"
+#include "./chapters/basic-usage.typ"
 #pagebreak()
 
 = Figures <chp:figures>

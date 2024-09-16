@@ -90,7 +90,7 @@
 // Common styles for main matter
 #let main_matter(body) = {
   set page(numbering: "1",
-    // Only show numbering in footer when no chapter header is peresent
+    // Only show numbering in footer when no chapter header is present
     footer: context {
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
@@ -138,7 +138,7 @@
     (title: "Your Supervisor",
     name: "Supervisor Name",
     affiliation: [UiT The Arctic University of Norway, \
-      Faculty of Science and Techonology, \
+      Faculty of Science and Technology, \
       Department of Computer Science])
   ),
 

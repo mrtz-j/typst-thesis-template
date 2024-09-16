@@ -76,6 +76,7 @@
             typstyle
             tinymist
             just
+            typos
           ];
 
           TYPST_FONT_PATHS = pkgs.symlinkJoin {
