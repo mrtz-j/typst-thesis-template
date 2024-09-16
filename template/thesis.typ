@@ -34,6 +34,11 @@
     short: "COW",
     long: "Copy on Write",
   ),
+  (
+    key: "cpu",
+    short: "CPU",
+    long: "Central Processing Unit",
+  ),
 )
 
 #show: thesis.with(
@@ -99,4 +104,9 @@
 #include "./chapters/figures.typ"
 #pagebreak()
 
-#include "./chapters/tables_and_figures.typ"
+= Typst Basics <chp:typst_basics>
+#include "./chapters/typst-basics.typ"
+#pagebreak()
+
+= Utilities <chp:utilities>
+#include "./chapters/utilities.typ"
