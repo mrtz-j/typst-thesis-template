@@ -87,25 +87,26 @@
   ),
 ))
 
+// Include as many chapters as you like.
 
 = Introduction <chp:introduction>
-#include "./chapters/introduction.typ"
+#include "./chapters/1-introduction.typ"
 // NOTE:
 // It's important to have explicit pagebreaks between each chapter,
 // otherwise header stylings from the template might break
 #pagebreak()
 
 = Basic Usage <chp:basic_usage>
-#include "./chapters/basic_usage.typ"
+#include "./chapters/2-basic_usage.typ"
 #pagebreak()
 
 = Figures <chp:figures>
-#include "./chapters/figures.typ"
+#include "./chapters/3-figures.typ"
 #pagebreak()
 
 = Typst Basics <chp:typst_basics>
-#include "./chapters/typst-basics.typ"
+#include "./chapters/4-typst-basics.typ"
 #pagebreak()
 
 = Utilities <chp:utilities>
-#include "./chapters/utilities.typ"
+#include "./chapters/5-utilities.typ"

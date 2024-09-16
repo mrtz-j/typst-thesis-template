@@ -20,6 +20,8 @@
 - [x] Good examples
   - [x] Use of figures, tables, code blocks
     - [x] Side by side
+    - [ ] Create table from CSV
+    - [ ] Codeblocks with External Code
   - [x] Citations
   - [x] Lists (unordered, ordered)
   - [x] Utilities
@@ -29,4 +31,4 @@
   - [x] Formatting
   - [x] Build and Release pdf
   - [ ] Release as lib (TODO: Add to local index)
-- [ ] License
+- [x] License

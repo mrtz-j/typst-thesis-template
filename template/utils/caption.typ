@@ -1,4 +1,4 @@
-#import "../../lib.typ": in-outline
+#import "../chapters/global.typ": in-outline
 
 #let dynamic-caption(long, short) = (
   context {
