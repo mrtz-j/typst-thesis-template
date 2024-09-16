@@ -17,14 +17,14 @@
   - [x] Tables
   - [x] Footnotes (?)
   - [ ] Style for print (pagebreak to even)
-- [ ] Good examples
+- [x] Good examples
   - [x] Use of figures, tables, code blocks
     - [x] Side by side
-  - [ ] Citations
-  - [ ] Lists (unordered, ordered)
-  - [ ] Utilities
-    - [ ] Abbreviations
-    - [ ] TODOs, feedback, form, etc
+  - [x] Citations
+  - [x] Lists (unordered, ordered)
+  - [x] Utilities
+    - [x] Abbreviations
+    - [x] TODOs, feedback, form, etc
 - [x] CI/CD
   - [x] Formatting
   - [x] Build and Release pdf
