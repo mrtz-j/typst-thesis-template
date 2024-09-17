@@ -9,7 +9,7 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 Using the Typst Universe package/template:
 
 ```console
-typst init @preview/modern-uit-thesis
+typst init @preview/modern-uit-thesis:0.1.0
 ```
 
 ## Roadmap
@@ -24,10 +24,10 @@ typst init @preview/modern-uit-thesis
 - [ ] Styling
   - [x] Headings (chapter on odd, subsection on even)
   - [ ] Font features
-  - [ ] Figures (captions etc)
+  - [x] Figures (captions etc)
   - [x] Code blocks (syntax highlights)
   - [x] Tables
-  - [x] Footnotes (?)
+  - [x] Footnotes
   - [ ] Style for print (pagebreak to even)
 - [ ] Good examples
   - [x] Use of figures, tables, code blocks
