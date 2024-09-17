@@ -27,15 +27,15 @@ Creating a basic table with typst is quite simple, yet we can also customize the
   table(
     columns: 3,
     table.header(
-      [name],
-      [weight],
-      [food],
+      [store],
+      [location],
+      [open sundays],
     ),
 
-    [mouse], [10 g], [cheese],
-    [cat], [1 kg], [mice],
-    [dog], [10 kg], [cats],
-    [t-rex], [10 Mg], [dogs],
+    [Coop Extra], [Breivika], [No],
+    [Joker], [Dramsvegen], [Yes],
+    [Rema 1000], [K1], [No],
+    [Coop Obs], [Jekta], [No],
   ),
   caption: [Table with default styling],
 ) <tab:default_styling>
@@ -230,15 +230,15 @@ Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @
     table(
       columns: 3,
       table.header(
-        [name],
-        [weight],
-        [food],
+        [store],
+        [location],
+        [open sundays],
       ),
 
-      [mouse], [10 g], [cheese],
-      [cat], [1 kg], [mice],
-      [dog], [10 kg], [cats],
-      [t-rex], [10 Mg], [dogs],
+      [Coop Extra], [Breivika], [No],
+      [Joker], [Dramsvegen], [Yes],
+      [Rema 1000], [K1], [No],
+      [Coop Obs], [Jekta], [No],
     ),
     caption: [Table in a subfigure],
   ),
@@ -271,4 +271,49 @@ We can include as many figures as we want in the grid, and even mix and match fi
 Another handy function available in this template is the `#dynamic-caption()`, which takes two arguments: a short and a long version of a caption. The long version is displayed under the figure, like in @fig:uit_aurora, however the short version is used in the List of Figures at the start of the thesis.
 
 == Equations <subsec:equations>
-#TODO()[Demonstrate some math equations here.]
+Typst has great built-in support for mathematical equations and this template applies numbering to them by default, so that we can refer to @equ:simple-equation just like we would a figure.
+
+$ sum_(k=1)^n k = (n(n+1)) / 2 $ <equ:simple-equation>
+
+By default, we can use powerful symbols and functions inside equation blocks (`$ ... $`) to typeset quite advanced equations. For instance, `#attach()` grants us fine control over symbol placement, like in @equ:attach.
+
+$
+  attach(
+  Pi, t: alpha, b: beta,
+  tl: 1, tr: 2+3, bl: 4+5, br: lambda,
+)
+$ <equ:attach>
+
+Many of the functions have additional parameters to further customize their behavior. For instance, the matrix function allows us to specify the delimiter, see @equ:matrix.
+
+$
+  mat(
+  delim: "[",
+  1, 2, ..., 10;
+  2, 2, ..., 10;
+  dots.v, dots.v, dots.down, dots.v;
+  10, 10, ..., 10;
+)
+$ <equ:matrix>
+
+We can also define our own classes to use within equation blocks, and much more. Refer to the typst reference #footnote()[see #link("https://typst.app/docs/reference/math/")] to see all capabilities.
+
+#let spade = math.class(
+  "normal",
+  sym.suit.spade,
+)
+
+$ root(3, 5 spade) in RR $
+
+== Physica <subsec:physica>
+To expand on the already considerable built-in support for math symbols, we've also included the physica #footnote()[see #link("https://typst.app/universe/package/physica")] package. It makes a far greater range of functions available, allowing us to quickly typeset common symbol sequences without having to build them with the vanilla library. For example, big O notation is easily available:
+
+$ Order(n log(n)) $
+
+This section covers only a fraction of the available symbols and handy shorthands like expectation value in @equ:expval, and digital timing diagrams in @equ:clock. Refer to the full user manual on github #footnote()[see #link("https://github.com/Leedehai/typst-physics/")] to see the full usage.
+
+$ expval(p, psi) $ <equ:expval>
+
+$
+  "clk:" & signals("|1...|0...|1...|0...|1...|0...|1...|0...", step: #0.5em)
+$ <equ:clock>

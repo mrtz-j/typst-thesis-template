@@ -7,7 +7,7 @@ Now we will take a look at some useful custom utilities included with this templ
 == Figures <subsec:util_figures>
 We've already seen the utilities we have implemented for use with figures earlier, refer to @subsec:subfigures.
 
-== Feedback and TODOs <subsec:feedback_todo>
+== TODOs and Feedback <subsec:feedback_todo>
 Two functions are available for inserting temporary comments into the document to help you while writing your thesis.
 
 #TODO()[The `#TODO()` function is handy for inserting comments to your future self about your thesis. It has a default yellow color to make it easily visible and prevent you from overseeing it when reviewing the document.]
@@ -18,7 +18,7 @@ Two functions are available for inserting temporary comments into the document t
 
 #feedback(
   feedback: [Another function is `#feedback()`. It lets your advisor easily insert feedback comments into your document...],
-  response: [...and also lets you add your own response to the note so that you can discuss it in your next meeting. Also note that #link("https://typst.app") also has a comment functionality, however it requires a paid subscription.],
+  response: [...and also lets you add your own response to the note so that you can discuss it in your next meeting. Also note that #link("https://typst.app") has a comment functionality, however it requires a paid subscription.],
 )
 
 == Forms <subsec:forms>
