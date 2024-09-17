@@ -310,6 +310,8 @@
     // Reset figure numbering on every chapter start
     for kind in (image, table, raw) {
       counter(figure.where(kind: kind)).update(0)
+      // Also reset equation numbering
+      counter(math.equation).update(0)
     }
 
     // Start chapter headings on a new page
@@ -450,7 +452,7 @@
   })
 
   show math.equation.where(block: true): it => {
-    set align(left)
+    set align(center)
     // Indent
     pad(left: 2em, it)
   }
