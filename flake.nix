@@ -85,6 +85,7 @@
               noto-fonts
               open-sans
               jetbrains-mono
+              texlivePackages.charter
             ];
           };
         };

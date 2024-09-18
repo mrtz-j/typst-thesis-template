@@ -14,7 +14,12 @@
   page(
     numbering: none,
     [
-      #text(14pt, weight: "bold", font: "Open Sans", "Supervisors")
+      #text(
+        14pt,
+        weight: "bold",
+        font: ("Open Sans", "Noto Sans"),
+        "Supervisors",
+      )
       #grid(
         // NOTE: If supervisor title, name and affiliation overlap in the PDF, try changing the column widths here
         columns: (120pt, 100pt, 200pt),

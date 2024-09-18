@@ -18,8 +18,7 @@
     number-align: center,
   )
 
-  let body-font = "Open Sans"
-  let sans-font = "Noto Sans"
+  let body-font = ("Open Sans", "Noto Sans")
 
   set text(font: body-font, size: 12pt, lang: "en")
 
@@ -78,7 +77,7 @@
     text(
       10pt,
       weight: "light",
-      degree + " thesis in " + major + "  — " + submission-date.display(),
+      degree + " thesis in " + major + "  — " + submission-date.display("[month repr:long] [year]"),
     ),
   )
 

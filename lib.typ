@@ -1,6 +1,6 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
-#import "@preview/outrageous:0.1.0"
+#import "@preview/outrageous:0.2.0"
 // TODO: Update when 0.4.2 is published
 // #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
 #import "modules/glossarium.typ": make-glossary, print-glossary, gls, glspl
@@ -255,11 +255,11 @@
 
   // Set the body font.
   // Default is Charter at 11pt
-  set text(font: ("Charter"), size: 11pt)
+  set text(font: "Charter", size: 11pt)
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
-  show raw: set text(font: ("JetBrains Mono", "DejaVu Sans Mono"), size: 9pt)
+  show raw: set text(font: ("JetBrains Mono", "Fira Code"), size: 9pt)
 
   // Configure page size and margins.
   set page(
@@ -296,7 +296,7 @@
 
   // Style chapter headings
   show heading.where(level: 1): it => {
-    set text(font: "Open Sans", weight: "bold", size: 24pt)
+    set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
 
     // FIXME: Has no effect, still shows "Section"
     set heading(supplement: [Chapter])
@@ -347,7 +347,7 @@
 
   // Do not hyphenate headings.
   show heading: set text(
-    font: "Open Sans",
+    font: ("Open Sans", "Noto Sans"),
     weight: "bold",
     features: ("sc", "si", "scit"),
     hyphenate: false,
@@ -431,7 +431,7 @@
           }
           text(
             weight: "thin",
-            font: "Open Sans",
+            font: ("Open Sans", "Noto Sans"),
             size: 8pt,
             fill: uit-gray-color,
             // FIXME: Seems to have no effect
@@ -569,7 +569,7 @@
         ..outrageous.presets.typst,
         font-weight: ("bold", auto),
         fill: (none, auto),
-        font: ("Carter", "Carter"),
+        font: ("Charter", "Charter"),
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing
