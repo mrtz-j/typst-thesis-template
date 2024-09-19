@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        uses: errata-ai/vale-action@reviewdog
+      - uses: errata-ai/vale-action@reviewdog
         with:
           files: template
           reporter: github-pr-check
