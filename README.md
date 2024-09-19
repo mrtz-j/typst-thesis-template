@@ -8,20 +8,20 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 
 Using the Typst Universe package/template:
 
-```console
+```bash
 typst init @preview/modern-uit-thesis:0.1.1
 ```
 
 ### Fonts
 
-This template uses a number of different fonts:
+This template uses different fonts:
 
 - Open Sans (Noto Sans)
 - JetBrains Mono (Fira Code)
 - Charter
 
-The above parenthesized fonts are fallback typefaces available by default in [the web app](https://typst.app).
-If you'd like to use the main fonts instead, simply upload the `.ttf`s to the web app and it will detect and apply them automatically.
+The preceding parenthesized fonts are fallback typefaces available by default in [the web app](https://typst.app).
+If you'd like to use the main fonts instead, upload the `.ttf`s to the web app, and it detects and apply them automatically.
 
 If you're running typst locally, install the fonts in a directory of your choosing and specify it with `--font-path`.
 

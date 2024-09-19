@@ -39,3 +39,12 @@ jobs:
           comment_tag: file-upload
           message: |
             Thank you for your contribution. Review ready at: ${{ steps.upload.outputs.artifact-url }}
+  vale:
+    name: runner / vale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: errata-ai/vale-action@reviewdog
+        with
+          files: template
+          reporter: github-pr-check
