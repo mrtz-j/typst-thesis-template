@@ -45,6 +45,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         uses: errata-ai/vale-action@reviewdog
-        with
+        with:
           files: template
           reporter: github-pr-check
