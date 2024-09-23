@@ -6,10 +6,10 @@ This chapter will go into some basic features of the typst typesetting system, a
 We've already used headings a number of times in this template, and they are intuitive and easy to write. The syntax is markdown-like with `=` instead of `#` serving as its symbol. Chapters are the lowest depth headings, and this template styles them distinctly with a large graphic and new page, like we see here in @chp:typst_basics.
 
 === An even deeper heading <subsubsec:deepheading>
-We can also create sections of various depths, but only 2 (@subsec:headings) and 3 (@subsubsec:deepheading) is recommended.
+We can also create sections of various depths.
 
 ==== Super deep heading <subsubsubsec:superdeep>
-As we can see, depth 4 and beyond, like here in @subsubsubsec:superdeep, is not styled nicely in this template. Note that we can also easily give headings labels and reference them anywhere in the document: We can for instance refer to @chp:introduction from here. The same applies to any kind of figure. We should also mention that the prefix in for instance `<subsec:headings>` is only a suggestion to keep your labels organized, you can call it whatever you want.
+@subsubsubsec:superdeep is an example of heading of depth 4. Note that we can also easily give headings labels and reference them anywhere in the document: We can for instance refer to @chp:introduction from here. The same applies to any kind of figure. We should also mention that the prefix in for instance `<subsec:headings>` is only a suggestion to keep your labels organized, you can call it whatever you want.
 
 == Lists <subsec:lists>
 As with headings, typst has syntactic sugar for lists so that we can use simple markdown-like syntax to create them. This goes for both ordered lists:
