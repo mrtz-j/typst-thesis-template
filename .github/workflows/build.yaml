@@ -33,7 +33,7 @@ jobs:
           retention-days: 5
           
       - name: Comment PR Link
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
           reactions: eyes, rocket
           comment_tag: file-upload
