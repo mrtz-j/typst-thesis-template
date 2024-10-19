@@ -23,7 +23,7 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Build Thesis
-      - run: nix -Lv develop .#deafult --command typst compile ./template/thesis.typ thesis.pdf --root "./"
+        run: nix -Lv develop .#deafult --command typst compile ./template/thesis.typ thesis.pdf --root "./"
       - name: Upload Release Asset - Assignment
         id: upload
         uses: actions/upload-artifact@v4
