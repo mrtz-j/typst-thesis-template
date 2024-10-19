@@ -193,6 +193,12 @@ Codly also allows us to highlight code using line and column positions. @raw:pyt
 
 ] <raw:python>
 
+Code snippets can also be imported from files using the `code-block` macro. @raw:fsharp-file shows a F\# snippet imported from a file.
+
+#figure(caption: [F\# snippet imported from file], kind: raw)[
+  #code-block("Program.fsx", read("../code-snippets/Program.fsx"))
+] <raw:fsharp-file>
+
 // TODO: Make subfigures without subpar or figure out how to fix numbering
 == Subfigures <subsec:subfigures>
 A lot of times we want to display figures side by side and be able to reference them separately as well as together. To make this process easy, this thesis template includes the *subpar* #footnote[see #link("https://typst.app/universe/package/subpar")] package. It lets us easily lay out figures in a _grid_ while making all labels available for reference.
@@ -269,6 +275,19 @@ We can include as many figures as we want in the grid, and even mix and match fi
 ) <fig:uit_aurora>
 
 Another handy function available in this template is the `#dynamic-caption()`, which takes two arguments: a short and a long version of a caption. The long version is displayed under the figure, like in @fig:uit_aurora, however the short version is used in the List of Figures at the start of the thesis.
+
+Using the custom macro `csv-table` it is possible to include data dynamically for csv files. @table:csv-table demonstrates this.
+
+#figure(
+  csv-table(
+    tabledata: csv("../figures/table.csv"),
+    header-row: white,
+    odd-row: luma(240),
+    even-row: white,
+    columns: 3,
+  ),
+  caption: [A table with data from a csv file],
+) <table:csv-table>
 
 == Equations <subsec:equations>
 Typst has great built-in support for mathematical equations and this template applies numbering to them by default, so that we can refer to @equ:simple-equation just like we would a figure.

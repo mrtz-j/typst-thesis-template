@@ -35,9 +35,9 @@
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
 
 // Helper to display external codeblocks.
-//·Based·on·https://github.com/typst/typst/issues/1494
-#let code-block(filename) = raw(
-  read(filename),
+// Based on https://github.com/typst/typst/issues/1494
+#let code-block(filename, content) = raw(
+  content,
   block: true,
   lang: filename.split(".").at(-1),
 )
@@ -275,11 +275,14 @@
   )
 
   // Configure paragraph properties.
-  // Default leading is 0.65em.
-  set par(leading: 0.7em, justify: true, linebreaks: "optimized")
-
-  // Default spacing is 1.2em.
-  show par: set block(spacing: 1.35em)
+  // Default leading is 0.7em.
+  // Default spacing is 1.35em.
+  set par(
+    leading: 0.7em,
+    justify: true,
+    linebreaks: "optimized",
+    spacing: 1.35em,
+  )
 
   // Add some vertical spacing for all headings
   show heading: it => {
