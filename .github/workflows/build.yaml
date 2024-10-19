@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
 name: Build thesis
 
 on:
@@ -8,7 +9,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  build_release_thesis:
+  build-nix:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,12 +17,13 @@ jobs:
         with:
           fetch-depth: '0'
           lfs: true
-
-      - uses: typst-community/setup-typst@v3
-      - run: typst compile ./template/thesis.typ thesis.pdf --root "./"
-      # NOTE: Update proposal.typ and comment out the following line if you want to build the proposal.
-      # - run: typst compile proposal.typ proposal.pdf
-      
+      - name: Install Nix
+        uses: cachix/install-nix-action@V28
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Build Thesis
+      - run: nix -Lv develop .#deafult --command typst compile ./template/thesis.typ thesis.pdf --root "./"
       - name: Upload Release Asset - Assignment
         id: upload
         uses: actions/upload-artifact@v4
@@ -31,11 +33,10 @@ jobs:
           path: ./thesis.pdf
           name: thesis.pdf
           retention-days: 5
-          
       - name: Comment PR Link
         uses: thollander/actions-comment-pull-request@v3
         with:
           reactions: eyes, rocket
-          comment_tag: file-upload
+          comment-tag: file-upload
           message: |
             Thank you for your contribution. Review ready at: ${{ steps.upload.outputs.artifact-url }}

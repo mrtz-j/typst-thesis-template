@@ -1,4 +1,5 @@
-name: Build and release thesis
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+name: Build and Release thesis
 
 on:
   push:
@@ -17,13 +18,18 @@ jobs:
         with:
           fetch-depth: '0'
           lfs: true
-
+      - name: Install Nix
+        uses: cachix/install-nix-action@V28
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Build Thesis
+      - run: nix -Lv develop .#deafult --command typst compile ./template/thesis.typ thesis.pdf --root "./"
       - name: Create initial tag
         run: |
           if [ -z "$(git tag -l 'v*')" ]; then
             git tag v0.0.0
           fi
-
       - name: Bump version and push tag
         id: bump
         uses: anothrNick/github-tag-action@1.71.0
@@ -31,12 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: 'patch'
-
-      - uses: typst-community/setup-typst@v3
-      - run: typst compile ./template/thesis.typ thesis.pdf --root "./"
-      # NOTE: Add back proposal.typ when ready
-      # - run: typst compile proposal.typ proposal.pdf
-
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -45,6 +45,5 @@ jobs:
           name: Version ${{ steps.bump.outputs.new_tag }}
           draft: false
           prerelease: false
-          # NOTE: Add back proposal.pdf when ready
           files: |
             thesis.pdf
