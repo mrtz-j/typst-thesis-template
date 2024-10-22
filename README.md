@@ -9,7 +9,7 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 Using the Typst Universe package/template:
 
 ```console
-typst init @preview/modern-uit-thesis:0.1.1
+typst init @preview/modern-uit-thesis:0.1.2
 ```
 
 ### Fonts
@@ -45,8 +45,8 @@ If you're running typst locally, install the fonts in a directory of your choosi
 - [ ] Good examples
   - [x] Use of figures, tables, code blocks
     - [x] Side by side
-    - [ ] Create table from CSV
-    - [ ] Codeblocks with External Code
+    - [x] Create table from CSV
+    - [x] Codeblocks with External Code
   - [x] Citations
   - [x] Lists (unordered, ordered)
   - [x] Equations
