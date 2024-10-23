@@ -1,9 +1,7 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
 #import "@preview/outrageous:0.2.0"
-// TODO: Update when 0.4.2 is published
-// #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
-#import "modules/glossarium.typ": make-glossary, print-glossary, gls, glspl
+#import "@preview/glossarium:0.5.0": make-glossary, register-glossary
 #import "@preview/codly:1.0.0": *
 
 #import "modules/frontpage.typ": frontpage
@@ -216,6 +214,7 @@
 
   // Required init for packages
   show: make-glossary
+  register-glossary(abbreviations)
   show: codly-init
 
   // Optimize numbers with superscript
