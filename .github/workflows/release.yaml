@@ -24,7 +24,7 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Build Thesis
-        run: nix -Lv develop .#default --command typst compile ./template/thesis.typ thesis.pdf --root "./"
+        run: nix -Lv build .#default
       - name: Create initial tag
         run: |
           if [ -z "$(git tag -l 'v*')" ]; then
@@ -46,4 +46,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            thesis.pdf
+            ./result/thesis.pdf
