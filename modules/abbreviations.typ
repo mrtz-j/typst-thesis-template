@@ -1,6 +1,4 @@
-// TODO: Update when 0.4.2 is published
-// #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
-#import "glossarium.typ": print-glossary
+#import "@preview/glossarium:0.5.0": print-glossary
 
 // Only print short and long, disregard rest
 #let custom-print-title(entry) = {
@@ -18,8 +16,6 @@
     #print-glossary(
       abbreviations,
       user-print-title: custom-print-title,
-      // Show all terms even if they are not referenced
-      show-all: true,
       // Disable back references in abbreviations list
       disable-back-references: true
     )

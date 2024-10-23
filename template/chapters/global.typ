@@ -1,5 +1,5 @@
 //
-// About the nixy-typst-thesis package used:
+// About modern-uit-thesis:
 //
 
 // NOTE:
@@ -16,7 +16,7 @@
 //    If you like to modify "lib.typ", copy the file from the cache directory
 //    or get it from the 'official' Typst Universe package git repo
 //       (i.e. from proper 'version number subdir' of
-//         https://github.com/typst/packages/tree/main/packages/preview/fh-joanneum-iit-thesis)
+//         https://github.com/typst/packages/tree/main/packages/preview/modern-uit-thesis)
 //    Copy the lib.typ to a (sub)folder of this project and
 //    set the path accordingly.
 #import "../../lib.typ": *
@@ -25,7 +25,5 @@
 // Other packages used:
 //
 
-// See https://github.com/typst/packages/tree/main/packages/preview/glossarium
-// TODO: Update when 0.4.2 is published
-// #import "@preview/glossarium:0.4.2": make-glossary, print-glossary, gls, glspl
+#import "@preview/glossarium:0.5.0": make-glossary, print-glossary, gls, glspl
 #import "@preview/codly:1.0.0": *
