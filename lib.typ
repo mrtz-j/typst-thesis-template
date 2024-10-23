@@ -157,10 +157,7 @@
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
   // Example: datetime(year: 2024, month: 03, day: 17)
-  date: datetime.today(),
-
-  // The date that you are submitting your work.
-  submission-date: datetime.today(),
+  date: datetime(year: 2024, month: 12, day: 16),
 
   // Format in which the date will be displayed on cover page.
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
@@ -258,7 +255,7 @@
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
-  show raw: set text(font: ("JetBrains Mono", "Fira Code"), size: 9pt)
+  show raw: set text(font: ("JetBrains Mono", "DejaVu Sans Mono"), size: 9pt)
 
   // Configure page size and margins.
   set page(
@@ -520,7 +517,7 @@
     faculty: faculty,
     department: department,
     major: major,
-    submission-date: submission-date,
+    date: date,
   )
 
   // Use front matter stylings

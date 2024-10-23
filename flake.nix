@@ -3,6 +3,10 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -21,74 +25,77 @@
     };
   };
   outputs =
-    { self
-    , nixpkgs
-    , flake-utils
-    , pre-commit-hooks
-    , typst-nix
-    , typst-packages
-    , ...
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in
-      with pkgs;
-      {
-        checks = {
-          pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-            hooks = {
-              nixpkgs-fmt.enable = true;
+    inputs:
+    inputs.parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+      imports = [
+        inputs.pre-commit-hooks.flakeModule
+      ];
+      perSystem =
+        {
+          system,
+          config,
+          pkgs,
+          ...
+        }:
+        {
+          pre-commit = {
+            check.enable = true;
+            settings.hooks = {
+              nixfmt-rfc-style.enable = true;
+              deadnix.enable = true;
+              statix.enable = true;
               typstyle.enable = true;
             };
           };
-        };
 
-        packages = {
-          default = typst-nix.lib.${system}.mkTypstDerivation {
-            name = "nixy-thesis-typst";
-            src = ./.;
-            extraFonts = with pkgs; [
-              noto-fonts
-              open-sans
-              jetbrains-mono
+          packages = {
+            default = inputs.typst-nix.lib.${system}.mkTypstDerivation {
+              name = "modern-uit-thesis";
+              src = ./.;
+              extraFonts = with pkgs; [
+                noto-fonts
+                open-sans
+                jetbrains-mono
+              ];
+              extraCompileFlags = [
+                "--root"
+                "./"
+              ];
+              mainFile = "template/thesis.typ";
+              outputFile = "thesis.pdf";
+              typstPackages = {
+                preview = "${inputs.typst-packages}/packages/preview";
+              };
+            };
+          };
+
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              typst
+              typstyle
+              tinymist
+              just
+              typos
             ];
-            extraCompileFlags = [
-              "--root"
-              "./"
-            ];
-            mainFile = "template/thesis.typ";
-            outputFile = "thesis.pdf";
-            typstPackages = {
-              preview = "${typst-packages}/packages/preview";
+
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            '';
+
+            TYPST_FONT_PATHS = pkgs.symlinkJoin {
+              name = "typst-fonts";
+              paths = with pkgs; [
+                noto-fonts
+                open-sans
+                jetbrains-mono
+                texlivePackages.charter
+              ];
             };
           };
         };
-
-        devShells.default = mkShell {
-          inherit (self.checks.${system}.pre-commit-check) shellHook;
-
-          nativeBuildInputs = [
-            self.checks.${system}.pre-commit-check.enabledPackages
-            typst
-            typstyle
-            tinymist
-            just
-            typos
-          ];
-
-          TYPST_FONT_PATHS = pkgs.symlinkJoin {
-            name = "typst-fonts";
-            paths = with pkgs; [
-              noto-fonts
-              open-sans
-              jetbrains-mono
-              texlivePackages.charter
-            ];
-          };
-        };
-      }
-    );
+    };
 }

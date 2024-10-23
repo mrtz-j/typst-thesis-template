@@ -12,7 +12,7 @@
   )[
     #text(
       weight: 700,
-      counter("feedback").display() + ". Feedback: ",
+      context (counter("feedback").display() + ". Feedback: "),
     )
     #feedback
     #if response != none {
