@@ -30,7 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: ./thesis.pdf
+          path: ./result/thesis.pdf
           name: thesis.pdf
           retention-days: 5
       - name: Comment PR Link
