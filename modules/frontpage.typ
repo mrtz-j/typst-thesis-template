@@ -6,7 +6,7 @@
   faculty: "",
   department: "",
   major: "",
-  submission-date: none,
+  date: none,
 ) = {
   set document(title: title, author: author)
   set page(
@@ -77,7 +77,7 @@
     text(
       10pt,
       weight: "light",
-      degree + " thesis in " + major + "  — " + submission-date.display("[month repr:long] [year]"),
+      degree + " thesis in " + major + "  — " + date.display("[month repr:long] [year]"),
     ),
   )
 

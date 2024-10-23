@@ -70,7 +70,7 @@
   table-index: true,
   listing-index: true,
   abbreviations: abbreviations,
-  submission-date: datetime.today(),
+  date: datetime(year: 2024, month: 12, day: 16),
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
 )
 
