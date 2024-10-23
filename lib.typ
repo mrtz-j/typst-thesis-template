@@ -7,9 +7,9 @@
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
 #import "modules/supervisors.typ": supervisors-page
-#import "modules/acknowledgements.typ": acknowledgements_page
-#import "modules/abstract.typ": abstract_page
-#import "modules/epigraph.typ": epigraph_page
+#import "modules/epigraph.typ": epigraph-page
+#import "modules/abstract.typ": abstract-page
+#import "modules/acknowledgements.typ": acknowledgements-page
 #import "modules/abbreviations.typ": abbreviations-page
 
 // Workaround for the lack of an `std` scope.
@@ -74,7 +74,7 @@
 // -- Styling rules for Front-Main-Back matter --
 
 // Common styles for front matter
-#let front_matter(body) = {
+#let front-matter(body) = {
   set page(numbering: "i")
   counter(page).update(1)
   set heading(numbering: none)
@@ -86,7 +86,7 @@
 }
 
 // Common styles for main matter
-#let main_matter(body) = {
+#let main-matter(body) = {
   set page(numbering: "1",
     // Only show numbering in footer when no chapter header is present
     footer: context {
@@ -109,7 +109,7 @@
 }
 
 // Common styles for back matter
-#let back_matter(body) = {
+#let back-matter(body) = {
   // TODO: Should not outline bibliography, but maybe appendix?
   set heading(numbering: "A", supplement: [Appendix], outlined: false)
   // Make sure headings start with 'A'
@@ -303,7 +303,7 @@
     // FIXME: Has no effect, still shows "Section"
     set heading(supplement: [Chapter])
 
-    let heading_number = if heading.numbering == none {
+    let heading-number = if heading.numbering == none {
       []
     } else {
       text(counter(heading.where(level: 1)).display(), size: 62pt)
@@ -334,7 +334,7 @@
             (35pt, -90pt),
           ),
         ),
-        heading_number,
+        heading-number,
       )
       v(1.0em)
       it.body
@@ -524,19 +524,19 @@
   )
 
   // Use front matter stylings
-  show: front_matter
+  show: front-matter
 
   // List of Supervisors
   supervisors-page(supervisors)
 
   // Epigraph
-  epigraph_page()[#epigraph]
+  epigraph-page()[#epigraph]
 
   // Abstract
-  abstract_page()[#abstract]
+  abstract-page()[#abstract]
 
   // Acknowledgements
-  acknowledgements_page()[#acknowledgements]
+  acknowledgements-page()[#acknowledgements]
 
   // -- Outlines --
 
@@ -638,7 +638,7 @@
   // -- Main matter --
 
   // Use main matter stylings
-  show: main_matter
+  show: main-matter
 
   // Thesis content
   body
@@ -646,7 +646,7 @@
   // -- Back matter --
 
   // Use back matter stylings
-  show: back_matter
+  show: back-matter
 
   // Style bibliography
   if bibliography != none {
