@@ -1,14 +1,9 @@
 {
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
     };
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
@@ -56,10 +51,11 @@
             default = inputs.typst-nix.lib.${system}.mkTypstDerivation {
               name = "modern-uit-thesis";
               src = ./.;
-              extraFonts = with pkgs; [
-                noto-fonts
-                open-sans
-                jetbrains-mono
+              extraFonts = [
+                pkgs.noto-fonts
+                pkgs.open-sans
+                pkgs.jetbrains-mono
+                pkgs.texlivePackages.charter
               ];
               extraCompileFlags = [
                 "--root"
