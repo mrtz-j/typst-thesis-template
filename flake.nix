@@ -46,19 +46,21 @@
               typstyle.enable = true;
             };
           };
-          packages.default = {
+          packages = {
             default = inputs.typst-nix.lib.${system}.mkTypstDerivation {
               name = "modern-uit-thesis";
               src = ./.;
-              extraFonts = [
-                pkgs.noto-fonts
-                pkgs.open-sans
-                pkgs.jetbrains-mono
-                pkgs.texlivePackages.charter
-              ];
+              extraFonts = pkgs.symlinkJoin {
+                name = "typst-fonts";
+                paths = with pkgs; [
+                  noto-fonts
+                  open-sans
+                  jetbrains-mono
+                  texlivePackages.charter
+                ];
+              };
               extraCompileFlags = [
                 "--root"
-                "--font-path ${pkgs.noto-fonts} ${pkgs.jetbrains-mono} ${pkgs.open-sans} ${pkgs.texlivePackages.charter}"
                 "./"
               ];
               mainFile = "template/thesis.typ";
