@@ -46,8 +46,7 @@
               typstyle.enable = true;
             };
           };
-
-          packages = {
+          packages.default = {
             default = inputs.typst-nix.lib.${system}.mkTypstDerivation {
               name = "modern-uit-thesis";
               src = ./.;
@@ -59,6 +58,7 @@
               ];
               extraCompileFlags = [
                 "--root"
+                "--font-path ${pkgs.noto-fonts} ${pkgs.jetbrains-mono} ${pkgs.open-sans} ${pkgs.texlivePackages.charter}"
                 "./"
               ];
               mainFile = "template/thesis.typ";
@@ -68,7 +68,6 @@
               };
             };
           };
-
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               typst
