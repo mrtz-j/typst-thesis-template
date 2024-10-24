@@ -82,16 +82,6 @@
             shellHook = ''
               ${config.pre-commit.installationScript}
             '';
-
-            TYPST_FONT_PATHS = pkgs.symlinkJoin {
-              name = "typst-fonts";
-              paths = with pkgs; [
-                noto-fonts
-                open-sans
-                jetbrains-mono
-                texlivePackages.charter
-              ];
-            };
           };
         };
     };
