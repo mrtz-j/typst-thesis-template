@@ -13,6 +13,17 @@
   // --- Supervisors ---
   page(
     numbering: none,
+    footer: [
+      #align(center)[
+        #par(spacing: .75em)[
+          This document was typeset with Typst using the _modern UiT thesis_ template
+
+          #sym.copyright 2024 -- Moritz Jörg and Ole Tytlandsvik
+
+          #link("https://github.com/mrtz-j/typst-thesis-template")
+        ]
+      ]
+    ],
     [
       #text(
         14pt,

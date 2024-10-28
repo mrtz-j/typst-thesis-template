@@ -1,6 +1,6 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
-#import "@preview/outrageous:0.2.0"
+#import "@preview/outrageous:0.3.0"
 #import "@preview/glossarium:0.5.0": make-glossary, register-glossary
 #import "@preview/codly:1.0.0": *
 
@@ -250,8 +250,8 @@
   show footnote.entry: set par(hanging-indent: 1.5em)
 
   // Set the body font.
-  // Default is Charter at 11pt
-  set text(font: "Charter", size: 11pt)
+  // Default is Charis SIL at 11pt
+  set text(font: ("Charis SIL", "Charter"), size: 11pt)
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
@@ -568,7 +568,7 @@
         ..outrageous.presets.typst,
         font-weight: ("bold", auto),
         fill: (none, auto),
-        font: ("Charter", "Charter"),
+        font: (("Charis SIL", "Charter"), ("Charis SIL", "Charter")),
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing

@@ -18,7 +18,7 @@ This template uses a number of different fonts:
 
 - Open Sans (Noto Sans)
 - JetBrains Mono (Fira Code)
-- Charter
+- Charis SIL (Charter)
 
 The above parenthesized fonts are fallback typefaces available by default in [the web app](https://typst.app).
 If you'd like to use the main fonts instead, simply upload the `.ttf`s to the web app and it will detect and apply them automatically.
