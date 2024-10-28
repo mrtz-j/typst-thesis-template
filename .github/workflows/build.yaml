@@ -18,7 +18,7 @@ jobs:
           fetch-depth: '0'
           lfs: true
       - name: Install Nix
-        uses: cachix/install-nix-action@V28
+        uses: cachix/install-nix-action@v30
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
