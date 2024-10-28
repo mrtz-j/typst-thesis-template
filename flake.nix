@@ -26,9 +26,7 @@
         "aarch64-darwin"
         "x86_64-linux"
       ];
-      imports = [
-        inputs.pre-commit-hooks.flakeModule
-      ];
+      imports = [ inputs.pre-commit-hooks.flakeModule ];
       perSystem =
         {
           system,
