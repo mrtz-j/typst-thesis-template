@@ -34,6 +34,17 @@
           pkgs,
           ...
         }:
+        let
+          fontPackages = pkgs.symlinkJoin {
+            name = "typst-fonts";
+            paths = with pkgs; [
+              noto-fonts
+              open-sans
+              jetbrains-mono
+              charis-sil
+            ];
+          };
+        in
         {
           pre-commit = {
             check.enable = true;
@@ -48,15 +59,7 @@
             default = inputs.typst-nix.lib.${system}.mkTypstDerivation {
               name = "modern-uit-thesis";
               src = ./.;
-              extraFonts = pkgs.symlinkJoin {
-                name = "typst-fonts";
-                paths = with pkgs; [
-                  noto-fonts
-                  open-sans
-                  jetbrains-mono
-                  texlivePackages.charter
-                ];
-              };
+              extraFonts = fontPackages;
               extraCompileFlags = [
                 "--root"
                 "./"
@@ -80,6 +83,8 @@
             shellHook = ''
               ${config.pre-commit.installationScript}
             '';
+
+            TYPST_FONT_PATHS = fontPackages;
           };
         };
     };

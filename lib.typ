@@ -250,8 +250,8 @@
   show footnote.entry: set par(hanging-indent: 1.5em)
 
   // Set the body font.
-  // Default is Charter at 11pt
-  set text(font: "Charter", size: 11pt)
+  // Default is Charis SIL at 11pt
+  set text(font: ("Charis SIL", "Charter"), size: 11pt)
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
@@ -568,7 +568,7 @@
         ..outrageous.presets.typst,
         font-weight: ("bold", auto),
         fill: (none, auto),
-        font: ("Charter", "Charter"),
+        font: (("Charis SIL", "Charter"), ("Charis SIL", "Charter")),
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing
