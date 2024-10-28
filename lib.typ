@@ -1,6 +1,6 @@
 #import "@preview/subpar:0.1.1"
 #import "@preview/physica:0.9.3": *
-#import "@preview/outrageous:0.2.0"
+#import "@preview/outrageous:0.3.0"
 #import "@preview/glossarium:0.5.0": make-glossary, register-glossary
 #import "@preview/codly:1.0.0": *
 
