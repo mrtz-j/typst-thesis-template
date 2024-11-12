@@ -35,6 +35,7 @@
           ...
         }:
         let
+          xcharter = pkgs.callPackage ./xcharter.nix { inherit pkgs; };
           fontPackages = pkgs.symlinkJoin {
             name = "typst-fonts";
             paths = with pkgs; [
@@ -42,6 +43,7 @@
               open-sans
               jetbrains-mono
               charis-sil
+              xcharter
             ];
           };
         in

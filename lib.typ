@@ -87,6 +87,7 @@
 
 // Common styles for main matter
 #let main-matter(body) = {
+  set text(features: ("onum",))
   set page(numbering: "1",
     // Only show numbering in footer when no chapter header is present
     footer: context {
@@ -250,8 +251,8 @@
   show footnote.entry: set par(hanging-indent: 1.5em)
 
   // Set the body font.
-  // Default is Charis SIL at 11pt
-  set text(font: ("Charis SIL", "Charter"), size: 11pt)
+  // Default is XCharter at 11pt
+  set text(font: ("XCharter", "Charter"), size: 11pt)
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
@@ -309,7 +310,11 @@
     let heading-number = if heading.numbering == none {
       []
     } else {
-      text(counter(heading.where(level: 1)).display(), size: 62pt)
+      text(
+        counter(heading.where(level: 1)).display(),
+        features: ("lnum",),
+        size: 62pt,
+      )
     }
 
     // Reset figure numbering on every chapter start
@@ -355,7 +360,6 @@
   show heading: set text(
     font: ("Open Sans", "Noto Sans"),
     weight: "bold",
-    features: ("sc", "si", "scit"),
     hyphenate: false,
   )
 
@@ -440,8 +444,6 @@
             font: ("Open Sans", "Noto Sans"),
             size: 8pt,
             fill: uit-gray-color,
-            // FIXME: Seems to have no effect
-            // features: ("sc", "si", "scit"),
             fill-line(upper(left-text), upper(right-text)),
           )
         }
@@ -453,6 +455,7 @@
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
+    set text(font: ("XCharter", "Charter"))
     let h1 = counter(heading).get().first()
     numbering("(1.1)", h1, n)
   })
@@ -575,7 +578,6 @@
         ..outrageous.presets.typst,
         font-weight: ("bold", auto),
         fill: (none, auto),
-        font: (("Charis SIL", "Charter"), ("Charis SIL", "Charter")),
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing
