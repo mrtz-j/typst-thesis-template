@@ -280,6 +280,15 @@
     spacing: 1.35em,
   )
 
+  // Configure reference supplement for headings
+  set ref(supplement: it => {
+    if it.func() == heading {
+      [Chapter]
+    } else {
+      it.supplement
+    }
+  })
+
   // Add some vertical spacing for all headings
   show heading: it => {
     let body = if it.level > 1 {
@@ -296,9 +305,6 @@
   // Style chapter headings
   show heading.where(level: 1): it => {
     set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
-
-    // FIXME: Has no effect, still shows "Section"
-    set heading(supplement: [Chapter])
 
     let heading-number = if heading.numbering == none {
       []
@@ -343,6 +349,7 @@
 
   // Configure heading numbering.
   set heading(numbering: "1.1")
+
 
   // Do not hyphenate headings.
   show heading: set text(
