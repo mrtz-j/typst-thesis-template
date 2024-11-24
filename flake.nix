@@ -42,7 +42,6 @@
               noto-fonts
               open-sans
               jetbrains-mono
-              charis-sil
               xcharter
             ];
           };
