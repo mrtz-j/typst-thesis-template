@@ -473,17 +473,28 @@
     let h1 = counter(heading).get().first()
     numbering("1.1", h1, n)
   })
+
   set figure.caption(separator: [ -- ])
 
-  // Place table captions above table
-  show figure.where(kind: table): it => {
-    set figure.caption(position: top)
-    // Break large tables across pages.
-    set block(breakable: true)
-    it
+  show figure.caption: c => {
+    if c.numbering == none {
+      c
+    } else {
+      text(weight: "bold")[
+        #c.supplement #context c.counter.display(c.numbering)
+      ]
+      c.separator
+      c.body
+    }
   }
 
   // -- Tables --
+
+  // Break large tables across pages.
+  show figure.where(kind: table): it => {
+    set block(breakable: true)
+    it
+  }
 
   // Use lighter gray color for table stroke
   set table(
@@ -505,15 +516,40 @@
 
   // Show a small maroon circle next to external links.
   show link: it => {
-    // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label {
-      return it
-    }
     it
     h(1.6pt)
     super(
       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
     )
+  }
+
+  // -- Lists --
+
+  let list-spacing = 18pt
+  let nested-list-spacing = 12pt
+  set enum(indent: list-spacing, spacing: list-spacing)
+  set list(indent: list-spacing, spacing: list-spacing)
+  let show-list-enum(it) = {
+    // Reduce spacing for nested list
+    set enum(indent: nested-list-spacing, spacing: nested-list-spacing)
+    set list(indent: nested-list-spacing, spacing: nested-list-spacing)
+    // Reduce top and bottom padding for nested list
+    let padding-y = {
+      if it.spacing == list-spacing {
+        v(list-spacing / 2)
+      } else {
+        v(1pt)
+      }
+    }
+    padding-y
+    it
+    padding-y
+  }
+  show enum: it => {
+    show-list-enum(it)
+  }
+  show list: it => {
+    show-list-enum(it)
   }
 
   // -- Front matter --

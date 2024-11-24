@@ -16,10 +16,11 @@ As with headings, typst has syntactic sugar for lists so that we can use simple 
 - One list item
 - Another list item
   - A sub-item
+  - Another sub-item
 
 ...as well as ordered lists:
-1. A numbered list item
-2. Another one
++ A numbered list item
++ Another one
   - Sub-items can go here too
 
 == Other Nifty Features <subsec:nifty>
