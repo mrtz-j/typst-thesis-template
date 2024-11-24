@@ -473,7 +473,20 @@
     let h1 = counter(heading).get().first()
     numbering("1.1", h1, n)
   })
+
   set figure.caption(separator: [ -- ])
+
+  show figure.caption: c => {
+    if c.numbering == none {
+      c
+    } else {
+      text(weight: "bold")[
+        #c.supplement #c.counter.display(c.numbering)
+      ]
+      c.separator
+      c.body
+    }
+  }
 
   // Place table captions above table
   show figure.where(kind: table): it => {
