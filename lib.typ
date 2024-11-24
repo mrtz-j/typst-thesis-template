@@ -481,7 +481,7 @@
       c
     } else {
       text(weight: "bold")[
-        #c.supplement #c.counter.display(c.numbering)
+        #c.supplement #context c.counter.display(c.numbering)
       ]
       c.separator
       c.body
