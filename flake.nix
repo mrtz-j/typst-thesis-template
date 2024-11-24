@@ -35,13 +35,14 @@
           ...
         }:
         let
+          xcharter = pkgs.callPackage ./xcharter.nix { };
           fontPackages = pkgs.symlinkJoin {
             name = "typst-fonts";
             paths = with pkgs; [
               noto-fonts
               open-sans
               jetbrains-mono
-              charis-sil
+              xcharter
             ];
           };
         in

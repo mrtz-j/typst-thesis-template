@@ -87,6 +87,9 @@
   ),
 ))
 
+// If you wish to use lining figures rather than oldstyle figures, uncomment this line.
+// #set text(features: ("lnum",))
+
 // Include as many chapters as you like.
 
 = Introduction <chp:introduction>
