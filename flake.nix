@@ -35,7 +35,7 @@
           ...
         }:
         let
-          xcharter = pkgs.callPackage ./xcharter.nix { inherit pkgs; };
+          xcharter = pkgs.callPackage ./xcharter.nix { };
           fontPackages = pkgs.symlinkJoin {
             name = "typst-fonts";
             paths = with pkgs; [
