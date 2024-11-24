@@ -488,15 +488,13 @@
     }
   }
 
-  // Place table captions above table
+  // -- Tables --
+
+  // Break large tables across pages.
   show figure.where(kind: table): it => {
-    set figure.caption(position: top)
-    // Break large tables across pages.
     set block(breakable: true)
     it
   }
-
-  // -- Tables --
 
   // Use lighter gray color for table stroke
   set table(
