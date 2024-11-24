@@ -516,15 +516,40 @@
 
   // Show a small maroon circle next to external links.
   show link: it => {
-    // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label {
-      return it
-    }
     it
     h(1.6pt)
     super(
       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
     )
+  }
+
+  // -- Lists --
+
+  let list-spacing = 18pt
+  let nested-list-spacing = 12pt
+  set enum(indent: list-spacing, spacing: list-spacing)
+  set list(indent: list-spacing, spacing: list-spacing)
+  let show-list-enum(it) = {
+    // Reduce spacing for nested list
+    set enum(indent: nested-list-spacing, spacing: nested-list-spacing)
+    set list(indent: nested-list-spacing, spacing: nested-list-spacing)
+    // Reduce top and bottom padding for nested list
+    let padding-y = {
+      if it.spacing == list-spacing {
+        v(list-spacing / 2)
+      } else {
+        v(1pt)
+      }
+    }
+    padding-y
+    it
+    padding-y
+  }
+  show enum: it => {
+    show-list-enum(it)
+  }
+  show list: it => {
+    show-list-enum(it)
   }
 
   // -- Front matter --
