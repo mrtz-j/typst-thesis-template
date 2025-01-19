@@ -1,8 +1,14 @@
-#import "@preview/subpar:0.1.1"
-#import "@preview/physica:0.9.3": *
+// Modern UiT Thesis Template
+//
+// This is a modern thesis template for UiT The Arctic University of Norway.
+// Requires parameters set in the `thesis.typ` file.
+//
+
+#import "@preview/subpar:0.2.0"
+#import "@preview/physica:0.9.4": *
 #import "@preview/outrageous:0.3.0"
-#import "@preview/glossarium:0.5.0": make-glossary, register-glossary
-#import "@preview/codly:1.0.0": *
+#import "@preview/glossarium:0.5.1": make-glossary, register-glossary
+#import "@preview/codly:1.2.0": *
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
@@ -51,15 +57,15 @@
   let tableheadings = tabledata.first()
   let data = tabledata.slice(1).flatten()
   table(
-    columns: columns, fill: (_, row) =>
-    if row == 0 {
+    columns: columns, fill: (_, row) => if row == 0 {
       header-row // color for header row
     } else if calc.odd(row) {
       odd-row // each other row colored
     } else {
       even-row
-    }, align: (col, row) =>
-    if row == 0 { center } else { left }, ..tableheadings.map(x => [*#x*]), // bold headings
+    }, align: (col, row) => if row == 0 { center } else {
+      left
+    }, ..tableheadings.map(x => [*#x*]), // bold headings
     ..data,
   )
 }
@@ -88,7 +94,8 @@
 // Common styles for main matter
 #let main-matter(body) = {
   set text(features: ("onum",))
-  set page(numbering: "1",
+  set page(
+    numbering: "1",
     // Only show numbering in footer when no chapter header is present
     footer: context {
       let chapters = heading.where(level: 1)
@@ -97,7 +104,7 @@
       } else {
         none
       }
-    }
+    },
   )
   counter(page).update(1)
   counter(heading).update(0)
@@ -125,77 +132,60 @@
 #let thesis(
   // The title for your work.
   title: [Your Title],
-
   // Subtitle for your work.
   subtitle: none,
-
   // Author.
   author: "Author",
-
   // The supervisor(s) for your work. Takes an array of "Title", "Name", [Affiliation]
   supervisors: (
-    (title: "Your Supervisor",
-    name: "Supervisor Name",
-    affiliation: [UiT The Arctic University of Norway, \
-      Faculty of Science and Technology, \
-      Department of Computer Science])
+    (
+      title: "Your Supervisor",
+      name: "Supervisor Name",
+      affiliation: [UiT The Arctic University of Norway, \
+        Faculty of Science and Technology, \
+        Department of Computer Science],
+    )
   ),
-
   // The paper size to use.
   paper-size: "a4",
-
   // The degree you are working towards
   degree: "INF-3983 Capstone",
-
   // What field you are majoring in
   major: "Computer Science",
-
   // The faculty and department at which you are working
   faculty: "Faculty of Science and Technology",
   department: "Department of Computer Science",
-
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
   // Example: datetime(year: 2024, month: 03, day: 17)
   date: datetime(year: 2024, month: 12, day: 16),
-
   // Format in which the date will be displayed on cover page.
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",
-
   // The contents for the epigraph page. This will be displayed after the acknowledgements.
   // Can be omitted if you don't have one
   epigraph: none,
-
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
-
   // The contents for the acknowledgements page. This will be displayed after the
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
-
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
-
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib", title: "Bibliography", style: "ieee")
   // More info: https://typst.app/docs/reference/model/bibliography/
   bibliography: none,
-
   // Display an index of figures (images).
   figure-index: true,
-
   // Display an index of tables
   table-index: true,
-
   // Display an index of listings (code blocks).
   listing-index: true,
-
   // List of abbreviations
   abbreviations: none,
-
   // The content of your work.
   body,
 ) = {
@@ -282,13 +272,15 @@
   )
 
   // Configure reference supplement for headings
-  set ref(supplement: it => {
-    if it.func() == heading {
-      [Chapter]
-    } else {
-      it.supplement
-    }
-  })
+  set ref(
+    supplement: it => {
+      if it.func() == heading {
+        [Chapter]
+      } else {
+        it.supplement
+      }
+    },
+  )
 
   // Add some vertical spacing for all headings
   show heading: it => {
@@ -400,7 +392,7 @@
                 (subsections-before.last())
               } else {
                 // No subsections in this chapter
-                (none)
+                none
               }
             }
           }
@@ -413,7 +405,10 @@
         let subsection-text = if current-subsection != none {
           let subsection-numbering = current-subsection.numbering
           let location = current-subsection.location()
-          let subsection-count = numbering(subsection-numbering,..counter(heading).at(location))
+          let subsection-count = numbering(
+            subsection-numbering,
+            ..counter(heading).at(location),
+          )
 
           [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
         } else {
@@ -454,11 +449,13 @@
   // -- Equations --
 
   // Configure equation numbering.
-  set math.equation(numbering: n => {
-    set text(font: ("XCharter", "Charter"))
-    let h1 = counter(heading).get().first()
-    numbering("(1.1)", h1, n)
-  })
+  set math.equation(
+    numbering: n => {
+      set text(font: ("XCharter", "Charter"))
+      let h1 = counter(heading).get().first()
+      numbering("(1.1)", h1, n)
+    },
+  )
 
   show math.equation.where(block: true): it => {
     set align(center)
@@ -469,10 +466,12 @@
   // -- Figures --
 
   // Set figure numbering to follow chapter
-  set figure(numbering: n => {
-    let h1 = counter(heading).get().first()
-    numbering("1.1", h1, n)
-  })
+  set figure(
+    numbering: n => {
+      let h1 = counter(heading).get().first()
+      numbering("1.1", h1, n)
+    },
+  )
 
   set figure.caption(separator: [ -- ])
 
@@ -517,7 +516,9 @@
   // Show a small maroon circle next to external links.
   show link: it => {
     it
+    sym.wj
     h(1.6pt)
+    sym.wj
     super(
       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
     )
@@ -635,15 +636,13 @@
           } else {
             page
           }
-        }
+        },
       )
       #outline(title: "Contents")
     ]
 
     // Styling for remaining outlines
-    show outline.entry: outrageous
-      .show-entry
-      .with(
+    show outline.entry: outrageous.show-entry.with(
       ..outrageous.presets.typst,
       // Don't display 'figure' or 'table' before each entry
       body-transform: (_lvl, body) => {
@@ -657,7 +656,7 @@
       // Manually add spacing between fill and page number
       page-transform: (_lvl, page) => {
         [#h(entry-padding) #page]
-      }
+      },
     )
 
     // Remaining outlines are all optional
