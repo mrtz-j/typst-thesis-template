@@ -1,4 +1,4 @@
-#import "global.typ": *
+#import "../utils/global.typ": *
 #import "../utils/symbols.typ": *
 #import "../utils/todo.typ": *
 

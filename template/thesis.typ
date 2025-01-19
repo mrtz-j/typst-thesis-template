@@ -1,6 +1,6 @@
 // A central place where libraries are imported (or macros are defined)
 // which are used within all the chapters:
-#import "chapters/global.typ": *
+#import "utils/global.typ": *
 
 #let epigraph = [
   "The problem with object-oriented languages is they’ve got all this implicit \
@@ -75,17 +75,19 @@
 )
 
 // Code blocks
-#codly(languages: (
-  rust: (
-    name: "Rust",
-    color: rgb("#CE412B"),
+#codly(
+  languages: (
+    rust: (
+      name: "Rust",
+      color: rgb("#CE412B"),
+    ),
+    // NOTE: Hacky, but 'fs' doesn't syntax highlight
+    fsi: (
+      name: "F#",
+      color: rgb("#6a0dad"),
+    ),
   ),
-  // NOTE: Hacky, but 'fs' doesn't syntax highlight
-  fsi: (
-    name: "F#",
-    color: rgb("#6a0dad"),
-  ),
-))
+)
 
 // If you wish to use lining figures rather than oldstyle figures, uncomment this line.
 // #set text(features: ("lnum",))

@@ -1,3 +1,4 @@
+#import "../utils/global.typ": *
 #import "../utils/symbols.typ": LaTeX
 
 This chapter will go into some basic features of the typst typesetting system, and how to use them in conjunction with this thesis template. Note that you should supplement this with the official guides on the typst website #footnote()[see #link("https://typst.app/docs/tutorial/")].

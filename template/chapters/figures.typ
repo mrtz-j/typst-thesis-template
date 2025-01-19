@@ -1,4 +1,4 @@
-#import "global.typ": *
+#import "../utils/global.typ": *
 #import "../utils/caption.typ": dynamic-caption
 #import "../utils/symbols.typ": *
 #import "../utils/subfigure.typ": subfigure
@@ -182,9 +182,11 @@ We can also skip lines in the code snippet. Note that it doesn't actually skip l
 Codly also allows us to highlight code using line and column positions. @raw:python demonstrates highlighting a line and giving it a tag "assignment".
 
 #figure(caption: [Python snippet with highlights], kind: raw)[
-  #codly(highlights: (
-    (line: 1, start: 3, end: none, fill: blue, tag: "assignment"),
-  ))
+  #codly(
+    highlights: (
+      (line: 1, start: 3, end: none, fill: blue, tag: "assignment"),
+    ),
+  )
   ```python
   if __name__ == "__main__":
     d = {'a': 1}
