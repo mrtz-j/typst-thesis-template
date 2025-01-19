@@ -338,3 +338,14 @@ $ expval(p, psi) $ <equ:expval>
 $
   "clk:" & signals("|1...|0...|1...|0...|1...|0...|1...|0...", step: #0.5em)
 $ <equ:clock>
+
+== Definitions and Theorems
+
+#definition[
+  A natural number is called a #highlight[_prime number_] if it is greater
+  than 1 and cannot be written as the product of two smaller natural numbers.
+]
+
+#theorem[
+  There are arbitrarily long stretches of composite numbers.
+]

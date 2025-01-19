@@ -9,6 +9,7 @@
 #import "@preview/outrageous:0.3.0"
 #import "@preview/glossarium:0.5.1": make-glossary, register-glossary
 #import "@preview/codly:1.2.0": *
+#import "@preview/ctheorems:1.1.3": *
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
@@ -37,6 +38,22 @@
 
 // Helper to display two pieces of content with space between.
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
+
+// Definition and Theorems
+#let theorem = thmbox("theorem", "Theorem", fill: rgb("#eeffee"))
+#let corollary = thmplain(
+  "corollary",
+  "Corollary",
+  base: "theorem",
+  titlefmt: strong,
+)
+#let definition = thmbox(
+  "definition",
+  "Definition",
+  inset: (x: 1.2em, top: 1em),
+)
+#let example = thmplain("example", "Example").with(numbering: none)
+#let proof = thmproof("proof", "Proof")
 
 // Helper to display external codeblocks.
 // Based on https://github.com/typst/typst/issues/1494
@@ -525,6 +542,9 @@
     )
   }
 
+  // -- Definitions and Theorems --
+  show: thmrules.with(qed-symbol: $qed$)
+
   // -- Lists --
 
   let list-spacing = 18pt
@@ -674,6 +694,9 @@
     if listing-index {
       outline(title: "List of Listings", target: fig-t(raw))
     }
+    // if definition-index {
+    outline(title: "List of Definitions", target: figure.where(kind: "thmenv"))
+    // }
   }
 
   // List of Abbreviations
