@@ -13,6 +13,8 @@
 
 #let acknowledgements = [#lorem(50)]
 
+#let appendix = [#lorem(50)]
+
 // Put your abbreviations/acronyms here.
 // 'key' is what you will reference in the typst code
 // 'short' is the abbreviation (what will be shown in the pdf on all references except the first)
@@ -64,6 +66,12 @@
   ),
   epigraph: epigraph,
   abstract: abstract,
+  appendix: (
+    enabled: true,
+    title: "Appendix",
+    heading-numbering-format: "A.1.1",
+    body: appendix,
+  ),
   acknowledgements: acknowledgements,
   preface: none,
   figure-index: true,

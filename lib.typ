@@ -188,6 +188,13 @@
   // The contents for the acknowledgements page. This will be displayed after the
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
+  // An appendix after the bibliography.
+  appendix: (
+    enabled: false,
+    title: "",
+    heading-numbering-format: "",
+    body: none,
+  ),
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
@@ -729,6 +736,26 @@
       linebreaks: auto,
     )
     bibliography
+  }
+
+  // Display appendix after the bibilography
+  if appendix.enabled {
+    pagebreak()
+    heading(level: 1)[#appendix.at("title", default: "Appendix")]
+    // For heading prefixes in the appendix, the standard convention is A.1.1.
+    let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
+    counter(heading).update(0)
+    set heading(
+      outlined: false,
+      numbering: (..nums) => {
+        let vals = nums.pos()
+        if vals.len() > 0 {
+          let v = vals.slice(0)
+          return numbering(num-fmt, ..v)
+        }
+      },
+    )
+    appendix.body
   }
 
   // Display back page
