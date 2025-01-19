@@ -516,6 +516,7 @@
   // Show a small maroon circle next to external links.
   show link: it => {
     it
+    // NOTE: Avoid linebreak before link indicators by using a word-joiner unicode character.
     sym.wj
     h(1.6pt)
     sym.wj
@@ -615,6 +616,8 @@
         ..outrageous.presets.typst,
         font-weight: ("bold", auto),
         fill: (none, auto),
+        fill-right-pad: relative,
+        fill-align: true,
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing
@@ -644,6 +647,8 @@
     // Styling for remaining outlines
     show outline.entry: outrageous.show-entry.with(
       ..outrageous.presets.typst,
+      fill-right-pad: relative,
+      fill-align: true,
       // Don't display 'figure' or 'table' before each entry
       body-transform: (_lvl, body) => {
         if "children" in body.fields() {
