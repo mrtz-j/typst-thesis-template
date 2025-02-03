@@ -66,12 +66,7 @@
   ),
   epigraph: epigraph,
   abstract: abstract,
-  appendix: (
-    enabled: true,
-    title: "Appendix",
-    heading-numbering-format: "A.1.1",
-    body: appendix,
-  ),
+  appendix: appendix,
   acknowledgements: acknowledgements,
   preface: none,
   figure-index: true,

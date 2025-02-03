@@ -16,6 +16,7 @@
 #import "modules/supervisors.typ": supervisors-page
 #import "modules/epigraph.typ": epigraph-page
 #import "modules/abstract.typ": abstract-page
+#import "modules/appendix.typ": appendix-page
 #import "modules/acknowledgements.typ": acknowledgements-page
 #import "modules/abbreviations.typ": abbreviations-page
 
@@ -34,13 +35,14 @@
 #let stroke-color = luma(200)
 #let fill-color = luma(250)
 #let uit-teal-color = rgb("#0095b6")
+#let uit-light-teal-color = rgb("#e6f7fc")
 #let uit-gray-color = rgb("#48545e")
 
 // Helper to display two pieces of content with space between.
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
 
 // Definition and Theorems
-#let theorem = thmbox("theorem", "Theorem", fill: rgb("#eeffee"))
+#let theorem = thmbox("theorem", "Theorem", fill: uit-light-teal-color)
 #let corollary = thmplain(
   "corollary",
   "Corollary",
@@ -189,12 +191,7 @@
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
   // An appendix after the bibliography.
-  appendix: (
-    enabled: false,
-    title: "",
-    heading-numbering-format: "",
-    body: none,
-  ),
+  appendix: none,
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
@@ -739,23 +736,8 @@
   }
 
   // Display appendix after the bibilography
-  if appendix.enabled {
-    pagebreak()
-    heading(level: 1)[#appendix.at("title", default: "Appendix")]
-    // For heading prefixes in the appendix, the standard convention is A.1.1.
-    let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
-    counter(heading).update(0)
-    set heading(
-      outlined: false,
-      numbering: (..nums) => {
-        let vals = nums.pos()
-        if vals.len() > 0 {
-          let v = vals.slice(0)
-          return numbering(num-fmt, ..v)
-        }
-      },
-    )
-    appendix.body
+  if appendix != none {
+    appendix-page(appendix)
   }
 
   // Display back page
