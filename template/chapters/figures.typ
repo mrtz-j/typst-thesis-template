@@ -341,11 +341,45 @@ $ <equ:clock>
 
 == Definitions and Theorems
 
+To easily style and reference definitions, theorems, proofs and similar blocks, the ctheorems #footnote()[see #link("https://typst.app/universe/package/ctheorems/")] package is included.
+A number of functions are defined which automatically generate titles, styling and numbering functionality.
+
 #definition[
   A natural number is called a #highlight[_prime number_] if it is greater
   than 1 and cannot be written as the product of two smaller natural numbers.
-]
+] <def:natural-number>
+
+The numbering follows the heading counter by default, and we can reference @def:natural-number, @th:comp-num or @le:divide just like any other figure.
 
 #theorem[
   There are arbitrarily long stretches of composite numbers.
+] <th:comp-num>
+
+Corollaries are related to theorems, and that their counter is therefore based on the previously defined theorem:
+
+#corollary[
+  if $n$ divides two consecutive natural numbers, then $n = 1$.
+]
+
+#lemma[
+  If $n$ divides both $x$ and $y$, it also divides $x - y$.
+] <le:divide>
+
+
+We can also pass additional arguments to the functions, in order to for instance modify the title:
+
+#proof([of @th:comp-num])[
+  For any $n > 2$, consider$
+    n! + 2, quad n! + 3, quad ..., quad n! + n #qedhere
+  $
+]
+
+Note that for proofs, block equations are not numbered, and a _Q.E.D._ symbol (a black square) is automatically inserted in the right margin.
+We can control where this symbol appears using `#qedhere`.
+
+Finally, a lightweight example macro is exposed.
+It is not numbered or referable, but has some simple styling rules applied.
+
+#example[
+  Here is an example
 ]

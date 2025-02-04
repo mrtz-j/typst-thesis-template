@@ -53,8 +53,16 @@
   "Definition",
   inset: (x: 1.2em, top: 1em),
 )
+#let lemma = thmbox("lemma", "Lemma", fill: uit-gray-color.lighten(80%))
 #let example = thmplain("example", "Example").with(numbering: none)
-#let proof = thmproof("proof", "Proof")
+// Disable numbering of equations inside a proof block
+#let custom-proof-bodyfmt(body) = {
+  set math.equation(numbering: none)
+  proof-bodyfmt(body)
+}
+#let proof = thmproof("proof", "Proof", bodyfmt: custom-proof-bodyfmt).with(
+  numbering: none,
+)
 
 // Helper to display external codeblocks.
 // Based on https://github.com/typst/typst/issues/1494
