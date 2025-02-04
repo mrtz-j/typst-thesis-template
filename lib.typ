@@ -16,7 +16,6 @@
 #import "modules/supervisors.typ": supervisors-page
 #import "modules/epigraph.typ": epigraph-page
 #import "modules/abstract.typ": abstract-page
-#import "modules/appendix.typ": appendix-page
 #import "modules/acknowledgements.typ": acknowledgements-page
 #import "modules/abbreviations.typ": abbreviations-page
 
@@ -137,8 +136,7 @@
 
 // Common styles for back matter
 #let back-matter(body) = {
-  // TODO: Should not outline bibliography, but maybe appendix?
-  set heading(numbering: "A", supplement: [Appendix], outlined: false)
+  set heading(numbering: "A.1.1", supplement: [Appendix])
   // Make sure headings start with 'A'
   counter(heading.where(level: 1)).update(0)
   counter(heading).update(0)
@@ -191,7 +189,7 @@
   // abstract. Can be omitted if you don't have one.
   acknowledgements: none,
   // An appendix after the bibliography.
-  appendix: none,
+  appendix: [],
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
@@ -294,9 +292,13 @@
 
   // Configure reference supplement for headings
   set ref(
-    supplement: it => {
+    supplement: it => context {
       if it.func() == heading {
-        [Chapter]
+        if in-appendix.get() {
+          [Appendix]
+        } else {
+          [Chapter]
+        }
       } else {
         it.supplement
       }
@@ -441,8 +443,9 @@
         let chapter-text = {
           let chapter-title = current-chapter.body
           let chapter-number = counter(heading.where(level: 1)).display()
+          let prefix = if in-appendix.get() { [APPENDIX] } else { [CHAPTER] }
 
-          [CHAPTER #chapter-number #spacing #colored-slash #spacing #chapter-title]
+          [#prefix #chapter-number #spacing #colored-slash #spacing #chapter-title]
         }
 
         if current-chapter.numbering != none {
@@ -736,9 +739,8 @@
   }
 
   // Display appendix after the bibilography
-  if appendix != none {
-    appendix-page(appendix)
-  }
+  in-appendix.update(true)
+  appendix
 
   // Display back page
   backpage()

@@ -13,7 +13,10 @@
 
 #let acknowledgements = [#lorem(50)]
 
-#let appendix = [#lorem(50)]
+#let appendix = [
+  = Appendices
+  #include "./chapters/appendix.typ"
+]
 
 // Put your abbreviations/acronyms here.
 // 'key' is what you will reference in the typst code
