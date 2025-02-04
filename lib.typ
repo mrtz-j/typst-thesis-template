@@ -183,8 +183,7 @@
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
-  // Example: datetime(year: 2024, month: 03, day: 17)
-  date: datetime(year: 2024, month: 12, day: 16),
+  date: datetime(year: 2025, month: 6, day: 1),
   // Format in which the date will be displayed on cover page.
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",

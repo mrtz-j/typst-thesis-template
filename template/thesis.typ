@@ -76,7 +76,7 @@
   table-index: true,
   listing-index: true,
   abbreviations: abbreviations,
-  date: datetime(year: 2024, month: 12, day: 16),
+  date: datetime(year: 2025, month: 6, day: 1),
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
 )
 

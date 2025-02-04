@@ -19,7 +19,7 @@
           #text(size: 9pt)[
             This document was typeset with Typst using the _modern UiT thesis_ template
 
-            #sym.copyright 2024 -- Moritz Jörg and Ole Tytlandsvik
+            #sym.copyright 2025 -- Moritz Jörg and Ole Tytlandsvik
 
             #link("https://github.com/mrtz-j/typst-thesis-template")
           ]
