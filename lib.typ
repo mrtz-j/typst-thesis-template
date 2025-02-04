@@ -701,9 +701,9 @@
     if listing-index {
       outline(title: "List of Listings", target: fig-t(raw))
     }
-    // if definition-index {
-    outline(title: "List of Definitions", target: figure.where(kind: "thmenv"))
-    // }
+    // TODO: Add (optional) outline for definitions, when upstream issue is fixed:
+    // https://github.com/sahasatvik/typst-theorems/issues/46
+    // outline(title: "List of Definitions", target: figure.where(kind: "thmenv"))
   }
 
   // List of Abbreviations
