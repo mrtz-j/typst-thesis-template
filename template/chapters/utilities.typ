@@ -1,3 +1,4 @@
+#import "../utils/global.typ": *
 #import "../utils/todo.typ": TODO
 #import "../utils/feedback.typ": feedback
 #import "../utils/form.typ": form

@@ -8,7 +8,7 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 
 Using the Typst Universe package/template:
 
-```console
+```bash
 typst init @preview/modern-uit-thesis:0.1.2
 ```
 
