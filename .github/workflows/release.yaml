@@ -3,8 +3,8 @@ name: Build and Release thesis
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
           lfs: true
       - name: Install Nix
         uses: cachix/install-nix-action@v30
@@ -25,24 +25,12 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Build Thesis
         run: nix -Lv build .#default
-      - name: Create initial tag
-        run: |
-          if [ -z "$(git tag -l 'v*')" ]; then
-            git tag v0.0.0
-          fi
-      - name: Bump version and push tag
-        id: bump
-        uses: anothrNick/github-tag-action@1.71.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: 'patch'
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.bump.outputs.new_tag }}
-          name: Version ${{ steps.bump.outputs.new_tag }}
+          tag_name: ${{ github.ref_name }}
+          name: Version ${{ github.ref_name }}
           draft: false
           prerelease: false
           files: |

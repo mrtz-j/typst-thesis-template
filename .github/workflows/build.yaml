@@ -3,6 +3,11 @@ name: Build thesis
 
 on:
   pull_request:
+    paths:
+      - "assets/*"
+      - "module/*"
+      - "template/*"
+      - "lib.typ"
 
 permissions:
   contents: write
@@ -15,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
           lfs: true
       - name: Install Nix
         uses: cachix/install-nix-action@v30
