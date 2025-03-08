@@ -4,10 +4,10 @@
 // Requires parameters set in the `thesis.typ` file.
 //
 
-#import "@preview/subpar:0.2.0"
-#import "@preview/physica:0.9.4": *
-#import "@preview/outrageous:0.3.0"
-#import "@preview/glossarium:0.5.1": make-glossary, register-glossary
+#import "@preview/subpar:0.2.1"
+#import "@preview/physica:0.9.5": *
+#import "@preview/outrageous:0.4.0"
+#import "@preview/glossarium:0.5.3": make-glossary, register-glossary
 #import "@preview/codly:1.2.0": *
 #import "@preview/ctheorems:1.1.3": *
 
@@ -544,17 +544,20 @@
 
   // -- Links --
 
+  // FIXME(mrtz): Broke with outrage outline in typst 0.13.0
   // Show a small maroon circle next to external links.
-  show link: it => {
-    it
-    // NOTE: Avoid linebreak before link indicators by using a word-joiner unicode character.
-    sym.wj
-    h(1.6pt)
-    sym.wj
-    super(
-      box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
-    )
-  }
+  // show link: it => {
+  //   it
+  //   // NOTE: Avoid linebreak before link indicators by using a word-joiner unicode character.
+  //   if type(it.dest) != label {
+  //     sym.wj
+  //     h(1.6pt)
+  //     sym.wj
+  //     super(
+  //       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
+  //     )
+  //   }
+  // }
 
   // -- Definitions and Theorems --
   show: thmrules.with(qed-symbol: $qed$)
@@ -635,7 +638,7 @@
     }
 
     // Increase distance between dots on all outline fill
-    set outline(fill: box(width: 1fr, repeat([#h(2.5pt) . #h(2.5pt)])))
+    set outline.entry(fill: box(width: 1fr, repeat([#h(2.5pt) . #h(2.5pt)])))
 
     pagebreak()
 
@@ -655,7 +658,7 @@
         vspace: (1.5em, 0.5em),
 
         // Manually add indent and spacing
-        body-transform: (lvl, body) => {
+        body-transform: (lvl, prefix, body) => {
           let indent = (lvl - 1) * 1.5em
           // Entries with (number, text, page) should have more spacing between number and text
           let spaced-entry = if "children" in body.fields() {
@@ -684,9 +687,9 @@
       fill-right-pad: relative,
       fill-align: true,
       // Don't display 'figure' or 'table' before each entry
-      body-transform: (_lvl, body) => {
+      body-transform: (_lvl, prefix, body) => {
         if "children" in body.fields() {
-          let (fig-type, space, number, colon, ..text) = body.children
+          let (fig-type, space, number, ..text) = body.children
           [#number #h(entry-padding) #text.join()]
         } else {
           body
