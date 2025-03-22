@@ -6,7 +6,6 @@
 
 #import "@preview/subpar:0.2.1"
 #import "@preview/physica:0.9.5": *
-#import "@preview/outrageous:0.4.0"
 #import "@preview/glossarium:0.5.4": make-glossary, register-glossary
 #import "@preview/codly:1.2.0": *
 #import "@preview/ctheorems:1.1.3": *
@@ -643,63 +642,64 @@
     pagebreak()
 
     // Common padding to use on outline entries
-    let entry-padding = 0.5em
+    let entry-spacing-left = 0.25em
+    let entry-spacing-right = 22pt
 
-    // Styling for ToC
-    // NOTE: When/if setting fill dependent on the depth becomes easily possible
-    // in typst itself, we can remove the 'outrageous' package
     [
-      #show outline.entry: outrageous.show-entry.with(
-        ..outrageous.presets.typst,
-        font-weight: ("bold", auto),
-        fill: (none, auto),
-        fill-right-pad: relative,
-        fill-align: true,
-        vspace: (1.5em, 0.5em),
 
-        // Manually add indent and spacing
-        body-transform: (lvl, prefix, body) => {
-          let indent = (lvl - 1) * 1.5em
-          // Entries with (number, text, page) should have more spacing between number and text
-          let spaced-entry = if "children" in body.fields() {
-            let (number, space, ..text) = body.children
-            [#number #h(entry-padding) #text.join()]
-          } else {
-            body
-          }
-          [#h(indent) #spaced-entry]
-        },
-        // Manually add spacing between fill and page number
-        page-transform: (lvl, page) => {
-          if lvl > 1 {
-            [#h(entry-padding) #page]
-          } else {
-            page
-          }
-        },
-      )
+      #show outline.entry: it => context {
+        // Calculate relative spacing, to line up fill regardless of page number width
+        let page-number-spacing = entry-spacing-right - measure(it.page()).width
+        link(
+          it.element.location(),
+          it.indented(
+            it.prefix() + h(entry-spacing-left),
+            it.body()
+              + h(entry-spacing-left)
+              + box(width: 1fr, it.fill)
+              + h(page-number-spacing)
+              + it.page(),
+          ),
+        )
+      }
+
+      #show outline.entry.where(level: 1): it => {
+        set text(weight: "bold")
+        set block(above: 1.5em)
+        link(
+          it.element.location(),
+          it.indented(
+            it.prefix(),
+            it.body() + box(width: 1fr, none) + it.page(),
+          ),
+        )
+      }
+
       #outline(title: "Contents")
     ]
 
-    // Styling for remaining outlines
-    show outline.entry: outrageous.show-entry.with(
-      ..outrageous.presets.typst,
-      fill-right-pad: relative,
-      fill-align: true,
-      // Don't display 'figure' or 'table' before each entry
-      body-transform: (_lvl, prefix, body) => {
-        if "children" in body.fields() {
-          let (fig-type, space, number, ..text) = body.children
-          [#number #h(entry-padding) #text.join()]
-        } else {
-          body
-        }
-      },
-      // Manually add spacing between fill and page number
-      page-transform: (_lvl, page) => {
-        [#h(entry-padding) #page]
-      },
-    )
+    show outline.entry: it => context {
+      let prefix = {
+        show "Figure": ""
+        show "Table": ""
+        show "Listing": ""
+        set text(weight: "bold")
+        it.prefix()
+      }
+      // Calculate relative spacing, to line up fill regardless of page number width
+      let page-number-spacing = entry-spacing-right - measure(it.page()).width
+      link(
+        it.element.location(),
+        it.indented(
+          prefix + h(entry-spacing-left),
+          it.body()
+            + h(entry-spacing-left)
+            + box(width: 1fr, it.fill)
+            + h(page-number-spacing)
+            + it.page(),
+        ),
+      )
+    }
 
     // Remaining outlines are all optional
     if figure-index {
