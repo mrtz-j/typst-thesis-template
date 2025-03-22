@@ -543,20 +543,22 @@
 
   // -- Links --
 
-  // FIXME(mrtz): Broke with outrage outline in typst 0.13.0
   // Show a small maroon circle next to external links.
-  // show link: it => {
-  //   it
-  //   // NOTE: Avoid linebreak before link indicators by using a word-joiner unicode character.
-  //   if type(it.dest) != label {
-  //     sym.wj
-  //     h(1.6pt)
-  //     sym.wj
-  //     super(
-  //       box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))),
-  //     )
-  //   }
-  // }
+  show link: it => {
+    it
+    // NOTE: Avoid linebreak before link indicators by using a word-joiner unicode character.
+    if type(it.dest) == str {
+      sym.wj
+      h(1.6pt)
+      sym.wj
+      super(
+        box(
+          height: 3.8pt,
+          circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333")),
+        ),
+      )
+    }
+  }
 
   // -- Definitions and Theorems --
   show: thmrules.with(qed-symbol: $qed$)
