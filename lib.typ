@@ -7,7 +7,7 @@
 #import "@preview/subpar:0.2.1"
 #import "@preview/physica:0.9.5": *
 #import "@preview/outrageous:0.4.0"
-#import "@preview/glossarium:0.5.3": make-glossary, register-glossary
+#import "@preview/glossarium:0.5.4": make-glossary, register-glossary
 #import "@preview/codly:1.2.0": *
 #import "@preview/ctheorems:1.1.3": *
 
