@@ -35,3 +35,8 @@ jobs:
           prerelease: false
           files: |
             ./result/thesis.pdf
+      - name: Publish to Typst Package Repository
+        run: |
+          sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' "version = \"${{ github.ref_name }}\"" typst.toml README.md
+          sd '#import "../../lib.typ": \*' '#import "@preview/modern-uit-thesis:\"${{ github.ref_name }}\"": *' global.typ
+          nix -Lv run .#typship -- publish universe
