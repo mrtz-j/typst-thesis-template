@@ -36,12 +36,12 @@ If you're running typst locally, install the fonts in a directory of your choosi
 
 If you're using the nix package manager, simply run the provided dev shell. It includes all dependencies needed to write and build the document locally, including the main fonts.
 
-### Publish
+#### Publish
 
 To publish a new release use `typship` as following:
 
 ```bash
-typship publish universe
+nix run .#typship -- publish universe
 ```
 
 Requires an access token with permission for your fork of the typst pacakages repo.

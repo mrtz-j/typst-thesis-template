@@ -98,6 +98,7 @@
               tinymist
               just
               typos
+              sd
             ];
 
             shellHook = ''
