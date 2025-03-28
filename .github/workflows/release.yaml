@@ -40,3 +40,92 @@ jobs:
           sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' "version = \"${{ github.ref_name }}\"" typst.toml README.md
           sd '#import "../../lib.typ": \*' '#import "@preview/modern-uit-thesis:\"${{ github.ref_name }}\"": *' global.typ
           nix -Lv run .#typship -- publish universe
+
+# WIP(ole)
+jobs:
+  build_release_thesis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # NOTE: Why these?
+          fetch-depth: "0"
+          lfs: true
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Build Thesis
+        run: nix -Lv build .#default
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Version ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            ./result/thesis.pdf
+      - name: Pull packages fork
+        uses: actions/checkout@v4
+        with:
+          repository: 'otytlandsvik/packages'
+          # Relative path under $GITHUB_WORKSPACE to clone to
+          path: 'packages-fork'
+      - name: cd into fork
+        run: |
+          cd packages-fork
+      - name: Sync with typst/packages
+        uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
+        with:
+          upstream_repository: typst/packages
+          upstream_branch: main
+          target_branch: main
+          git_pull_args: --ff-only
+      - name: Move new version into fork
+        run: |
+          # Copy the repository to a packages directory with the new tag we just created
+          NEW_FORK_DIR = "preview/modern-uit-thesis/${{ github.ref_name }}"
+          mkdir $NEW_FORK_DIR
+          # TODO: Need to verify that this will not recursively copy the fork into itself
+          cp -rT ../* $NEW_FORK_DIR/
+          cd $NEW_FORK_DIR
+          # Remove PDF
+          rm template/thesis.pdf
+          # Insert new version number
+          sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml
+          sd '#import "../../lib.typ": \*' '#import '@preview/modern-uit-thesis:${{ github.ref_name }}': *' global.typ README.md
+          # cd back out
+          cd -
+      # NOTE: What is this? Do we need it?
+      # - name: Upload built typst.tmLanguage.json
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: preview-modern-uit-thesis-${{ github.ref_name }}
+      #     path: packages-fork/preview/modern-uit-thesis/${{ github.ref_name }}
+      - name: Create branch for PR # NOTE: Do we need this when we're using the PR action?
+        run: |
+          # TODO: Email from secrets maybe?
+          git config --global user.email "???"
+          git config --global user.name "otytlandsvik"
+          git checkout -b modern-uit-thesis/v${{ github.ref_name }}
+          git add preview/modern-uit-thesis/${{ github.ref_name }}
+          git commit -m "Add version ${{ github.ref_name }} of modern-uit-thesis"
+          git push origin modern-uit-thesis/v${{ github.ref_name }}
+      # FIXME: We need to create the PR on typst/packages, not our own fork.
+      # We should consider just creating the PR manually...
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          # FIXME: This token needs access to the fork we use
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: . # I think we are already in the fork repo..?
+          commit-message: "Add version ${{ github.ref_name }} of modern-uit-thesis"
+          title: "Update modern-uit-thesis to ${{ github.ref_name }}"
+          body: "This PR updates the modern-uit-thesis template."
+          branch: "modern-uit-thesis/v${{ github.ref_name }}"
+          base: "main"
+          assignees: "otytlandsvik,mrtz-j"
