@@ -40,7 +40,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: "mrtz-j/packages"
-          # Relative path under $GITHUB_WORKSPACE to clone to
           path: "packages-fork"
       - name: cd into fork
         run: |
