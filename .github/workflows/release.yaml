@@ -51,6 +51,7 @@ jobs:
           upstream_branch: main
           target_branch: main
           git_pull_args: --ff-only
+          target_repo_token: ${{ secrets.REPO_TOKEN }}
       - name: Move new version into fork
         run: |
           # Copy the repository to a packages directory with the new tag we just created
@@ -73,3 +74,5 @@ jobs:
             -m "Add version ${{ github.ref_name }} of modern-uit-thesis"
             --author "Publish action <>"
           git push origin modern-uit-thesis/v${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
