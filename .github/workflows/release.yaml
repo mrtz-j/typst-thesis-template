@@ -45,7 +45,7 @@ jobs:
         run: |
           cd packages-fork
       - name: Sync with typst/packages
-        uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
         with:
           upstream_repository: typst/packages
           upstream_branch: main
