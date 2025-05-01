@@ -106,8 +106,28 @@
 
 // Common styles for front matter
 #let front-matter(body) = {
-  set page(numbering: "i")
-  counter(page).update(1)
+  set page(
+    numbering: "i",
+    // Only show numbering in footer when no chapter header is present
+    footer: context {
+      let page-number = here().page()
+      let chapters = heading.where(level: 1)
+      if query(chapters).any(it => it.location().page() == here().page()) {
+        align(
+          center,
+          text(
+            weight: "thin",
+            font: ("Open Sans", "Noto Sans"),
+            size: 8pt,
+            fill: uit-gray-color,
+            counter(page).display("i"),
+          ),
+        )
+      } else {
+        none
+      }
+    },
+  )
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     it
@@ -125,7 +145,16 @@
     footer: context {
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
-        align(center, counter(page).display())
+        align(
+          center,
+          text(
+            weight: "thin",
+            font: ("Open Sans", "Noto Sans"),
+            size: 8pt,
+            fill: uit-gray-color,
+            counter(page).display(),
+          ),
+        )
       } else {
         none
       }
