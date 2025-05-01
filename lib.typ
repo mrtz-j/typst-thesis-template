@@ -128,6 +128,7 @@
       }
     },
   )
+  counter(page).update(1)
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     it
