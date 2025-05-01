@@ -2,7 +2,7 @@
 
 Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to Typst.
 
-`thesis.typ` contains a full usage example, see `thesis.pdf` for a rendered pdf.
+[`thesis.typ`](template/thesis.typ) contains a full usage example, see [`thesis.pdf`](template/thesis.pdf) for a rendered pdf.
 
 ## Usage
 
