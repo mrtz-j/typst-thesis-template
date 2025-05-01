@@ -6,7 +6,7 @@
 
 #import "@preview/subpar:0.2.1"
 #import "@preview/physica:0.9.5": *
-#import "@preview/glossarium:0.5.3": make-glossary, register-glossary
+#import "@preview/glossarium:0.5.4": make-glossary, register-glossary
 #import "@preview/codly:1.2.0": *
 #import "@preview/ctheorems:1.1.3": *
 
@@ -128,7 +128,7 @@
       }
     },
   )
-  counter(page).update(1)
+  counter(page).update(0)
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     it
@@ -161,7 +161,7 @@
       }
     },
   )
-  counter(page).update(1)
+  counter(page).update(0)
   counter(heading).update(0)
   set heading(numbering: "1.1")
   show heading.where(level: 1): it => {
@@ -375,8 +375,8 @@
       counter(math.equation).update(0)
     }
 
-    // Start chapter headings on a new page
-    pagebreak(weak: true)
+    // Start chapter headings on a new, odd-numbered page
+    pagebreak(weak: true, to: "odd")
 
     v(16%)
     if heading.numbering != none {
