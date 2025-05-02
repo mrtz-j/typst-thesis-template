@@ -25,5 +25,5 @@
 // Other packages used:
 //
 
-#import "@preview/glossarium:0.5.4": make-glossary, print-glossary, gls, glspl
+#import "@preview/glossarium:0.5.3": make-glossary, print-glossary, gls, glspl
 #import "@preview/codly:1.2.0": *
