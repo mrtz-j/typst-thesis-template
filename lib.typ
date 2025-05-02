@@ -375,9 +375,6 @@
       counter(math.equation).update(0)
     }
 
-    // Start chapter headings on a new, odd-numbered page
-    pagebreak(weak: true, to: "odd")
-
     v(16%)
     if heading.numbering != none {
       stack(
@@ -413,6 +410,13 @@
     weight: "bold",
     hyphenate: false,
   )
+  show heading.where(level: 1): it => {
+    state("content.switch").update(false)
+    // Start chapter headings on a new, odd-numbered page
+    pagebreak(weak: true, to:"odd")
+    state("content.switch").update(true)
+    it
+  }
 
   set page(
     // Set page header
@@ -423,8 +427,12 @@
 
       // If the current page is the start of a chapter, don't show a header
       let chapters = heading.where(level: 1)
-      if query(chapters).any(it => it.location().page() == page-number) {
+      let is-start-chapter = query(chapters).any(it => it.location().page() == page-number)
+      if is-start-chapter {
         return []
+      }
+      if not state("content.switch", false).get() and not is-start-chapter {
+        return
       }
 
       // Find the chapter of the section we are currently in
