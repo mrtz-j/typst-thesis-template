@@ -356,6 +356,10 @@
 
   // Style chapter headings
   show heading.where(level: 1): it => {
+    state("content.switch").update(false)
+    // Start chapter headings on a new, odd-numbered page
+    pagebreak(weak: true, to:"odd")
+    state("content.switch").update(true)
     set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
 
     let heading-number = if heading.numbering == none {
@@ -410,13 +414,6 @@
     weight: "bold",
     hyphenate: false,
   )
-  show heading.where(level: 1): it => {
-    state("content.switch").update(false)
-    // Start chapter headings on a new, odd-numbered page
-    pagebreak(weak: true, to:"odd")
-    state("content.switch").update(true)
-    it
-  }
 
   set page(
     // Set page header
