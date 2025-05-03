@@ -358,7 +358,7 @@
   show heading.where(level: 1): it => {
     state("content.switch").update(false)
     // Start chapter headings on a new, odd-numbered page
-    pagebreak(weak: true, to:"odd")
+    pagebreak(weak: true, to: "odd")
     state("content.switch").update(true)
     set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
 
@@ -424,7 +424,9 @@
 
       // If the current page is the start of a chapter, don't show a header
       let chapters = heading.where(level: 1)
-      let is-start-chapter = query(chapters).any(it => it.location().page() == page-number)
+      let is-start-chapter = query(chapters).any(it => (
+        it.location().page() == page-number
+      ))
       if is-start-chapter {
         return []
       }
@@ -553,12 +555,6 @@
   }
 
   // -- Tables --
-
-  // Break large tables across pages.
-  show figure.where(kind: table): it => {
-    set block(breakable: true)
-    it
-  }
 
   // Use lighter gray color for table stroke
   set table(
