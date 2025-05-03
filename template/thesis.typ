@@ -95,8 +95,8 @@
   ),
 )
 
-// If you wish to use lining figures rather than oldstyle figures, uncomment this line.
-// #set text(features: ("lnum",))
+// If you wish to use lining figures rather than old-style figures, uncomment this line.
+// #set text(number-type: "lining")
 
 // Include as many chapters as you like.
 

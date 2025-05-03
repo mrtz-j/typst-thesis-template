@@ -139,7 +139,7 @@
 
 // Common styles for main matter
 #let main-matter(body) = {
-  set text(features: ("onum",))
+  set text(number-type: "old-style")
   set page(
     numbering: "1",
     // Only show numbering in footer when no chapter header is present
@@ -367,7 +367,7 @@
     } else {
       text(
         counter(heading.where(level: 1)).display(),
-        features: ("lnum",),
+        number-type: "lining",
         size: 62pt,
       )
     }
