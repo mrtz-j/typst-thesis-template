@@ -12,5 +12,9 @@
     } else {
       numbering("1.1a", counter(heading).get().first(), m, n)
     },
+    show-sub-caption: (num, it) => {
+      it
+      v(.65em)
+    },
   )
 }
