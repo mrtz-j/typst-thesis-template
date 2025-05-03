@@ -127,6 +127,45 @@
         none
       }
     },
+    header: context {
+      // Get current page number
+      let page-number = here().page()
+
+      // If the current page is the start of a chapter, don't show a header
+      let chapters = heading.where(level: 1)
+      let is-start-chapter = query(chapters).any(it => (
+        it.location().page() == page-number
+      ))
+      if is-start-chapter {
+        return []
+      }
+      if not state("content.switch", false).get() and not is-start-chapter {
+        return []
+      }
+
+      // Find the chapter of the section we are currently in
+      let chapters-before = query(chapters.before(here()))
+      if chapters-before.len() > 0 {
+        let current-chapter = chapters-before.last()
+
+        // Show current chapter on odd pages, current subsection on even
+        let (left-text, right-text) = if calc.odd(page-number) {
+          (counter(page).display(), [#current-chapter.body])
+        } else {
+          (
+            current-chapter.body,
+            counter(page).display(),
+          )
+        }
+        text(
+          weight: "thin",
+          font: ("Open Sans", "Noto Sans"),
+          size: 8pt,
+          fill: uit-gray-color,
+          fill-line(upper(left-text), upper(right-text)),
+        )
+      }
+    },
   )
   counter(page).update(0)
   set heading(numbering: none)
