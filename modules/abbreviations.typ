@@ -9,14 +9,13 @@
 
 #let abbreviations-page(abbreviations) = {
   // --- List of Abbreviations ---
-  pagebreak(weak: true, to: "even")
   align(left)[
     = List of Abbreviations
     #v(1em)
     #print-glossary(
       abbreviations,
       user-print-title: custom-print-title,
-      // Disable back references in abbreviations list
+      show-all: true,
       disable-back-references: true,
     )
   ]
