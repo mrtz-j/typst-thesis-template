@@ -383,8 +383,15 @@
   // Add some vertical spacing for all headings
   show heading: it => {
     let body = if it.level > 1 {
-      box(width: 26pt + 5pt * it.level, counter(heading).display())
-      it.body
+      block(
+        [
+          #box(
+            width: 26pt + 5pt * it.level,
+            counter(heading).display()
+          )
+          #it.body
+        ]
+      )
     } else {
       it
     }
