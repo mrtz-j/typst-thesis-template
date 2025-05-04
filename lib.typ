@@ -296,7 +296,12 @@
 
   // Required init for packages
   show: make-glossary
-  register-glossary(abbreviations)
+  // Display short-form abbreviations in smallcaps
+  let abbrs = abbreviations.map(a => {
+    a.insert("short", smallcaps(a.short))
+    return a
+  })
+  register-glossary(abbrs)
   show: codly-init
 
   // Optimize numbers with superscript
