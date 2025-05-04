@@ -120,7 +120,7 @@
             font: ("Open Sans", "Noto Sans"),
             size: 8pt,
             fill: uit-gray-color,
-            counter(page).display("i"),
+            counter(page).display(),
           ),
         )
       } else {
@@ -150,10 +150,10 @@
 
         // Show current chapter on odd pages, current subsection on even
         let (left-text, right-text) = if calc.odd(page-number) {
-          (counter(page).display(), [#current-chapter.body])
+          (counter(page).display(), upper(current-chapter.body))
         } else {
           (
-            current-chapter.body,
+            upper(current-chapter.body),
             counter(page).display(),
           )
         }
@@ -162,7 +162,7 @@
           font: ("Open Sans", "Noto Sans"),
           size: 8pt,
           fill: uit-gray-color,
-          fill-line(upper(left-text), upper(right-text)),
+          fill-line(left-text, right-text),
         )
       }
     },
