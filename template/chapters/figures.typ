@@ -91,30 +91,35 @@ While @tab:default_styling is a very simple table with no extra styling, @tab:ro
   caption: [A slightly more elaborate table],
 ) <tab:rowspan>
 
-On a page break, a table can also break and continue on the subsequent page. If a table header and/or footer is set, like in @tab:break, these will also repeat on both pages by default.
+On a page break, we might want a large table to break and continue on the subsequent page.
+As this is not the default behavior, we need to allow it with a `show` rule.
+If a table header and/or footer is set, like in @tab:break, these will repeat on both pages by default.
 
-#figure(
-  caption: [A table that breaks with the page],
-  table(
-    columns: 3,
-    fill: (_, y) => if y == 0 {
-      gray.lighten(75%)
-    },
-    table.header[Week][Distance (km)][Time (hh:mm:ss)],
-    [1], [5], [00:30:00],
-    [2], [7], [00:45:00],
-    [3], [10], [01:00:00],
-    [4], [12], [01:10:00],
-    [5], [15], [01:25:00],
-    [6], [18], [01:40:00],
-    [7], [20], [01:50:00],
-    [8], [22], [02:00:00],
-    [...], [...], [...],
-    table.footer[_Goal_][_42.195_][_02:45:00_],
-  ),
-) <tab:break>
+#[
+  #show figure: set block(breakable: true)
+  #figure(
+    caption: [A table that breaks with the page],
+    table(
+      columns: 3,
+      fill: (_, y) => if y == 0 {
+        gray.lighten(75%)
+      },
+      table.header[Week][Distance (km)][Time (hh:mm:ss)],
+      [1], [5], [00:30:00],
+      [2], [7], [00:45:00],
+      [3], [10], [01:00:00],
+      [4], [12], [01:10:00],
+      [5], [15], [01:25:00],
+      [6], [18], [01:40:00],
+      [7], [20], [01:50:00],
+      [8], [22], [02:00:00],
+      [...], [...], [...],
+      table.footer[_Goal_][_42.195_][_02:45:00_],
+    ),
+  ) <tab:break>
+]
 
-We can also override the default styling to customize tables. @tab:break sets a custom fill color for the header and @tab:hlines uses `table.hline()` to enable the border stroke on certain lines only. The second column in @tab:hlines is also set to fill all space available to it.
+We can also further override the default styling to customize tables. @tab:break sets a custom fill color for the header and @tab:hlines uses `table.hline()` to enable the border stroke on certain lines only. The second column in @tab:hlines is also set to fill all space available to it.
 
 #figure(
   table(
