@@ -352,9 +352,9 @@
     paper: "a4",
     margin: (
       bottom: 5cm,
-      top: 4cm,
-      inside: 26.2mm,
-      outside: 37mm,
+      top: 42mm,
+      inside: 33.0mm,
+      outside: 45mm,
     ),
     numbering: "1",
     number-align: center,
@@ -430,7 +430,7 @@
       counter(math.equation).update(0)
     }
 
-    v(16%)
+    v(26%)
     if heading.numbering != none {
       stack(
         dir: ltr,

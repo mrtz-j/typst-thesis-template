@@ -13,6 +13,12 @@
   // --- Supervisors ---
   page(
     numbering: none,
+    margin: (
+      bottom: 5cm,
+      top: 42mm,
+      inside: 33mm,
+      outside: 33mm,
+    ),
     footer: [
       #align(center)[
         #par(spacing: .75em)[
@@ -33,7 +39,7 @@
       )
       #grid(
         // NOTE: If supervisor title, name and affiliation overlap in the PDF, try changing the column widths here
-        columns: (120pt, 100pt, 200pt),
+        columns: (104pt, 100pt, 200pt),
         gutter: 2em,
         ..supervisors-content.flatten()
       )
