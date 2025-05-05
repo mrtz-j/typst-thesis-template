@@ -26,4 +26,4 @@
 //
 
 #import "@preview/glossarium:0.5.3": make-glossary, print-glossary, gls, glspl
-#import "@preview/codly:1.2.0": *
+#import "@preview/codly:1.3.0": *
