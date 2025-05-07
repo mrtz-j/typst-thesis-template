@@ -39,16 +39,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1746232882,
-        "narHash": "sha256-MHmBH2rS8KkRRdoU/feC/dKbdlMkcNkB5mwkuipVHeQ=",
+        "lastModified": 1746592047,
+        "narHash": "sha256-GYYT5Pc+sZZWomgC7EgDSNSfmXd9Jby9nXQ6bAswUCg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7a2622e2c0dbad5c4493cb268aba12896e28b008",
+        "rev": "8fcc71459655f2486b3da197b8d6a62f595a33d2",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -82,11 +82,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1742649964,
-        "narHash": "sha256-DwOTp7nvfi8mRfuL1escHDXabVXFGT1VlPD1JHrtrco=",
+        "lastModified": 1746537231,
+        "narHash": "sha256-Wb2xeSyOsCoTCTj7LOoD6cdKLEROyFAArnYoS+noCWo=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "dcf5072734cb576d2b0c59b2ac44f5050b5eac82",
+        "rev": "fa466640195d38ec97cf0493d6d6882bc4d14969",
         "type": "github"
       },
       "original": {
@@ -95,13 +95,33 @@
         "type": "github"
       }
     },
+    "press": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1746317311,
+        "narHash": "sha256-F7zscEoKCpl/659jCrUquMlCRiiZg1haNvTDD+A0Qsg=",
+        "owner": "RossSmyth",
+        "repo": "press",
+        "rev": "748382e3cd3e88e6fced1631353680009e14420a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RossSmyth",
+        "repo": "press",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
         "parts": "parts",
         "pre-commit-hooks": "pre-commit-hooks",
-        "typst-nix": "typst-nix",
-        "typst-packages": "typst-packages"
+        "press": "press",
+        "systems": "systems"
       }
     },
     "systems": {
@@ -116,46 +136,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "typst-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": "systems",
-        "typst-packages": [
-          "typst-packages"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722893259,
-        "narHash": "sha256-SC+ydSiOZOan6GM6QN7VfytfzpB7kkfrBhj3hdq5Q1I=",
-        "owner": "misterio77",
-        "repo": "typst-nix",
-        "rev": "90334eeb5e918d37608e69393dd8a7c7e5b683b8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "misterio77",
-        "repo": "typst-nix",
-        "type": "github"
-      }
-    },
-    "typst-packages": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1746360904,
-        "narHash": "sha256-pmS7DOoAk1hHKFI16mGjwZ8F7kxDG/z8srzSCJtTlYQ=",
-        "owner": "typst",
-        "repo": "packages",
-        "rev": "2973e12a968f4f2e07a9bd4aeacfb9bfd24f24a2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "typst",
-        "repo": "packages",
         "type": "github"
       }
     }
