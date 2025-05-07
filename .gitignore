@@ -3,4 +3,4 @@ out/
 .pre-commit-config.yaml
 *.pdf
 !template/thesis.pdf
-result
+result*
