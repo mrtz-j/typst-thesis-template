@@ -26,6 +26,7 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Bump Version
         run: |
+          nix-env -i sd
           sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml
           sd 'modern-uit-thesis:[0-9]+\.[0-9]+\.[0-9]+' 'modern-uit-thesis:${{ github.ref_name }}' README.md
       - name: Build Thesis
