@@ -6,7 +6,7 @@
 
 #import "@preview/subpar:0.2.2"
 #import "@preview/physica:0.9.5": *
-#import "@preview/glossarium:0.5.3": make-glossary, register-glossary
+#import "@preview/glossarium:0.5.6": make-glossary, register-glossary
 #import "@preview/codly:1.3.0": *
 #import "@preview/ctheorems:1.1.3": *
 
@@ -47,11 +47,10 @@
   base: "theorem",
   titlefmt: strong,
 )
-#let definition = thmbox(
-  "definition",
-  "Definition",
-  inset: (x: 1.2em, top: 1em),
-)
+#let definition = thmbox("definition", "Definition", inset: (
+  x: 1.2em,
+  top: 1em,
+))
 #let lemma = thmbox("lemma", "Lemma", fill: uit-gray-color.lighten(80%))
 #let example = thmplain("example", "Example").with(numbering: none)
 // Disable numbering of equations inside a proof block
@@ -65,11 +64,9 @@
 
 // Helper to display external codeblocks.
 // Based on https://github.com/typst/typst/issues/1494
-#let code-block(filename, content) = raw(
-  content,
-  block: true,
-  lang: filename.split(".").at(-1),
-)
+#let code-block(filename, content) = raw(content, block: true, lang: filename
+  .split(".")
+  .at(-1))
 
 // Helper to display CSV tables.
 #let csv-table(
@@ -113,16 +110,13 @@
       let page-number = here().page()
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
-        align(
-          center,
-          text(
-            weight: "thin",
-            font: ("Open Sans", "Noto Sans"),
-            size: 8pt,
-            fill: uit-gray-color,
-            counter(page).display(),
-          ),
-        )
+        align(center, text(
+          weight: "thin",
+          font: ("Open Sans", "Noto Sans"),
+          size: 8pt,
+          fill: uit-gray-color,
+          counter(page).display(),
+        ))
       } else {
         none
       }
@@ -185,16 +179,13 @@
     footer: context {
       let chapters = heading.where(level: 1)
       if query(chapters).any(it => it.location().page() == here().page()) {
-        align(
-          center,
-          text(
-            weight: "thin",
-            font: ("Open Sans", "Noto Sans"),
-            size: 8pt,
-            fill: uit-gray-color,
-            counter(page).display(),
-          ),
-        )
+        align(center, text(
+          weight: "thin",
+          font: ("Open Sans", "Noto Sans"),
+          size: 8pt,
+          fill: uit-gray-color,
+          counter(page).display(),
+        ))
       } else {
         none
       }
@@ -284,15 +275,11 @@
   body,
 ) = {
   // Set the document's metadata.
-  set document(
-    title: title,
-    author: author,
-    date: if date != none {
-      date
-    } else {
-      auto
-    },
-  )
+  set document(title: title, author: author, date: if date != none {
+    date
+  } else {
+    auto
+  })
 
   // Required init for packages
   show: make-glossary
@@ -371,32 +358,25 @@
   )
 
   // Configure reference supplement for headings
-  set ref(
-    supplement: it => context {
-      if it.func() == heading {
-        if in-appendix.get() {
-          [Appendix]
-        } else {
-          [Chapter]
-        }
+  set ref(supplement: it => context {
+    if it.func() == heading {
+      if in-appendix.get() {
+        [Appendix]
       } else {
-        it.supplement
+        [Chapter]
       }
-    },
-  )
+    } else {
+      it.supplement
+    }
+  })
 
   // Add some vertical spacing for all headings
   show heading: it => {
     let body = if it.level > 1 {
-      block(
-        [
-          #box(
-            width: 26pt + 5pt * it.level,
-            counter(heading).display()
-          )
-          #it.body
-        ]
-      )
+      block([
+        #box(width: 26pt + 5pt * it.level, counter(heading).display())
+        #it.body
+      ])
     } else {
       it
     }
@@ -434,17 +414,14 @@
     if heading.numbering != none {
       stack(
         dir: ltr,
-        move(
-          dy: 54pt,
-          polygon(
-            fill: uit-teal-color,
-            stroke: uit-teal-color,
-            (0pt, 0pt),
-            (5pt, 0pt),
-            (40pt, -90pt),
-            (35pt, -90pt),
-          ),
-        ),
+        move(dy: 54pt, polygon(
+          fill: uit-teal-color,
+          stroke: uit-teal-color,
+          (0pt, 0pt),
+          (5pt, 0pt),
+          (40pt, -90pt),
+          (35pt, -90pt),
+        )),
         heading-number,
       )
       v(1.0em)
@@ -522,10 +499,9 @@
         let subsection-text = if current-subsection != none {
           let subsection-numbering = current-subsection.numbering
           let location = current-subsection.location()
-          let subsection-count = numbering(
-            subsection-numbering,
-            ..counter(heading).at(location),
-          )
+          let subsection-count = numbering(subsection-numbering, ..counter(
+            heading,
+          ).at(location))
 
           [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
         } else {
@@ -567,13 +543,11 @@
   // -- Equations --
 
   // Configure equation numbering.
-  set math.equation(
-    numbering: n => {
-      set text(font: ("XCharter", "Charter"))
-      let h1 = counter(heading).get().first()
-      numbering("(1.1)", h1, n)
-    },
-  )
+  set math.equation(numbering: n => {
+    set text(font: ("XCharter", "Charter"))
+    let h1 = counter(heading).get().first()
+    numbering("(1.1)", h1, n)
+  })
 
   show math.equation.where(block: true): it => {
     set align(center)
@@ -584,12 +558,10 @@
   // -- Figures --
 
   // Set figure numbering to follow chapter
-  set figure(
-    numbering: n => {
-      let h1 = counter(heading).get().first()
-      numbering("1.1", h1, n)
-    },
-  )
+  set figure(numbering: n => {
+    let h1 = counter(heading).get().first()
+    numbering("1.1", h1, n)
+  })
 
   set figure.caption(separator: [ -- ])
 
@@ -608,10 +580,7 @@
   // -- Tables --
 
   // Use lighter gray color for table stroke
-  set table(
-    inset: 7pt,
-    stroke: (0.5pt + stroke-color),
-  )
+  set table(inset: 7pt, stroke: (0.5pt + stroke-color))
   // Show table header in small caps
   show table.cell.where(y: 0): smallcaps
 
@@ -633,12 +602,10 @@
       sym.wj
       h(1.6pt)
       sym.wj
-      super(
-        box(
-          height: 3.8pt,
-          circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333")),
-        ),
-      )
+      super(box(height: 3.8pt, circle(
+        radius: 1.2pt,
+        stroke: 0.7pt + rgb("#993333"),
+      )))
     }
   }
 
@@ -733,30 +700,26 @@
 
       #show outline.entry: it => context {
         // Calculate relative spacing, to line up fill regardless of page number width
-        let page-number-spacing = entry-spacing-right - measure(it.page()).width
-        link(
-          it.element.location(),
-          it.indented(
-            it.prefix() + h(entry-spacing-left),
-            it.body()
-              + h(entry-spacing-left)
-              + box(width: 1fr, it.fill)
-              + h(page-number-spacing)
-              + it.page(),
-          ),
+        let page-number-spacing = (
+          entry-spacing-right - measure(it.page()).width
         )
+        link(it.element.location(), it.indented(
+          it.prefix() + h(entry-spacing-left),
+          it.body()
+            + h(entry-spacing-left)
+            + box(width: 1fr, it.fill)
+            + h(page-number-spacing)
+            + it.page(),
+        ))
       }
 
       #show outline.entry.where(level: 1): it => {
         set text(weight: "bold")
         set block(above: 1.5em)
-        link(
-          it.element.location(),
-          it.indented(
-            it.prefix(),
-            it.body() + box(width: 1fr, none) + it.page(),
-          ),
-        )
+        link(it.element.location(), it.indented(
+          it.prefix(),
+          it.body() + box(width: 1fr, none) + it.page(),
+        ))
       }
 
       #outline(title: "Contents")
@@ -772,17 +735,14 @@
       }
       // Calculate relative spacing, to line up fill regardless of page number width
       let page-number-spacing = entry-spacing-right - measure(it.page()).width
-      link(
-        it.element.location(),
-        it.indented(
-          prefix + h(entry-spacing-left),
-          it.body()
-            + h(entry-spacing-left)
-            + box(width: 1fr, it.fill)
-            + h(page-number-spacing)
-            + it.page(),
-        ),
-      )
+      link(it.element.location(), it.indented(
+        prefix + h(entry-spacing-left),
+        it.body()
+          + h(entry-spacing-left)
+          + box(width: 1fr, it.fill)
+          + h(page-number-spacing)
+          + it.page(),
+      ))
     }
 
     // Remaining outlines are all optional
