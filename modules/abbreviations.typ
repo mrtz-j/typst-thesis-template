@@ -15,7 +15,6 @@
     #print-glossary(
       abbreviations,
       user-print-title: custom-print-title,
-      show-all: true,
       disable-back-references: true,
     )
   ]
