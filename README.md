@@ -9,7 +9,7 @@ Port of the [uit-thesis](https://github.com/egraff/uit-thesis)-latex template to
 Using the Typst Universe package/template:
 
 ```bash
-typst init @preview/modern-uit-thesis:0.1.4
+typst init @preview/modern-uit-thesis:0.1.5
 ```
 
 ### Fonts
@@ -35,16 +35,6 @@ If you're running typst locally, install the fonts in a directory of your choosi
 ### Nix
 
 If you're using the nix package manager, simply run the provided dev shell. It includes all dependencies needed to write and build the document locally, including the main fonts.
-
-#### Publish
-
-To publish a new release use `typship` as following:
-
-```bash
-nix run .#typship -- publish universe
-```
-
-Requires an access token with permission for your fork of the typst pacakages repo.
 
 ## License
 
