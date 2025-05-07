@@ -1,79 +1,40 @@
-# # yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
-# name: Build and Release thesis
-#
-# on:
-#   push:
-#     tags:
-#       - "*"
-#
-# permissions:
-#   contents: write
-#
-# jobs:
-#   build_release_thesis:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           fetch-depth: "0"
-#           lfs: true
-#           path: thesis-template
-#       - name: Install Nix
-#         uses: cachix/install-nix-action@v31
-#         with:
-#           extra_nix_config: |
-#             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-#       - name: Build Thesis
-#         run: nix -Lv build thesis-template/#default
-#       - name: Create Release
-#         id: create_release
-#         uses: softprops/action-gh-release@v2
-#         with:
-#           tag_name: ${{ github.ref_name }}
-#           name: Version ${{ github.ref_name }}
-#           draft: false
-#           prerelease: false
-#           files: |
-#             thesis-template/result/thesis.pdf
-#       - name: Pull packages fork
-#         uses: actions/checkout@v4
-#         with:
-#           repository: "mrtz-j/packages"
-#           path: "packages-fork"
-#       - name: cd into fork
-#         run: |
-#           cd packages-fork
-#       - name: Sync with typst/packages
-#         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
-#         with:
-#           upstream_repository: typst/packages
-#           upstream_branch: main
-#           target_branch: main
-#           git_pull_args: --ff-only
-#           target_repo_token: ${{ secrets.REPO_TOKEN }}
-#       - name: Move new version into fork
-#         run: |
-#           # Copy the repository to a packages directory with the new tag we just created
-#           NEW_FORK_DIR = "preview/modern-uit-thesis/${{ github.ref_name }}"
-#           mkdir $NEW_FORK_DIR
-#           cp -r ../thesis-template/* $NEW_FORK_DIR/
-#           cd $NEW_FORK_DIR
-#           # Remove PDF
-#           rm template/thesis.pdf
-#           # Insert new version number
-#           sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml
-#           sd '#import "../../lib.typ": \*' '#import '@preview/modern-uit-thesis:${{ github.ref_name }}': *' global.typ README.md
-#           # cd back out
-#           cd -
-#       - name: Create branch for PR
-#         run: |
-#           git checkout -b modern-uit-thesis/v${{ github.ref_name }}
-#           git add preview/modern-uit-thesis/${{ github.ref_name }}
-#           git commit \
-#             -m "Add version ${{ github.ref_name }} of modern-uit-thesis"
-#             --author "Publish action <>"
-#           git push origin modern-uit-thesis/v${{ github.ref_name }}
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+name: Build and Release thesis
 
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  build_release_thesis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Bump Version
+        run: |
+          sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml
+          sd 'modern-uit-thesis:[0-9]+\.[0-9]+\.[0-9]+' 'modern-uit-thesis:${{ github.ref_name }}' README.md
+      - name: Build Thesis
+        run: "nix -Lv build .#default"
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Version ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            result/thesis.pdf
