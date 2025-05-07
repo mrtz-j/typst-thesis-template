@@ -28,8 +28,8 @@ jobs:
         run: "nix -Lv build --accept-flake-config .#default"
       - name: Bump Version
         run: |
-          "nix develop .#default --command sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml"
-          "nix develop .#default --command sd 'modern-uit-thesis:[0-9]+\.[0-9]+\.[0-9]+' 'modern-uit-thesis:${{ github.ref_name }}' README.md"
+          "nix develop .#default -c sd 'version = "[0-9]+\.[0-9]+\.[0-9]+"' 'version = \"${{ github.ref_name }}\"' typst.toml"
+          "nix develop .#default -c sd 'modern-uit-thesis:[0-9]+\.[0-9]+\.[0-9]+' 'modern-uit-thesis:${{ github.ref_name }}' README.md"
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
