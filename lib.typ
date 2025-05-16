@@ -190,6 +190,100 @@
         none
       }
     },
+    // Set page header
+    header-ascent: 30%,
+    header: context {
+      // Get current page number
+      let page-number = here().page()
+
+      // If the current page is the start of a chapter, don't show a header
+      let chapters = heading.where(level: 1)
+      let is-start-chapter = query(chapters).any(it => (
+        it.location().page() == page-number
+      ))
+      if is-start-chapter {
+        return []
+      }
+      if not state("content.switch", false).get() and not is-start-chapter {
+        return
+      }
+
+      // Find the chapter of the section we are currently in
+      let chapters-before = query(chapters.before(here()))
+      if chapters-before.len() > 0 {
+        let current-chapter = chapters-before.last()
+
+
+        // If a new subsecion starts on this page, select that subsection.
+        // Otherwise, select the last subsection
+        let current-subsection = {
+          let subsections = heading.where(level: 2)
+          let subsections-after = query(subsections.after(here()))
+
+          if subsections-after.len() > 0 {
+            let next-subsection = subsections-after.first()
+
+            if next-subsection.location().page() == page-number {
+              (next-subsection)
+            } else {
+              let subsections-before = query(subsections.before(here()))
+
+              if subsections-before.len() > 0 {
+                (subsections-before.last())
+              } else {
+                // No subsections in this chapter
+                none
+              }
+            }
+          }
+        }
+
+        let colored-slash = text(fill: uit-teal-color, "/")
+        let spacing = h(3pt)
+
+        // Content to display subsection count and heading
+        let subsection-text = if current-subsection != none {
+          let subsection-numbering = current-subsection.numbering
+          let location = current-subsection.location()
+          let subsection-count = numbering(subsection-numbering, ..counter(
+            heading,
+          ).at(location))
+
+          [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
+        } else {
+          // No subsections in chapter, display nothing
+          []
+        }
+
+        // Content to display chapter count and heading
+        let chapter-text = {
+          let chapter-title = current-chapter.body
+          let chapter-number = counter(heading.where(level: 1)).display()
+          let prefix = if in-appendix.get() { [APPENDIX] } else { [CHAPTER] }
+
+          [#prefix #chapter-number #spacing #colored-slash #spacing #chapter-title]
+        }
+
+        if current-chapter.numbering != none {
+          // Show current chapter on odd pages, current subsection on even
+          let (left-text, right-text) = if calc.odd(page-number) {
+            (counter(page).display(), chapter-text)
+          } else {
+            (
+              subsection-text,
+              counter(page).display(),
+            )
+          }
+          text(
+            weight: "thin",
+            font: ("Open Sans", "Noto Sans"),
+            size: 8pt,
+            fill: uit-gray-color,
+            fill-line(upper(left-text), upper(right-text)),
+          )
+        }
+      }
+    },
   )
   counter(page).update(0)
   counter(heading).update(0)
@@ -443,102 +537,6 @@
     hyphenate: false,
   )
 
-  set page(
-    // Set page header
-    header-ascent: 30%,
-    header: context {
-      // Get current page number
-      let page-number = here().page()
-
-      // If the current page is the start of a chapter, don't show a header
-      let chapters = heading.where(level: 1)
-      let is-start-chapter = query(chapters).any(it => (
-        it.location().page() == page-number
-      ))
-      if is-start-chapter {
-        return []
-      }
-      if not state("content.switch", false).get() and not is-start-chapter {
-        return
-      }
-
-      // Find the chapter of the section we are currently in
-      let chapters-before = query(chapters.before(here()))
-      if chapters-before.len() > 0 {
-        let current-chapter = chapters-before.last()
-
-
-        // If a new subsecion starts on this page, select that subsection.
-        // Otherwise, select the last subsection
-        let current-subsection = {
-          let subsections = heading.where(level: 2)
-          let subsections-after = query(subsections.after(here()))
-
-          if subsections-after.len() > 0 {
-            let next-subsection = subsections-after.first()
-
-            if next-subsection.location().page() == page-number {
-              (next-subsection)
-            } else {
-              let subsections-before = query(subsections.before(here()))
-
-              if subsections-before.len() > 0 {
-                (subsections-before.last())
-              } else {
-                // No subsections in this chapter
-                none
-              }
-            }
-          }
-        }
-
-        let colored-slash = text(fill: uit-teal-color, "/")
-        let spacing = h(3pt)
-
-        // Content to display subsection count and heading
-        let subsection-text = if current-subsection != none {
-          let subsection-numbering = current-subsection.numbering
-          let location = current-subsection.location()
-          let subsection-count = numbering(subsection-numbering, ..counter(
-            heading,
-          ).at(location))
-
-          [#subsection-count #spacing #colored-slash #spacing #current-subsection.body]
-        } else {
-          // No subsections in chapter, display nothing
-          []
-        }
-
-        // Content to display chapter count and heading
-        let chapter-text = {
-          let chapter-title = current-chapter.body
-          let chapter-number = counter(heading.where(level: 1)).display()
-          let prefix = if in-appendix.get() { [APPENDIX] } else { [CHAPTER] }
-
-          [#prefix #chapter-number #spacing #colored-slash #spacing #chapter-title]
-        }
-
-        if current-chapter.numbering != none {
-          // Show current chapter on odd pages, current subsection on even
-          let (left-text, right-text) = if calc.odd(page-number) {
-            (counter(page).display(), chapter-text)
-          } else {
-            (
-              subsection-text,
-              counter(page).display(),
-            )
-          }
-          text(
-            weight: "thin",
-            font: ("Open Sans", "Noto Sans"),
-            size: 8pt,
-            fill: uit-gray-color,
-            fill-line(upper(left-text), upper(right-text)),
-          )
-        }
-      }
-    },
-  )
 
   // -- Equations --
 
