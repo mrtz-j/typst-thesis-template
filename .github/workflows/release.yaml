@@ -2,16 +2,15 @@
 name: Build and Release thesis
 
 on:
-  check_suite:
-    types: [completed]
+  push:
+    tags:
+      - "*.*.*"
 
 permissions:
   contents: write
 
 jobs:
   build_release_thesis:
-    # Ideally, we would regex for semver format, but not possible with gh workflows...
-    if: ${{ ! (github.ref_name == 'main') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
