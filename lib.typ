@@ -442,14 +442,7 @@
   )
 
   // Configure paragraph properties.
-  // Default leading is 0.7em.
-  // Default spacing is 1.35em.
-  set par(
-    leading: 0.7em,
-    justify: true,
-    linebreaks: "optimized",
-    spacing: 1.35em,
-  )
+  set par(justify: true, linebreaks: "optimized", spacing: 2em)
 
   // Configure reference supplement for headings
   set ref(supplement: it => context {
@@ -468,7 +461,8 @@
   show heading: it => {
     let body = if it.level > 1 {
       block([
-        #box(width: 26pt + 5pt * it.level, counter(heading).display())
+        #counter(heading).display()
+        #h(.6em)
         #it.body
       ])
     } else {
