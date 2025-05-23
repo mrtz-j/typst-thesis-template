@@ -442,13 +442,10 @@
   )
 
   // Configure paragraph properties.
-  // Default leading is 0.7em.
-  // Default spacing is 1.35em.
   set par(
-    leading: 0.7em,
     justify: true,
     linebreaks: "optimized",
-    spacing: 1.35em,
+    spacing: 2em,
   )
 
   // Configure reference supplement for headings
