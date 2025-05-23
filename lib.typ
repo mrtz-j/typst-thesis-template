@@ -465,7 +465,8 @@
   show heading: it => {
     let body = if it.level > 1 {
       block([
-        #box(width: 26pt + 5pt * it.level, counter(heading).display())
+        #counter(heading).display()
+        #h(.6em)
         #it.body
       ])
     } else {
