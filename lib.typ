@@ -442,11 +442,7 @@
   )
 
   // Configure paragraph properties.
-  set par(
-    justify: true,
-    linebreaks: "optimized",
-    spacing: 2em,
-  )
+  set par(justify: true, linebreaks: "optimized", spacing: 2em)
 
   // Configure reference supplement for headings
   set ref(supplement: it => context {
