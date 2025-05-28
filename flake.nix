@@ -5,9 +5,7 @@
   };
 
   inputs = {
-    # TODO(mrtz): Switch to nixpkgs-unstable once the release is out.
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     parts = {
       url = "github:hercules-ci/flake-parts";
