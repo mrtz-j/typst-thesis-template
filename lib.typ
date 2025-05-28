@@ -377,12 +377,16 @@
 
   // Required init for packages
   show: make-glossary
-  // Display short-form abbreviations in smallcaps
-  let abbrs = abbreviations.map(a => {
-    a.insert("short", smallcaps(a.short))
-    return a
-  })
-  register-glossary(abbrs)
+
+  if abbreviations != none {
+    // Display short-form abbreviations in smallcaps
+    let abbrs = abbreviations.map(a => {
+      a.insert("short", smallcaps(a.short))
+      return a
+    })
+    register-glossary(abbrs)
+  }
+
   show: codly-init
 
   // Optimize numbers with superscript
@@ -654,13 +658,19 @@
   supervisors-page(supervisors)
 
   // Epigraph
-  epigraph-page()[#epigraph]
+  if epigraph != none {
+    epigraph-page()[#epigraph]
+  }
 
   // Abstract
-  abstract-page()[#abstract]
+  if abstract != none {
+    abstract-page()[#abstract]
+  }
 
   // Acknowledgements
-  acknowledgements-page()[#acknowledgements]
+  if acknowledgements != none {
+    acknowledgements-page()[#acknowledgements]
+  }
 
   // -- Outlines --
 
