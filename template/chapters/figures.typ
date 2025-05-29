@@ -26,12 +26,7 @@ Creating a basic table with typst is quite simple, yet we can also customize the
 #figure(
   table(
     columns: 3,
-    table.header(
-      [store],
-      [location],
-      [open sundays],
-    ),
-
+    table.header([store], [location], [open sundays]),
     [Coop Extra], [Breivika], [No],
     [Joker], [Dramsvegen], [Yes],
     [Rema 1000], [K1], [No],
@@ -97,26 +92,23 @@ If a table header and/or footer is set, like in @tab:break, these will repeat on
 
 #[
   #show figure: set block(breakable: true)
-  #figure(
-    caption: [A table that breaks with the page],
-    table(
-      columns: 3,
-      fill: (_, y) => if y == 0 {
-        gray.lighten(75%)
-      },
-      table.header[Week][Distance (km)][Time (hh:mm:ss)],
-      [1], [5], [00:30:00],
-      [2], [7], [00:45:00],
-      [3], [10], [01:00:00],
-      [4], [12], [01:10:00],
-      [5], [15], [01:25:00],
-      [6], [18], [01:40:00],
-      [7], [20], [01:50:00],
-      [8], [22], [02:00:00],
-      [...], [...], [...],
-      table.footer[_Goal_][_42.195_][_02:45:00_],
-    ),
-  ) <tab:break>
+  #figure(caption: [A table that breaks with the page], table(
+    columns: 3,
+    fill: (_, y) => if y == 0 {
+      gray.lighten(75%)
+    },
+    table.header()[Week][Distance (km)][Time (hh:mm:ss)],
+    [1], [5], [00:30:00],
+    [2], [7], [00:45:00],
+    [3], [10], [01:00:00],
+    [4], [12], [01:10:00],
+    [5], [15], [01:25:00],
+    [6], [18], [01:40:00],
+    [7], [20], [01:50:00],
+    [8], [22], [02:00:00],
+    [...], [...], [...],
+    table.footer()[_Goal_][_42.195_][_02:45:00_],
+  )) <tab:break>
 ]
 
 We can also further override the default styling to customize tables. @tab:break sets a custom fill color for the header and @tab:hlines uses `table.hline()` to enable the border stroke on certain lines only. The second column in @tab:hlines is also set to fill all space available to it.
@@ -187,11 +179,9 @@ We can also skip lines in the code snippet. Note that it doesn't actually skip l
 Codly also allows us to highlight code using line and column positions. @raw:python demonstrates highlighting a line and giving it a tag "assignment".
 
 #figure(caption: [Python snippet with highlights], kind: raw)[
-  #codly(
-    highlights: (
-      (line: 1, start: 3, end: none, fill: blue, tag: "assignment"),
-    ),
-  )
+  #codly(highlights: (
+    (line: 1, start: 3, end: none, fill: blue, tag: "assignment"),
+  ))
   ```python
   if __name__ == "__main__":
     d = {'a': 1}
@@ -231,6 +221,7 @@ Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @
 
 #subfigure(
   figure(caption: [F\# snippet in a subfigure], kind: raw)[
+    #codly(number-format: none)
     ```fsi
     [<EntryPoint>]
     let main () =
@@ -242,12 +233,7 @@ Now we can refer to @fig:philosophers, @fig:dining_philosophers and the parent @
   figure(
     table(
       columns: 3,
-      table.header(
-        [store],
-        [location],
-        [open sundays],
-      ),
-
+      table.header([store], [location], [open sundays]),
       [Coop Extra], [Breivika], [No],
       [Joker], [Dramsvegen], [Yes],
       [Rema 1000], [K1], [No],
@@ -305,29 +291,26 @@ By default, we can use powerful symbols and functions inside equation blocks (`$
 
 $
   attach(
-  Pi, t: alpha, b: beta,
-  tl: 1, tr: 2+3, bl: 4+5, br: lambda,
-)
+    Pi, t: alpha, b: beta,
+    tl: 1, tr: 2+3, bl: 4+5, br: lambda,
+  )
 $ <equ:attach>
 
 Many of the functions have additional parameters to further customize their behavior. For instance, the matrix function allows us to specify the delimiter, see @equ:matrix.
 
 $
   mat(
-  delim: "[",
-  1, 2, ..., 10;
-  2, 2, ..., 10;
-  dots.v, dots.v, dots.down, dots.v;
-  10, 10, ..., 10;
-)
+    delim: "[",
+    1, 2, ..., 10;
+    2, 2, ..., 10;
+    dots.v, dots.v, dots.down, dots.v;
+    10, 10, ..., 10;
+  )
 $ <equ:matrix>
 
 We can also define our own classes to use within equation blocks, and much more. Refer to the typst reference #footnote()[see #link("https://typst.app/docs/reference/math/")] to see all capabilities.
 
-#let spade = math.class(
-  "normal",
-  sym.suit.spade,
-)
+#let spade = math.class("normal", sym.suit.spade)
 
 $ root(3, 5 spade) in RR $
 
@@ -374,9 +357,7 @@ Corollaries are related to theorems, and that their counter is therefore based o
 We can also pass additional arguments to the functions, in order to for instance modify the title:
 
 #proof([of @th:comp-num])[
-  For any $n > 2$, consider$
-    n! + 2, quad n! + 3, quad ..., quad n! + n #qedhere
-  $
+  For any $n > 2$, consider$ n! + 2, quad n! + 3, quad ..., quad n! + n #qedhere $
 ]
 
 Note that for proofs, block equations are not numbered, and a _Q.E.D._ symbol (a black square) is automatically inserted in the right margin.
