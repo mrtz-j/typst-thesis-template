@@ -11,6 +11,8 @@ permissions:
 
 jobs:
   build_release_thesis:
+    env:
+      - GIT_BRANCH = "main"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,8 +34,10 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch $GIT_BRANCH
+          git rebase main
           git commit -am 'Automated version bump'
-          git push
+          git push -u origin $GIT_BRANCH
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
