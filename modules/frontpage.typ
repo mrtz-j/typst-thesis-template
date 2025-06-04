@@ -7,8 +7,8 @@
   department: "",
   major: "",
   date: none,
-  image: none,
-  logo: none,
+  frontimage: none,
+  frontlogo: none,
 ) = {
   set document(title: title, author: author)
 
@@ -16,8 +16,8 @@
   let default-img = image("../assets/frontpage_full.svg", width: 216mm, height: 303mm)
   let default-logo = image("../assets/logo.svg", width: 100%, height: 100%)
 
-  let page-img = if image != none { image } else { default-img }
-  let page-logo = if logo != none { logo } else { default-logo }
+  let page-img = if frontimage != none { frontimage } else { default-img }
+  let page-logo = if frontlogo != none { frontlogo } else { default-logo }
 
   page(
     paper: "a4",
