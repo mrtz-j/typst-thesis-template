@@ -66,6 +66,7 @@
 
               # Utils
               typos
+              typship
               sd
             ];
 
