@@ -7,8 +7,18 @@
   department: "",
   major: "",
   date: none,
+  frontimage: none,
+  frontlogo: none,
 ) = {
   set document(title: title, author: author)
+
+  // Set default page image & logo; check for user input
+  let default-img = image("../assets/frontpage_full.svg", width: 216mm, height: 303mm)
+  let default-logo = image("../assets/logo.svg", width: 100%, height: 100%)
+
+  let page-img = if frontimage != none { frontimage } else { default-img }
+  let page-logo = if frontlogo != none { frontlogo } else { default-logo }
+
   page(
     paper: "a4",
     margin: (left: 3mm, right: 3mm, top: 12mm, bottom: 27mm),
@@ -18,7 +28,7 @@
     number-align: center,
     [
       #set text(font: ("Open Sans", "Noto Sans"))
-      #place(top + left, image("../assets/logo.svg", width: 100%, height: 100%))
+      #place(top + left, page-logo)
       // NOTE: We use negative alignment from the bottom here to align with the cover page svg
       // (rather than the top) in the event of the title breaking to a new line
       #place(
@@ -58,7 +68,7 @@
       #place(
         bottom + center,
         dy: 27mm,
-        image("../assets/frontpage_full.svg", width: 216mm, height: 303mm),
+        page-img,
       )
     ],
   )
