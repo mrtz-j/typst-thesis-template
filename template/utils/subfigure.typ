@@ -1,4 +1,4 @@
-#import "global.typ": subpar, in-appendix
+#import "global.typ": in-appendix, subpar
 
 #let subfigure = {
   subpar.grid.with(

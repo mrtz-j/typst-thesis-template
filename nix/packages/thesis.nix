@@ -1,7 +1,6 @@
 {
   pkgs,
   xcharter,
-  glossarium,
 }:
 let
   fontPackages = with pkgs; [
@@ -15,15 +14,13 @@ pkgs.buildTypstDocument rec {
   name = "modern-uit-thesis";
   src = ./../..;
   file = "template/thesis.typ";
-  buildInputs = [ glossarium ];
   typstEnv = (
     p: [
       p.codly_1_3_0
       p.ctheorems_1_1_3
-      p.physica_0_9_5
+      p.physica_0_9_7
       p.subpar_0_2_2
-      # NOTE(mrtz): Update when 0.5.6 is in nixpkgs
-      glossarium
+      p.glossarium_0_5_9
     ]
   );
   fonts = fontPackages;

@@ -1,5 +1,4 @@
 { pkgs }:
-
 pkgs.stdenv.mkDerivation {
   pname = "XCharter";
   version = "1.26";

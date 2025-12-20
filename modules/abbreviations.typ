@@ -1,4 +1,4 @@
-#import "@preview/glossarium:0.5.6": print-glossary
+#import "@preview/glossarium:0.5.9": print-glossary
 
 // Only print short and long, disregard rest
 #let custom-print-title(entry) = {
