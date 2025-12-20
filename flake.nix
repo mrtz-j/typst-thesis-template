@@ -40,14 +40,15 @@
 
           pre-commit = {
             check.enable = true;
-            settings.hooks = {
-              nixfmt-rfc-style = {
-                enable = true;
-                stages = [ "pre-push" ];
-              };
-              typstyle = {
-                enable = true;
-                stages = [ "pre-push" ];
+            settings = {
+              package = pkgs.prek;
+              hooks = {
+                nixfmt-rfc-style = {
+                  enable = true;
+                };
+                typstyle = {
+                  enable = true;
+                };
               };
             };
           };
@@ -56,7 +57,7 @@
             default = config.packages.thesis;
           };
 
-          devShells.default = pkgs.mkShellNoCC {
+          devShells.default = pkgs.mkShell {
             name = "thesis";
             packages = with pkgs; [
               # Typst

@@ -1,7 +1,7 @@
 [package]
 name = "modern-uit-thesis"
-version = "0.1.6"
-compiler = "0.13.0"
+version = "0.1.7"
+compiler = "0.14.2"
 entrypoint = "lib.typ"
 authors = ["Moritz Jörg <@mrtz-j>", "Ole Tytlandsvik <@otytlandsvik>"]
 license = "MIT"
