@@ -5,8 +5,8 @@
 //
 
 #import "@preview/subpar:0.2.2"
-#import "@preview/physica:0.9.7": *
-#import "@preview/glossarium:0.5.9": make-glossary, register-glossary
+#import "@preview/physica:0.9.8": *
+#import "@preview/glossarium:0.5.10": make-glossary, register-glossary
 #import "@preview/codly:1.3.0": *
 #import "@preview/ctheorems:1.1.3": *
 
