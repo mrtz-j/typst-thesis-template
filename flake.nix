@@ -11,8 +11,8 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    pre-commit-hooks = {
-      url = "github:cachix/git-hooks.nix";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     press = {
@@ -24,7 +24,7 @@
     inputs:
     inputs.parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
-      imports = [ inputs.pre-commit-hooks.flakeModule ];
+      imports = [ inputs.treefmt-nix.flakeModule ];
       perSystem =
         {
           system,
@@ -38,18 +38,10 @@
             overlays = [ (import inputs.press) ];
           };
 
-          pre-commit = {
-            check.enable = true;
-            settings = {
-              package = pkgs.prek;
-              hooks = {
-                nixfmt-rfc-style = {
-                  enable = true;
-                };
-                typstyle = {
-                  enable = true;
-                };
-              };
+          treefmt = {
+            programs = {
+              nixfmt.enable = true;
+              typstyle.enable = true;
             };
           };
 
@@ -66,6 +58,7 @@
               tinymist
 
               # Utils
+              treefmt
               typos
               typship
               sd
@@ -80,10 +73,6 @@
                 config.packages.xcharter
               ];
             };
-
-            shellHook = ''
-              ${config.pre-commit.installationScript}
-            '';
           };
         };
     };

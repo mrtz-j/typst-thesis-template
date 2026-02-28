@@ -215,7 +215,6 @@
       if chapters-before.len() > 0 {
         let current-chapter = chapters-before.last()
 
-
         // If a new subsecion starts on this page, select that subsection.
         // Otherwise, select the last subsection
         let current-subsection = {
@@ -532,14 +531,12 @@
   // Configure heading numbering.
   set heading(numbering: "1.1")
 
-
   // Do not hyphenate headings.
   show heading: set text(
     font: ("Open Sans", "Noto Sans"),
     weight: "bold",
     hyphenate: false,
   )
-
 
   // -- Equations --
 

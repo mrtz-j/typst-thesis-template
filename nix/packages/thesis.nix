@@ -18,9 +18,9 @@ pkgs.buildTypstDocument rec {
     p: [
       p.codly_1_3_0
       p.ctheorems_1_1_3
-      p.physica_0_9_7
+      p.physica_0_9_8
       p.subpar_0_2_2
-      p.glossarium_0_5_9
+      p.glossarium_0_5_10
     ]
   );
   fonts = fontPackages;
