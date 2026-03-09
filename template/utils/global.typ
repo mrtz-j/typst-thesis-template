@@ -20,10 +20,3 @@
 //    Copy the lib.typ to a (sub)folder of this project and
 //    set the path accordingly.
 #import "../../lib.typ": *
-
-//
-// Other packages used:
-//
-
-#import "@preview/glossarium:0.5.10": gls, glspl, make-glossary, print-glossary
-#import "@preview/codly:1.3.0": *

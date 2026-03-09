@@ -76,6 +76,7 @@
   table-index: true,
   listing-index: true,
   abbreviations: abbreviations,
+  break-to-odd: false,
   date: datetime(year: 2025, month: 6, day: 1),
   bibliography: bibliography("refs.bib", title: "Bibliography", style: "ieee"),
 )
