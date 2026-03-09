@@ -6,7 +6,7 @@
 
 #import "@preview/subpar:0.2.2"
 #import "@preview/physica:0.9.8": *
-#import "@preview/glossarium:0.5.10": make-glossary, register-glossary
+#import "@preview/glossarium:0.5.10": make-glossary, register-glossary, gls, glspl, print-glossary
 #import "@preview/codly:1.3.0": *
 #import "@preview/ctheorems:1.1.3": *
 
@@ -369,6 +369,9 @@
   listing-index: true,
   // List of abbreviations
   abbreviations: none,
+  // Whether to break new chapters to odd (right-hand) pages.
+  // Recommended for printed documents; set to `false` for digital-only use.
+  break-to-odd: true,
   // The content of your work.
   body,
 ) = {
@@ -484,8 +487,15 @@
   // Style chapter headings
   show heading.where(level: 1): it => {
     state("content.switch").update(false)
-    // Start chapter headings on a new, odd-numbered page
-    pagebreak(weak: true, to: "odd")
+    // Start chapter headings on a new page, on an odd page when break-to-odd is set.
+    // The weak break is absorbed when we're already at the top of a fresh page (e.g.
+    // after the front-matter → main-matter transition).  In that case the page counter
+    // was reset to 0 and the break never fired, leaving the first chapter on page 0.
+    // The context guard below detects this and corrects the counter to 1.
+    pagebreak(weak: true, to: if break-to-odd { "odd" } else { none })
+    context if counter(page).get().first() == 0 {
+      counter(page).update(1)
+    }
     state("content.switch").update(true)
     set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
 
