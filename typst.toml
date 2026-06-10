@@ -16,7 +16,6 @@ exclude = [
 "nix",
 "flake.nix",
 "flake.lock",
-"garnix.yaml",
 "**/*.pdf",
 ]
 
