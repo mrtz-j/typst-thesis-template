@@ -23,6 +23,17 @@ This template uses a number of different fonts:
 The above parenthesized fonts are fallback typefaces available by default in [the web app](https://typst.app).
 If you'd like to use the main fonts instead, simply upload the `.ttf`s or `.otf`s to the web app and it will detect and apply them automatically.
 
+These defaults can be overridden via the `body-font`, `heading-font`, `raw-font` and `math-font` parameters of the `thesis`
+function, each taking a font family name or an array of fallbacks (`math-font` defaults to `body-font`):
+
+```typ
+#show: thesis.with(
+  // ...
+  body-font: ("Libertinus Serif", "XCharter"),
+  heading-font: "Inter",
+)
+```
+
 XCharter is commonly packaged only for LaTeX, however to use it with Typst, we need to fetch the archive from [CTAN](https://mirrors.ctan.org/fonts/xcharter.zip).
 The required `.otf` font files are in the `opentype` directory of the archive.
 

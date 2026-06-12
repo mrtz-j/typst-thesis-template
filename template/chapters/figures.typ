@@ -303,7 +303,7 @@ $
     delim: "[",
     1, 2, ..., 10;
     2, 2, ..., 10;
-    dots.v, dots.v, dots.down, dots.v;
+    , , , ;
     10, 10, ..., 10;
   )
 $ <equ:matrix>
@@ -329,7 +329,7 @@ $ <equ:clock>
 
 == Definitions and Theorems
 
-To easily style and reference definitions, theorems, proofs and similar blocks, the ctheorems #footnote()[see #link("https://typst.app/universe/package/ctheorems/")] package is included.
+To easily style and reference definitions, theorems, proofs and similar blocks, the theorion #footnote()[see #link("https://typst.app/universe/package/theorion/")] package is included.
 A number of functions are defined which automatically generate titles, styling and numbering functionality.
 
 #definition[
@@ -356,7 +356,7 @@ Corollaries are related to theorems, and that their counter is therefore based o
 
 We can also pass additional arguments to the functions, in order to for instance modify the title:
 
-#proof([of @th:comp-num])[
+#proof(title: [Proof of @th:comp-num])[
   For any $n > 2$, consider$ n! + 2, quad n! + 3, quad ..., quad n! + n #qedhere $
 ]
 

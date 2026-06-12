@@ -17,7 +17,9 @@ pkgs.buildTypstDocument rec {
   typstEnv = (
     p: [
       p.codly_1_3_0
-      p.ctheorems_1_1_3
+      p.theorion_0_6_0
+      p.showybox_2_0_4
+      p.octique_0_1_1
       p.physica_0_9_8
       p.subpar_0_2_2
       p.glossarium_0_5_10

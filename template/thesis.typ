@@ -75,6 +75,7 @@
   figure-index: true,
   table-index: true,
   listing-index: true,
+  definition-index: true,
   abbreviations: abbreviations,
   break-to-odd: false,
   date: datetime(year: 2025, month: 6, day: 1),

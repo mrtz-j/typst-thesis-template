@@ -1,4 +1,4 @@
-#let supervisors-page(supervisors) = {
+#let supervisors-page(supervisors, heading-font: ("Open Sans", "Noto Sans")) = {
   pagebreak(weak: true, to: "even")
 
   // Apply styling to supervisor content
@@ -34,7 +34,7 @@
       #text(
         14pt,
         weight: "bold",
-        font: ("Open Sans", "Noto Sans"),
+        font: heading-font,
         "Supervisors",
       )
       #grid(
