@@ -7,6 +7,7 @@
   department: "",
   major: "",
   date: none,
+  heading-font: ("Open Sans", "Noto Sans"),
 ) = {
   set document(title: title, author: author)
   page(
@@ -17,7 +18,7 @@
     numbering: none,
     number-align: center,
     [
-      #set text(font: ("Open Sans", "Noto Sans"))
+      #set text(font: heading-font)
       #place(top + left, image("../assets/logo.svg", width: 100%, height: 100%))
       // NOTE: We use negative alignment from the bottom here to align with the cover page svg
       // (rather than the top) in the event of the title breaking to a new line

@@ -12,6 +12,12 @@
     } else {
       numbering("1.1a", counter(heading).get().first(), m, n)
     },
+    // NOTE: Reset the gutter for the sub figure content
+    // so listings render with their normal tight line spacing.
+    show-sub: it => {
+      set grid(gutter: 0pt)
+      it
+    },
     show-sub-caption: (num, it) => {
       it
       v(.65em)

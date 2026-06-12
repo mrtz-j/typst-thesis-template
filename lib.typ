@@ -6,9 +6,12 @@
 
 #import "@preview/subpar:0.2.2"
 #import "@preview/physica:0.9.8": *
-#import "@preview/glossarium:0.5.10": make-glossary, register-glossary, gls, glspl, print-glossary
+#import "@preview/glossarium:0.5.10": (
+  gls, glspl, make-glossary, print-glossary, register-glossary,
+)
 #import "@preview/codly:1.3.0": *
-#import "@preview/ctheorems:1.1.3": *
+#import "@preview/theorion:0.6.0": *
+#import cosmos.fancy: *
 
 #import "modules/frontpage.typ": frontpage
 #import "modules/backpage.typ": backpage
@@ -39,28 +42,17 @@
 // Helper to display two pieces of content with space between.
 #let fill-line(left-text, right-text) = [#left-text #h(1fr) #right-text]
 
-// Definition and Theorems
-#let theorem = thmbox("theorem", "Theorem", fill: uit-light-teal-color)
-#let corollary = thmplain(
-  "corollary",
-  "Corollary",
-  base: "theorem",
-  titlefmt: strong,
-)
-#let definition = thmbox("definition", "Definition", inset: (
-  x: 1.2em,
-  top: 1em,
-))
-#let lemma = thmbox("lemma", "Lemma", fill: uit-gray-color.lighten(80%))
-#let example = thmplain("example", "Example").with(numbering: none)
-// Disable numbering of equations inside a proof block
-#let custom-proof-bodyfmt(body) = {
+// Definitions and Theorems
+//
+// Provided by the `theorion` package (`theorem`, `definition`, `lemma`,
+// `corollary`, `example`, `proof`, ...). The numbering, colors and symbols are
+// configured inside the `thesis` function below.
+#let example = example-box.with(outlined: false)
+#let theorion-proof = proof
+#let proof(..args) = {
   set math.equation(numbering: none)
-  proof-bodyfmt(body)
+  theorion-proof(..args)
 }
-#let proof = thmproof("proof", "Proof", bodyfmt: custom-proof-bodyfmt).with(
-  numbering: none,
-)
 
 // Helper to display external codeblocks.
 // Based on https://github.com/typst/typst/issues/1494
@@ -104,7 +96,7 @@
 // -- Styling rules for Front-Main-Back matter --
 
 // Common styles for front matter
-#let front-matter(body) = {
+#let front-matter(heading-font: ("Open Sans", "Noto Sans"), body) = {
   set page(
     numbering: "i",
     // Only show numbering in footer when no chapter header is present
@@ -114,7 +106,7 @@
       if query(chapters).any(it => it.location().page() == here().page()) {
         align(center, text(
           weight: "thin",
-          font: ("Open Sans", "Noto Sans"),
+          font: heading-font,
           size: 8pt,
           fill: uit-gray-color,
           counter(page).display(),
@@ -155,7 +147,7 @@
         }
         text(
           weight: "thin",
-          font: ("Open Sans", "Noto Sans"),
+          font: heading-font,
           size: 8pt,
           fill: uit-gray-color,
           fill-line(left-text, right-text),
@@ -173,7 +165,7 @@
 }
 
 // Common styles for main matter
-#let main-matter(body) = {
+#let main-matter(heading-font: ("Open Sans", "Noto Sans"), body) = {
   set text(number-type: "old-style")
   set page(
     numbering: "1",
@@ -183,7 +175,7 @@
       if query(chapters).any(it => it.location().page() == here().page()) {
         align(center, text(
           weight: "thin",
-          font: ("Open Sans", "Noto Sans"),
+          font: heading-font,
           size: 8pt,
           fill: uit-gray-color,
           counter(page).display(),
@@ -280,7 +272,7 @@
           }
           text(
             weight: "thin",
-            font: ("Open Sans", "Noto Sans"),
+            font: heading-font,
             size: 8pt,
             fill: uit-gray-color,
             fill-line(upper(left-text), upper(right-text)),
@@ -291,7 +283,7 @@
   )
   counter(page).update(0)
   counter(heading).update(0)
-  set heading(numbering: "1.1")
+  set heading(numbering: "1.1", supplement: [Chapter])
   show heading.where(level: 1): it => {
     it
     v(12%, weak: true)
@@ -302,6 +294,8 @@
 // Common styles for back matter
 #let back-matter(body) = {
   set heading(numbering: "A.1.1", supplement: [Appendix])
+  // Number theorems, definitions, etc. as "A.1" in the appendix.
+  set-theorion-numbering("A.1")
   // Make sure headings start with 'A'
   counter(heading.where(level: 1)).update(0)
   counter(heading).update(0)
@@ -367,14 +361,27 @@
   table-index: true,
   // Display an index of listings (code blocks).
   listing-index: true,
+  // Display an index of definitions. Off by default, since not every thesis
+  // uses definition blocks (an empty list would still render its heading).
+  definition-index: false,
   // List of abbreviations
   abbreviations: none,
   // Whether to break new chapters to odd (right-hand) pages.
   // Recommended for printed documents; set to `false` for digital-only use.
   break-to-odd: true,
+  // Font family (or array of fallbacks) for the body text.
+  body-font: ("XCharter", "Charter"),
+  // Font family for headings, page headers/footers and the cover page.
+  heading-font: ("Open Sans", "Noto Sans"),
+  // Font family for raw text / code blocks.
+  raw-font: ("JetBrains Mono", "DejaVu Sans Mono"),
+  // Font family for math. Defaults to `body-font` when left as `auto`.
+  math-font: auto,
   // The content of your work.
   body,
 ) = {
+  // Fall back to the body font for math unless overridden.
+  let math-font = if math-font == auto { body-font } else { math-font }
   // Set the document's metadata.
   set document(title: title, author: author, date: if date != none {
     date
@@ -433,11 +440,11 @@
 
   // Set the body font.
   // Default is XCharter at 11pt
-  set text(font: ("XCharter", "Charter"), size: 11pt)
+  set text(font: body-font, size: 11pt)
 
   // Set raw text font.
   // Default is JetBrains Mono at 9tp with DejaVu Sans Mono as fallback
-  show raw: set text(font: ("JetBrains Mono", "DejaVu Sans Mono"), size: 9pt)
+  show raw: set text(font: raw-font, size: 9pt)
 
   // Configure page size and margins.
   set page(
@@ -454,19 +461,6 @@
 
   // Configure paragraph properties.
   set par(justify: true, linebreaks: "optimized", spacing: 2em)
-
-  // Configure reference supplement for headings
-  set ref(supplement: it => context {
-    if it.func() == heading {
-      if in-appendix.get() {
-        [Appendix]
-      } else {
-        [Chapter]
-      }
-    } else {
-      it.supplement
-    }
-  })
 
   // Add some vertical spacing for all headings
   show heading: it => {
@@ -497,7 +491,7 @@
       counter(page).update(1)
     }
     state("content.switch").update(true)
-    set text(font: ("Open Sans", "Noto Sans"), weight: "bold", size: 24pt)
+    set text(font: heading-font, weight: "bold", size: 24pt)
 
     let heading-number = if heading.numbering == none {
       []
@@ -543,7 +537,7 @@
 
   // Do not hyphenate headings.
   show heading: set text(
-    font: ("Open Sans", "Noto Sans"),
+    font: heading-font,
     weight: "bold",
     hyphenate: false,
   )
@@ -552,7 +546,7 @@
 
   // Configure equation numbering.
   set math.equation(numbering: n => {
-    set text(font: ("XCharter", "Charter"))
+    set text(font: math-font)
     let h1 = counter(heading).get().first()
     numbering("(1.1)", h1, n)
   })
@@ -618,7 +612,26 @@
   }
 
   // -- Definitions and Theorems --
-  show: thmrules.with(qed-symbol: $qed$)
+  show: show-theorion
+  // Number theorems, definitions, etc. per chapter as "1.1" (chapter.counter),
+  // matching the figure and equation numbering.
+  set-inherited-levels(1)
+  set-theorion-numbering("1.1")
+  set-qed-symbol[$qed$]
+  // Use the UiT palette for the theorem boxes:
+  //   - theorem / lemma / corollary (secondary) -> teal
+  //   - definition (primary) and example (quaternary) -> neutral gray
+  set-secondary-border-color(uit-teal-color)
+  set-secondary-body-color(uit-light-teal-color)
+  set-primary-border-color(uit-gray-color)
+  set-primary-body-color(uit-gray-color.lighten(90%))
+  set-quaternary-border-color(uit-gray-color.lighten(40%))
+  set-quaternary-body-color(uit-gray-color.lighten(95%))
+  set-fancy-radius(0.2em)
+  // Drop the playful card-suit corner glyphs for a more formal look.
+  set-primary-symbol[]
+  set-secondary-symbol[]
+  set-quaternary-symbol[]
 
   // -- Lists --
 
@@ -661,13 +674,14 @@
     department: department,
     major: major,
     date: date,
+    heading-font: heading-font,
   )
 
   // Use front matter stylings
-  show: front-matter
+  show: front-matter.with(heading-font: heading-font)
 
   // List of Supervisors
-  supervisors-page(supervisors)
+  supervisors-page(supervisors, heading-font: heading-font)
 
   // Epigraph
   if epigraph != none {
@@ -769,9 +783,9 @@
     if listing-index {
       outline(title: "List of Listings", target: fig-t(raw))
     }
-    // TODO: Add (optional) outline for definitions, when upstream issue is fixed:
-    // https://github.com/sahasatvik/typst-theorems/issues/46
-    // outline(title: "List of Definitions", target: figure.where(kind: "thmenv"))
+    if definition-index {
+      outline(title: "List of Definitions", target: fig-t("definition"))
+    }
   }
 
   // List of Abbreviations
@@ -782,7 +796,7 @@
   // -- Main matter --
 
   // Use main matter stylings
-  show: main-matter
+  show: main-matter.with(heading-font: heading-font)
 
   // Thesis content
   body
