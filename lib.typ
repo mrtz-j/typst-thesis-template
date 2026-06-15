@@ -374,6 +374,15 @@
   break-to-odd: true,
   // The content of your work.
   body,
+  // The image to use on the front page.
+  // If not provided, a default image will be used.
+  frontimage: none,
+  // The logo to use on the front page.
+  // If not provided, a default logo of UiT will be used.
+  frontlogo: none,
+  // The image to use on the back page.
+  // If not provided, a default image will be used.
+  backimage: none,
 ) = {
   // Set the document's metadata.
   set document(title: title, author: author, date: if date != none {
@@ -661,6 +670,8 @@
     department: department,
     major: major,
     date: date,
+    frontimage: frontimage,
+    frontlogo: frontlogo,
   )
 
   // Use front matter stylings
@@ -811,5 +822,5 @@
   appendix
 
   // Display back page
-  backpage()
+  backpage(backimage: backimage)
 }
