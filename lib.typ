@@ -9,7 +9,7 @@
 #import "@preview/glossarium:0.5.10": (
   gls, glspl, make-glossary, print-glossary, register-glossary,
 )
-#import "@preview/codly:1.3.0": *
+#import "@preview/codly:2.0.0": *
 #import "@preview/theorion:0.6.0": *
 #import cosmos.fancy: *
 
