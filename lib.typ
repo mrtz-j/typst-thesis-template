@@ -165,7 +165,11 @@
 }
 
 // Common styles for main matter
-#let main-matter(heading-font: ("Open Sans", "Noto Sans"), body) = {
+#let main-matter(
+  heading-font: ("Open Sans", "Noto Sans"),
+  break-to-odd: true,
+  body,
+) = {
   set text(number-type: "old-style")
   set page(
     numbering: "1",
@@ -281,7 +285,10 @@
       }
     },
   )
-  counter(page).update(0)
+  // Start on a fresh (odd) page numbered 1. The update must come before the first
+  // chapter heading so the heading's location, which the outline reads, sees page 1.
+  pagebreak(weak: true, to: if break-to-odd { "odd" } else { none })
+  counter(page).update(1)
   counter(heading).update(0)
   set heading(numbering: "1.1", supplement: [Chapter])
   show heading.where(level: 1): it => {
@@ -483,14 +490,7 @@
   show heading.where(level: 1): it => {
     state("content.switch").update(false)
     // Start chapter headings on a new page, on an odd page when break-to-odd is set.
-    // The weak break is absorbed when we're already at the top of a fresh page (e.g.
-    // after the front-matter → main-matter transition).  In that case the page counter
-    // was reset to 0 and the break never fired, leaving the first chapter on page 0.
-    // The context guard below detects this and corrects the counter to 1.
     pagebreak(weak: true, to: if break-to-odd { "odd" } else { none })
-    context if counter(page).get().first() == 0 {
-      counter(page).update(1)
-    }
     state("content.switch").update(true)
     set text(font: heading-font, weight: "bold", size: 24pt)
 
@@ -797,7 +797,7 @@
   // -- Main matter --
 
   // Use main matter stylings
-  show: main-matter.with(heading-font: heading-font)
+  show: main-matter.with(heading-font: heading-font, break-to-odd: break-to-odd)
 
   // Thesis content
   body
