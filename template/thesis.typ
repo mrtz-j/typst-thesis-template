@@ -83,7 +83,7 @@
 )
 
 // Code blocks
-#codly(
+#show: codly.lang-set_(
   languages: (
     rust: (
       name: "Rust",

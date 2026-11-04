@@ -12,8 +12,10 @@ As opposed to lightweight and uncomplicated report templates you may be familiar
 Another important file to note is `refs.bib`. This is where you put your #BibTeX entries that will produce your bibliography, just like you are used to when working with #LaTeX.
 
 #[
-  #figure(caption: [File structure tree view])[
-    #local(zebra-fill: none, number-format: none)[
+  #figure(caption: [File structure tree view], kind: raw)[
+    #show: codly.line-set_(fill: none)
+    #codly.new(
+      number-enabled: false,
       ```
       template
       ├── chapters
@@ -38,8 +40,8 @@ Another important file to note is `refs.bib`. This is where you put your #BibTeX
           ├── subfigure.typ
           ├── symbols.typ
           └── todo.typ
-      ```
-    ]
+      ```,
+    )
   ] <fig:file_structure>
 ]
 
