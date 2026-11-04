@@ -16,7 +16,7 @@ pkgs.buildTypstDocument rec {
   file = "template/thesis.typ";
   typstEnv = (
     p: [
-      p.codly_1_3_0
+      p.codly_2_0_0
       p.theorion_0_6_0
       p.showybox_2_0_4
       p.octique_0_1_1

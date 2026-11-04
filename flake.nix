@@ -27,7 +27,10 @@
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
-            overlays = [ (import inputs.press) ];
+            overlays = [
+              (import inputs.press)
+              (import ./nix/overlays/typst-packages.nix)
+            ];
           };
 
           treefmt = {

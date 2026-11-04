@@ -9,7 +9,7 @@
 #import "@preview/glossarium:0.5.10": (
   gls, glspl, make-glossary, print-glossary, register-glossary,
 )
-#import "@preview/codly:2.0.0": *
+#import "@preview/codly:2.0.0"
 #import "@preview/theorion:0.6.0": *
 #import cosmos.fancy: *
 
@@ -401,7 +401,8 @@
     register-glossary(abbrs)
   }
 
-  show: codly-init
+  // Render code blocks with codly. Inline raw keeps the native styling below.
+  show raw.where(block: true): codly.new
 
   // Optimize numbers with superscript
   // especially nice for bibliography entries
